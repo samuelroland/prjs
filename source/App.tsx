@@ -1,14 +1,32 @@
-import React from 'react';
-import {Text} from 'ink';
+import React, {useState} from 'react';
+import {Text, Box, useInput, Key} from 'ink';
+import {ExosList} from './ExosList.js';
+import {Header} from './Header.js';
 
-type Props = {
-	name: string | undefined;
-};
+export default function App({}) {
+	const [mode, setMode] = useState('list');
 
-export default function App({name = 'Stranger'}: Props) {
+	useInput((_, key: Key) => {
+		if (key.return) {
+			setMode('exo');
+		}
+		if (key.escape) {
+			setMode('list');
+		}
+	});
+
 	return (
-		<Text>
-			Hello, <Text color="green">{name}</Text>
-		</Text>
+		<Box flexDirection="column" width="100%">
+			<Header></Header>
+			{mode == 'list' ? (
+				<Box flexDirection="column">
+					<ExosList></ExosList>
+				</Box>
+			) : (
+				<Box flexDirection="column">
+					<Text color="blue">exo details !</Text>
+				</Box>
+			)}
+		</Box>
 	);
 }
