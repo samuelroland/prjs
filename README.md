@@ -37,3 +37,9 @@ Enable continuous build
 ```bash
 npm run dev
 ```
+
+## About
+### Extensions
+We use the following Ink extensions
+1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
+1. 
