@@ -14,6 +14,11 @@ export type ExoFile = {
 	path: string;
 }
 
+export type Exo = {
+	title: string;
+	state: string;
+}
+
 export class Runner {
 	vt: Vitest | null = null
 	currentFile: string |null;
@@ -64,5 +69,11 @@ export class Runner {
 		if (this.currentFile){
 			await this.vt?.rerunFiles([this.currentFile])
 		}
+	}
+
+	getCurrentExos(): Exo[] {
+		return this.vt?.state.getFiles()[0]?.tasks.map(t => {
+			return {title: t.name ?? '??', state: t.result?.state ?? 'unknown'}
+		}) ?? []
 	}
 }
