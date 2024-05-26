@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
-import {ExoFile, Runner} from './Runner.js';
+import {Exo, ExoFile, Runner} from './Runner.js';
 
 import fs from 'fs';
 import util from 'util';
@@ -14,6 +14,8 @@ let lastTime = Date.now() - 1000000;
 
 export function ExosList({}) {
 	const [files, setFiles] = useState<ExoFile[]>([]);
+	const [list, setList] = useState(1);
+	const [exos, setExos] = useState<Exo[]>([]);
 	const r = new Runner();
 
 	const refreshFiles = async () => {
@@ -24,10 +26,11 @@ export function ExosList({}) {
 		}
 		log('useeffect');
 		setFiles(await r.startVitest());
+		setExos(r.getCurrentExos());
 	};
 
 	useEffect(() => {
-		const timer = setInterval(refreshFiles, 500);
+		const timer = setInterval(refreshFiles, 3000);
 		return () => {
 			clearInterval(timer);
 			r.stopVitest();
@@ -35,13 +38,21 @@ export function ExosList({}) {
 	});
 
 	const [idx, setIdx] = useState(0); //selected exo index
+	const [exoIdx, setExoIdx] = useState(0); //selected exo index
 	const shortcuts = new Map<string, () => void>();
-	const changeIndex = (newIdx: number) => {
-		if (newIdx >= files.length || newIdx < 0) return;
-		setIdx(newIdx);
+	const changeIndex = (offset: number) => {
+		if (list == 1) {
+			if (offset + idx >= files.length || offset + idx < 0) return;
+			setIdx(offset + idx);
+		} else {
+			if (offset + exoIdx >= exos.length || offset + exoIdx < 0) return;
+			setExoIdx(offset + exoIdx);
+		}
 	};
-	shortcuts.set('j', () => changeIndex(idx + 1));
-	shortcuts.set('k', () => changeIndex(idx - 1));
+	shortcuts.set('j', () => changeIndex(1));
+	shortcuts.set('k', () => changeIndex(-1));
+	shortcuts.set('h', () => setList(1));
+	shortcuts.set('l', () => setList(2));
 
 	useInput(input => {
 		input = input.trim();
@@ -55,20 +66,34 @@ export function ExosList({}) {
 			<Text color="green" bold>
 				Exos list
 			</Text>
-			{/* TODO: add files list */}
-			{/* TODO: show exos in current files */}
-			<Box flexDirection="column" padding={1}>
-				{files.map((f, i) => (
-					<Text
-						key={f.path}
-						backgroundColor={idx == i ? '#0befae' : ''}
-						color={idx == i ? 'black' : ''}
-						wrap="truncate-end"
-					>
-						{i + 1}. {f.filename} {get('check_mark_button')}
-						{get(f.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
-					</Text>
-				))}
+			{/* TODO: refactor this list duplication ! */}
+			<Box>
+				<Box flexDirection="column" padding={1}>
+					{files.map((f, i) => (
+						<Text
+							key={f.path}
+							backgroundColor={list == 1 && idx == i ? '#0befae' : ''}
+							color={list == 1 && idx == i ? 'black' : ''}
+							wrap="truncate-end"
+						>
+							{i + 1}. {f.filename} {f.state}
+							{get(f.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
+						</Text>
+					))}
+				</Box>
+				<Box flexDirection="column" padding={1}>
+					{exos.map((e, i) => (
+						<Text
+							key={e.title}
+							backgroundColor={list == 2 && exoIdx == i ? '#0befae' : ''}
+							color={list == 2 && exoIdx == i ? 'black' : ''}
+							wrap="truncate-end"
+						>
+							{i + 1}. {e.title} {e.state}
+							{get(e.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
+						</Text>
+					))}
+				</Box>
 			</Box>
 		</>
 	);
