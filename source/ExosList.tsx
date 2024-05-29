@@ -2,16 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
 import {Exo, ExoFile, Runner} from './Runner.js';
 
-import fs from 'fs';
-import util from 'util';
 import {get} from 'node-emoji';
-var log_file = fs.createWriteStream('debug.log', {flags: 'w'});
-
-const log = function (d: any) {
-	log_file.write(util.format(d) + '\n');
-};
-let lastTime = Date.now() - 1000000;
-
 export function ExosList({}) {
 	const [files, setFiles] = useState<ExoFile[]>([]);
 	const [list, setList] = useState(1);
@@ -19,23 +10,13 @@ export function ExosList({}) {
 	const r = new Runner();
 
 	const refreshFiles = async () => {
-		// TODO: make vitest starting just once not at every render...
-		if (lastTime + 50000 > Date.now()) {
-			lastTime = Date.now();
-			return;
-		}
-		log('useeffect');
 		setFiles(await r.startVitest());
 		setExos(r.getCurrentExos());
 	};
 
 	useEffect(() => {
-		const timer = setInterval(refreshFiles, 3000);
-		return () => {
-			clearInterval(timer);
-			r.stopVitest();
-		};
-	});
+		refreshFiles();
+	}, []);
 
 	const [idx, setIdx] = useState(0); //selected exo index
 	const [exoIdx, setExoIdx] = useState(0); //selected exo index
