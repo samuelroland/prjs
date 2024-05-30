@@ -1,13 +1,11 @@
 import {File} from 'vitest';
-import {Vitest, createVitest} from 'vitest/node';
+import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
-var log_file = fs.createWriteStream('debug.log', {flags: 'w'});
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
-	log_file.write(util.format(d) + '\n');
+	fs.appendFileSync('debug.log', util.format(d));
 };
-import {writableNoopStream} from 'noop-stream';
 
 export type ExoFile = {
 	filename: string;
@@ -20,35 +18,52 @@ export type Exo = {
 	state: string;
 };
 
+// class ListenRunner extends JsonReporter {
+// 	callme: () => void;
+
+// 	constructor(callme: () => void) {
+// 		super({})
+// 		this.callme = callme
+// 	}
+// 	override onFinished(_?: File[] | undefined): Promise<void> {
+// 		this.callme()
+// 		return Promise.resolve()
+// 	}
+// }
+
 export class Runner {
-	vt: Vitest | null = null;
+	vt: Vitest | undefined = undefined;
 	currentFile: string | null;
 	started: boolean;
-
 	constructor() {
 		this.currentFile = null;
 		this.started = false;
 	}
 
 	async startVitest() {
-		if (this.started) return this.getFiles();
 		try {
 			// TODO: make Vitest unable to print things on stdout... Should we use an empty reporter ?
-			this.vt = await createVitest('test', {watch: true}, undefined, {
-				// TODO: better like this and TS ignore or with tmp file ?
-				// @ts-ignore
-				stdout: writableNoopStream(),
-				// @ts-ignore
-				stderr: writableNoopStream(),
-			});
-			await this.vt?.start();
-			log('started !');
-			log(this.vt.state);
+
+			this.vt = await startVitest(
+				'test',
+				undefined,
+				{
+					watch: true, //watch mode ON
+					changed: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
+				},
+				undefined,
+				{
+					// TODO: better like this and TS ignore or with tmp file ?
+					// @ts-ignore
+					stdout: writableNoopStream(),
+					// @ts-ignore
+					stderr: writableNoopStream(),
+				},
+			);
+			this.vt?.onClose(() => log('closed vitest...'));
 		} catch (error) {
-			log('error !');
-			// console.log(vitest.state.getFiles()[0])
+			log('error !' + error);
 		}
-		return this.getFiles();
 	}
 
 	async stopVitest() {

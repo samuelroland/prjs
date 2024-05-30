@@ -9,13 +9,18 @@ export function ExosList({}) {
 	const [exos, setExos] = useState<Exo[]>([]);
 	const r = new Runner();
 
-	const refreshFiles = async () => {
-		setFiles(await r.startVitest());
+	function updateTestState() {
+		setFiles(r.getFiles());
 		setExos(r.getCurrentExos());
-	};
-
+	}
+	async function pool() {
+		await r.startVitest();
+		const timer = setInterval(updateTestState, 1000);
+		updateTestState();
+		return timer;
+	}
 	useEffect(() => {
-		refreshFiles();
+		pool();
 	}, []);
 
 	const [idx, setIdx] = useState(0); //selected exo index
