@@ -7,6 +7,7 @@ var log_file = fs.createWriteStream('debug.log', {flags: 'w'});
 const log = function (d: any) {
 	log_file.write(util.format(d) + '\n');
 };
+import {writableNoopStream} from 'noop-stream';
 
 export type ExoFile = {
 	filename: string;
@@ -34,8 +35,11 @@ export class Runner {
 		try {
 			// TODO: make Vitest unable to print things on stdout... Should we use an empty reporter ?
 			this.vt = await createVitest('test', {watch: true}, undefined, {
-				stdout: fs.createWriteStream('out.tmp'),
-				stderr: fs.createWriteStream('out.tmp'),
+				// TODO: better like this and TS ignore or with tmp file ?
+				// @ts-ignore
+				stdout: writableNoopStream(),
+				// @ts-ignore
+				stderr: writableNoopStream(),
 			});
 			await this.vt?.start();
 			log('started !');
