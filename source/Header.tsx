@@ -2,13 +2,14 @@ import React from 'react';
 import {Text, Spacer, Box, Newline} from 'ink';
 import path from 'path';
 import {get} from 'node-emoji';
+import Gradient from 'ink-gradient';
 
 export function Header() {
 	return (
 		<Box width="100%">
-			<Text bold color="#20a8c3">
-				PRJS
-			</Text>
+			<Gradient colors={['1ABADB', '18E258']}>
+				<Text bold>PRJS</Text>
+			</Gradient>
 			<Spacer></Spacer>
 			<Spacer></Spacer>
 			<Text color="#667275">
