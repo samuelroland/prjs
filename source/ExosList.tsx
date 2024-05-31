@@ -9,19 +9,6 @@ export function ExosList({}) {
 	const [exos, setExos] = useState<Exo[]>([]);
 	const r = new Runner();
 
-	function updateTestState() {
-		setFiles(r.getFiles());
-		setExos(r.getCurrentExos());
-	}
-	async function pool() {
-		await r.startVitest();
-		const timer = setInterval(updateTestState, 1000);
-		updateTestState();
-		return timer;
-	}
-	useEffect(() => {
-		pool();
-	}, []);
 
 	const [idx, setIdx] = useState(0); //selected exo index
 	const [exoIdx, setExoIdx] = useState(0); //selected exo index
@@ -40,6 +27,22 @@ export function ExosList({}) {
 	shortcuts.set('h', () => setList(1));
 	shortcuts.set('l', () => setList(2));
 
+	function updateTestState() {
+		setFiles(r.getFiles());
+		setExos(r.getCurrentExos(r.getFiles()[idx]?.path ?? ''));
+	}
+
+	async function pool() {
+		await r.startVitest();
+		const timer = setInterval(updateTestState, 1000);
+		updateTestState();
+		return timer;
+	}
+
+	useEffect(() => {
+		pool();
+	}, []);
+
 	useInput(input => {
 		input = input.trim();
 		if (shortcuts.has(input) != undefined) {
@@ -50,7 +53,7 @@ export function ExosList({}) {
 	return (
 		<>
 			<Text color="green" bold>
-				Exos list
+				Exos list {idx}
 			</Text>
 			{/* TODO: refactor this list duplication ! */}
 			<Box>
@@ -66,6 +69,9 @@ export function ExosList({}) {
 							{get(f.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
 						</Text>
 					))}
+					{files.length == 0 && (
+						<Text color={'red'}>No test found in this folder...</Text>
+					)}
 				</Box>
 				<Box flexDirection="column" padding={1}>
 					{exos.map((e, i) => (

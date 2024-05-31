@@ -2,6 +2,8 @@ import {File} from 'vitest';
 import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
+import {writableNoopStream} from "noop-stream"
+
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
 	fs.appendFileSync('debug.log', util.format(d));
@@ -72,18 +74,21 @@ export class Runner {
 
 	getFiles(): ExoFile[] {
 		return (
-			this.vt?.state.getFiles().map(f => {
-				return {
-					filename: f.name ?? '??',
-					state: f.result?.state ?? 'unknown',
-					path: f.filepath ?? '',
-				};
-			}) ?? []
+			this.vt?.state
+				.getFiles()
+				.sort((a, b) => (a.filepath < b.filepath ? -1 : 1))
+				.map(f => {
+					return {
+						filename: f.name ?? '??',
+						state: f.result?.state ?? 'unknown',
+						path: f.filepath ?? '',
+					};
+				}) ?? []
 		);
 	}
 
-	getGivenFile(givenFile: string): File | undefined {
-		return this.vt?.state.getFiles().find(f => f.file?.name === givenFile);
+	getGivenFile(givenPath: string): File | undefined {
+		return this.vt?.state.getFiles().find(f => f.filepath === givenPath);
 	}
 
 	setCurrentFile(givenFile: string): boolean {
@@ -99,9 +104,8 @@ export class Runner {
 		}
 	}
 
-	getCurrentExos(): Exo[] {
-		return (
-			this.vt?.state.getFiles()[0]?.tasks.map(t => {
+	getCurrentExos(filepath: string): Exo[] {
+		return (this.getGivenFile(filepath)?.tasks.map(t => {
 				return {title: t.name ?? '??', state: t.result?.state ?? 'unknown'};
 			}) ?? []
 		);
