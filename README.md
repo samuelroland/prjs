@@ -1,7 +1,7 @@
 
 # PRJS - Practice Runner for JavaScript
 
-> Run small JS exos in your terminal with instant feedback loop
+> Run small JS exos in your terminal with instant feedback loop and delightful errors printing
 
 ![gradient](gradient_banner.png)
 
@@ -25,16 +25,18 @@ Les avantages:
 1. Pratiquer TypeScript et React, et découvrir ce qui est possible de faire avec un framework de TUI
 
 ## Setup
+
 ### Installation
 
 After cloning this repository
 ```bash
+npm install
 npm run build
 npm install --global .
 ```
 
 ### Development
-Enable continuous build
+In addition to the global installation documented above, you need to enable a continuous build to make sure Typescript files and React components are built and updated in the `dist` folder at each code change. Just run this command:
 ```bash
 npm run dev
 ```
@@ -43,4 +45,5 @@ npm run dev
 ### Extensions
 We use the following Ink extensions
 1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
-1. 
+1. [gradient-ink]: to easily show gradients on texts
+
