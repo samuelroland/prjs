@@ -3,22 +3,13 @@ import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
 import {writableNoopStream} from "noop-stream"
+import type {Exo, ExoFile} from "../types.ts"
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
 	fs.appendFileSync('debug.log', util.format(d));
 };
 
-export type ExoFile = {
-	filename: string;
-	state: string;
-	path: string;
-};
-
-export type Exo = {
-	title: string;
-	state: string;
-};
 
 // class ListenRunner extends JsonReporter {
 // 	callme: () => void;
@@ -106,7 +97,7 @@ export class Runner {
 
 	getCurrentExos(filepath: string): Exo[] {
 		return (this.getGivenFile(filepath)?.tasks.map(t => {
-				return {title: t.name ?? '??', state: t.result?.state ?? 'unknown'};
+				return {title: t.name ?? '??', state: t.result?.state ?? 'unknown', errors: []};
 			}) ?? []
 		);
 	}
