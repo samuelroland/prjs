@@ -6,8 +6,9 @@ import {ExoDetails} from './ExoDetails.js';
 
 export default function App({}) {
 	const [mode, setMode] = useState('list');
+	const [selectedExo, setSelectedExo] = useState(null);
 
-	// Sample exo object with error details
+	// Test
 	const sampleExo = {
 		title: "hugeArray: get huge array filled with x",
 		state: "fail",
@@ -18,6 +19,12 @@ export default function App({}) {
 				expected: "[1, 2, 3, 4, 5]"
 			}
 		]
+	};
+
+	// Selection of exercices
+	const selectExo = (exo) => {
+		setSelectedExo(exo);
+		setMode('exo');
 	};
 
 	useInput((_, key: Key) => {
@@ -38,7 +45,9 @@ export default function App({}) {
 				</Box>
 			) : (
 				<Box flexDirection="column">
-					<ExoDetails exo={{title: "hugeArray: get huge array filled with x", state: "fail", errors: ["undefined return value"]}}></ExoDetails>
+					<ExoDetails exo={selectedExo}></ExoDetails>
+					// <ExoDetails exo={sampleExo}></ExoDetails>
+					// <ExoDetails exo={{title: "hugeArray: get huge array filled with x", state: "fail", errors: ["undefined return value"]}}></ExoDetails>
 				</Box>
 			)}
 		</Box>

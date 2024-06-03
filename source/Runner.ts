@@ -2,7 +2,7 @@ import {File} from 'vitest';
 import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
-import {writableNoopStream} from "noop-stream"
+import {writableNoopStream} from 'noop-stream';
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
@@ -18,6 +18,11 @@ export type ExoFile = {
 export type Exo = {
 	title: string;
 	state: string;
+	errors: Array<{
+		message: string;
+		actual: any;
+		expected: any;
+	}>;
 };
 
 // class ListenRunner extends JsonReporter {
@@ -104,10 +109,28 @@ export class Runner {
 		}
 	}
 
-	getCurrentExos(filepath: string): Exo[] {
+	/* getCurrentExos(filepath: string): Exo[] {
 		return (this.getGivenFile(filepath)?.tasks.map(t => {
 				return {title: t.name ?? '??', state: t.result?.state ?? 'unknown'};
 			}) ?? []
 		);
+	} */
+
+	getCurrentExos(filepath: string): Exo[] {
+		const file = this.getGivenFile(filepath);
+		if (!file) {
+			return [];
+		}
+
+		return file.tasks.map(t => ({
+			title: t.name ?? '??',
+			state: t.result?.state ?? 'unknown',
+			errors:
+				t.result?.errors?.map(e => ({
+					message: e.message,
+					actual: e.actual,
+					expected: e.expected,
+				})) ?? [],
+		}));
 	}
 }
