@@ -24,7 +24,8 @@
 		"node-emoji": "^2.1.3",
 		"noop-stream": "^1.0.0",
 		"react": "^18.2.0",
-		"vitest": "^1.6.0"
+		"vitest": "^1.6.0",
+		"zustand": "^4.5.2"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",
