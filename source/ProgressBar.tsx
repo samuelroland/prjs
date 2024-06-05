@@ -1,14 +1,20 @@
 import React from "react";
-import { Box, Text } from 'ink';
+import { Box, Text, useStdout } from 'ink';
 
 type ProgressBarProps = {
     percent: number;
 };
 
 export default function ProgressBar({ percent }: ProgressBarProps) {
-    const width = 20; // Width of the progress bar
-    const filledWidth = Math.round((percent / 100) * width);
-    const emptyWidth = width - filledWidth;
+    const { stdout } = useStdout();
+    const terminalWidth = stdout.columns;
+    const textWidth = 10; // Approximate width for "Progress: "
+    const percentText = `${percent.toFixed(2)}%`;
+    const percentWidth = percentText.length + 1; // +1 for the space before the percent text
+
+    const barWidth = terminalWidth - textWidth - percentWidth;
+    const filledWidth = Math.round((percent / 100) * barWidth);
+    const emptyWidth = barWidth - filledWidth;
 
     return (
         <Box>
