@@ -1,12 +1,8 @@
-
 # PRJS - Practice Runner for JavaScript
 
 > Run small JS exos in your terminal with instant feedback loop and delightful errors printing
 
 ![gradient](gradient_banner.png)
-
-<!-- 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/VQehqnE6) -->
 
 ## Idea
 Je me faisais la réflexion que je ne voulais vraiment pas faire un labo basique comme une extension du Tetris sans utilité une fois rendu. En même temps, je rêverai de voir des cours délibérés à la HEIG. Pour le cours de WEB, il manque un moyen de faire ces fameux petits exos de drill sur une grande partie des compétences de JS. J'ai tenté qqch avec mon repos WEB-training, évidemment que ça ne couvre que la manipulation de tableaux et il y aura moyen d'aller beaucoup plus loin. Et le problème technique c'est que Vitest n'est pas adapté à 100% à ce use case: c'est très bon pour le watch mode, mais ce qui est affiché n'est pas adapté: pas de transition entre les exos (toujours en train de fail), pas possibilité de détaillers les tests sans ouvrir le fichier de test, peu de couleurs, ...
@@ -29,11 +25,18 @@ Les avantages:
 ### Installation
 
 After cloning this repository
-```bash
+```sh
 npm install
 npm run build
 npm install --global .
 ```
+
+You should now be able to call
+```sh
+prjs
+```
+
+If the command is still not found, try reloading your terminal or make sure the global bin folder is in your PATH...
 
 ### Development
 In addition to the global installation documented above, you need to enable a continuous build to make sure Typescript files and React components are built and updated in the `dist` folder at each code change. Just run this command:
@@ -46,4 +49,43 @@ npm run dev
 We use the following Ink extensions
 1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
 1. [gradient-ink]: to easily show gradients on texts
+
+
+## Todos
+Still to attribute/think about:
+- [ ] !! Improve diffing and errors output
+- [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
+- [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
+- [ ] More: Implements hints showing (when exo metadata works)
+- [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
+- [ ] Pres: Start hacking on slides with [Slidev](https://sli.dev/) in a `presentation` folder, just add a single slides.md with a title (not an entire Slidev setup)
+- [ ] Pres: Define order and strategy of the slides
+- [ ] Pres: Includes required points with graphics
+- [ ] Pres: Design the demo
+- [ ] Pres: Attributes talking time
+- [ ] Pres: Try it 1-2 times
+
+Camille:
+- [ ] !! Filter exos with a live text input
+- [ ] !! Switch to next exo with 'n' and to previous with 'p' in exo page
+- [x] Show errors and state of an exo
+- [ ] Automatically open exo file in VSCode ?
+
+Guilherme:
+- [ ] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
+- [x] Show dynamically generated help page
+- [ ] Enable going up and down if help page is long ??
+- [ ] !! Fix progress bar hard coded counter with correct total calculation (in store)
+
+Samuel:
+- [ ] Open a real exo
+- [ ] Fix shortcuts matching issues with shift and ?
+- [ ] Automatic reload of files and exos when vitest runs
+- [x] Show a list of files and exos from Vitest
+- [ ] Should we rename page namings ?
+- [ ] Translate above text in English
+- [ ] Support running exos in both TS and JS files
+- [ ] Support showing typescript compiler errors ?
+- [ ] Refactor colors assignation with some constants in utils.ts
+- [ ] Refactor and enhance the store
 
