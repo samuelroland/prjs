@@ -67,7 +67,7 @@ export function ExosList({}) {
 							wrap="truncate-end"
 						>
 							{i + 1}. {f.filename} {f.state}
-							{get(f.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
+							{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
 						</Text>
 					))}
 					{files.length == 0 && (
@@ -83,7 +83,7 @@ export function ExosList({}) {
 							wrap="truncate-end"
 						>
 							{i + 1}. {e.title} {e.state}
-							{get(e.state == 'pass' ? 'check_mark_button' : 'cross_mark')}
+							{get(e.state == 'pass' ? 'white_check_mark' : 'x')}
 						</Text>
 					))}
 				</Box>

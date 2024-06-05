@@ -41,7 +41,7 @@ export class Runner {
 				undefined,
 				{
 					watch: true, //watch mode ON
-					changed: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
+					standalone: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
 				},
 				undefined,
 				{
