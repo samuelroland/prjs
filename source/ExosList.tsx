@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Text, useInput} from 'ink';
+import {Box, Spacer, Text, useInput} from 'ink';
 import type {Exo, ExoFile} from './types.js';
 import {Runner} from './Runner.js';
 import ProgressBar from './ProgressBar.js';
@@ -61,10 +61,13 @@ export function ExosList({}) {
 
 	return (
 		<>
-			<Text color="green" bold>
-				Exos list {idx}
-			</Text>
-			<SearchBar />
+			<Box flexDirection="row" alignItems="center">
+				<Text color="green" bold>
+					Exos list {idx}
+				</Text>
+				<Spacer />
+				<SearchBar />
+			</Box>
 			{/* TODO: refactor this list duplication ! */}
 			<Box>
 				<Box flexDirection="column" padding={1}>
