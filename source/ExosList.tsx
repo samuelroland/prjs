@@ -7,17 +7,20 @@ import ProgressBar from './ProgressBar.js';
 import {get} from 'node-emoji';
 import {SearchBar} from './SearchBar.js';
 
+interface ExosListProps {
+	showSearchBar: boolean;
+}
 
-export function ExosList({}) {
+export function ExosList({showSearchBar}: ExosListProps) {
 	const [files, setFiles] = useState<ExoFile[]>([]);
 	const [list, setList] = useState(1);
 	const [exos, setExos] = useState<Exo[]>([]);
 	const r = new Runner();
 
-
 	const [idx, setIdx] = useState(0); //selected exo index
 	const [exoIdx, setExoIdx] = useState(0); //selected exo index
 	const shortcuts = new Map<string, () => void>();
+
 	const changeIndex = (offset: number) => {
 		if (list == 1) {
 			if (offset + idx >= files.length || offset + idx < 0) return;
@@ -56,8 +59,8 @@ export function ExosList({}) {
 	});
 
 	const totalExos = exos.length;
-    const passedExos = exos.filter(e => e.state === 'pass').length;
-    const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
+	const passedExos = exos.filter(e => e.state === 'pass').length;
+	const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
 
 	return (
 		<>
@@ -66,7 +69,10 @@ export function ExosList({}) {
 					Exos list {idx}
 				</Text>
 				<Spacer />
-				<SearchBar />
+				<Box flexDirection="row">
+					<Text>Search: </Text>
+					{showSearchBar ? <SearchBar /> : ''}
+				</Box>
 			</Box>
 			{/* TODO: refactor this list duplication ! */}
 			<Box>
@@ -101,9 +107,9 @@ export function ExosList({}) {
 				</Box>
 			</Box>
 			<Box marginTop={1}>
-                <Text>Progress: </Text>
-                <ProgressBar percent={progress} />
-            </Box>
+				<Text>Progress: </Text>
+				<ProgressBar percent={progress} />
+			</Box>
 		</>
 	);
 }

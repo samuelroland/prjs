@@ -7,14 +7,16 @@ import type {Exo} from './types.js';
 import Help from './Help.js';
 
 type Shortcut = {
-    key: string;
-    action: () => void;
-    description: string;
+	key: string;
+	action: () => void;
+	description: string;
 };
 
 export default function App({}) {
 	const [mode, setMode] = useState('list');
 	// const [selectedExo, setSelectedExo] = useState(null);
+
+	const [showSearchBar, setShowSearchBar] = useState(false);
 
 	// Sample exo object with error details
 	const sampleExo: Exo = {
@@ -37,42 +39,59 @@ export default function App({}) {
 
 	const [prevMode, setPrevMode] = useState('list');
 	const shortcuts: Shortcut[] = [
-        {
-            key: '?',
-            action: () => setMode('help'),
-            description: "View help page"
-        },
-        {
-            key: 'escape',
-            action: () => setMode(prevMode),
-            description: "Go back"
-        },
-        {
-            key: 'j',
-            action: () => { /* Add logic for next item */ },
-            description: "Next item"
-        },
-        {
-            key: 'k',
-            action: () => { /* Add logic for previous item */ },
-            description: "Previous item"
-        },
-        {
-            key: 'h',
-            action: () => { /* Add logic for switch to files list */ },
-            description: "Switch to files list"
-        },
-        {
-            key: 'l',
-            action: () => { /* Add logic for switch to exos list */ },
-            description: "Switch to exos list"
-        },
+		{
+			key: '?',
+			action: () => setMode('help'),
+			description: 'View help page',
+		},
+		{
+			key: 'escape',
+			action: () => {
+				if (showSearchBar) {
+					setShowSearchBar(false);
+				} else {
+					setMode(prevMode);
+				}
+			},
+			description: 'Go back',
+		},
+		{
+			key: 'j',
+			action: () => {
+				/* Add logic for next item */
+			},
+			description: 'Next item',
+		},
+		{
+			key: 'k',
+			action: () => {
+				/* Add logic for previous item */
+			},
+			description: 'Previous item',
+		},
+		{
+			key: 'h',
+			action: () => {
+				/* Add logic for switch to files list */
+			},
+			description: 'Switch to files list',
+		},
+		{
+			key: 'l',
+			action: () => {
+				/* Add logic for switch to exos list */
+			},
+			description: 'Switch to exos list',
+		},
 		{
 			key: 'f',
-			action: () => { setMode('find') },
-			description: "Find exercice"
-		}
-    ];
+			action: () =>{
+				if (!showSearchBar)
+					setShowSearchBar(prev => !prev)
+			},
+			description: 'Find exercice',
+		},
+	];
 
 	// useInput((_, key: Key) => {
 	// 	if (key.return) {
@@ -94,31 +113,28 @@ export default function App({}) {
 	// 	}
 	// });
 	useInput((input, key: Key) => {
-		const shortcut = shortcuts.find(sc => sc.key === input);
-		if (shortcut) {
-            setPrevMode(mode);
-            shortcut.action();
+		if (showSearchBar && key.escape) {
+            setShowSearchBar(false);
+        } else {
+            const shortcut = shortcuts.find(sc => sc.key === input);
+            if (shortcut) {
+                setPrevMode(mode);
+                shortcut.action();
+            }
         }
-		if (key.return) {
-			setMode('exo');
-		}
-		if (key.escape) {
-			setMode('list');
-		}
-    });
+
+        if (key.return) {
+            setMode('exo');
+        }
+
+	});
 
 	return (
 		<Box flexDirection="column" width="100%">
 			<Header></Header>
-			{mode === 'list' && (
-				<ExosList></ExosList>
-            )}
-			{mode === 'exo' && (
-				<ExoDetails exo={sampleExo}></ExoDetails>
-            )}
-			{mode === 'help' && (
-                <Help shortcuts={shortcuts}></Help>
-            )}
+			{mode === 'list' && <ExosList showSearchBar={showSearchBar}></ExosList>}
+			{mode === 'exo' && <ExoDetails exo={sampleExo}></ExoDetails>}
+			{mode === 'help' && <Help shortcuts={shortcuts}></Help>}
 		</Box>
 	);
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Text} from 'ink';
+import {Box} from 'ink';
 import TextInput from 'ink-text-input';
 
 
@@ -16,7 +16,6 @@ export function SearchBar({}) {
  */
 	return (
 		<Box flexDirection="column" padding={1}>
-			<Text>Search: </Text>
 			<TextInput value={input} onChange={setInput} />
 		</Box>
 	);
