@@ -3,7 +3,7 @@ import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
 import type {Exo, ExoFile} from "./types.js"
-import {writableNoopStream} from 'noop-stream';
+// import {writableNoopStream} from 'noop-stream';
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
@@ -46,10 +46,9 @@ export class Runner {
 				undefined,
 				{
 					// TODO: better like this and TS ignore or with tmp file ?
-					// @ts-ignore
-					stdout: writableNoopStream(),
-					// @ts-ignore
-					stderr: writableNoopStream(),
+					stdout: fs.createWriteStream('out.tmp'),
+					//TODO: add back this to avoid having a file: writableNoopStream()
+					stderr: fs.createWriteStream('out.tmp'),
 				},
 			);
 			this.vt?.onClose(() => log('closed vitest...'));
