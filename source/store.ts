@@ -37,6 +37,7 @@ export type Action = {
 	switchToList(index: number): void;
 	getProgress(): number;
 	setSearchBarVisibility(visible: boolean): void;
+	updateCurrentExo(): void;
 };
 
 export type Store = State & Action;
@@ -59,15 +60,17 @@ const useStore = create<Store>((set: any) => ({
 	started: false,
 
 	//Actions
-	async start(s: Store) {
-		s.runner = new Runner();
-		await s.runner.startVitest();
+	async start() {
+		this.runner = new Runner();
+		await this.runner.startVitest();
 		log('starting vitest');
 		set({started: true});
 		log('setting files');
-		set({files: s.runner.getFiles()});
-		set({currentFile: s.runner.currentFile});
-		set({exos: s.runner.getCurrentExos(s.runner.getFiles()[0]?.path ?? '')});
+		set({files: this.runner.getFiles()});
+		set({currentFile: this.runner.currentFile});
+		set({
+			exos: this.runner.getCurrentExos(this.runner.getFiles()[0]?.path ?? ''),
+		});
 	},
 
 	setPage(page: Page) {
@@ -76,28 +79,22 @@ const useStore = create<Store>((set: any) => ({
 	},
 
 	backToPreviousPage() {
-		set((s: Store) => {
-			s.setPage(s.previousPage);
-			return {};
-		});
+		this.setPage(this.previousPage);
 	},
 
 	// Change the selected index in files or exos list with given offset
 	changeIndexInList(offset: number) {
-		set((store: Store) => {
-			debug('offset' + offset);
-			const current: number =
-				store.list.selectionIndexes[store.list.index] ?? 0;
-			const max: number =
-				store.list.index == 0 ? store.files.length : store.exos.length;
-			const final = offset + current;
-			if (final >= max || final < 0) return {};
-			store.list.selectionIndexes[store.list.index] = final;
-			debug('store' + JSON.stringify(store.list));
-			return {
-				list: {...store.list, selectionIndexes: store.list.selectionIndexes},
-			};
-		});
+		const list = this.list;
+		const current: number = list.selectionIndexes[list.index] ?? 0;
+		const max: number = list.index == 0 ? this.files.length : this.exos.length;
+		const final = offset + current;
+
+		if (final >= max || final < 0) return;
+
+		list.selectionIndexes[list.index] = final;
+
+		this.updateCurrentExo();
+		set({list: list});
 	},
 
 	switchToList(index: number) {
@@ -115,9 +112,15 @@ const useStore = create<Store>((set: any) => ({
 	},
 
 	setSearchBarVisibility(visible: boolean) {
-		set((store: Store) => {
-			return {list: {...store.list, showSearchBar: visible}};
-		});
+		set({list: {...this.list, showSearchBar: visible}});
+	},
+
+	updateCurrentExo() {
+		const list = this.list;
+		const index: number = list.selectionIndexes[list.index] ?? 0;
+		if (this.exos.length <= index) return;
+
+		set({currentExo: this.exos[index]});
 	},
 }));
 

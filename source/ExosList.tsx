@@ -16,7 +16,7 @@ export function ExosList({showSearchBar}: ExosListProps) {
 		<>
 			<Box flexDirection="row" alignItems="center">
 				<Text color="green" bold>
-					Exos list {store.list.index}
+					Exos list
 				</Text>
 				<Spacer />
 				<Box flexDirection="row" justifyContent="flex-end">
