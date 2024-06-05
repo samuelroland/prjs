@@ -7,6 +7,7 @@ import type {Exo} from './types.js';
 
 export default function App({}) {
 	const [mode, setMode] = useState('list');
+	// const [selectedExo, setSelectedExo] = useState(null);
 
 	// Sample exo object with error details
 	const sampleExo: Exo = {
@@ -20,6 +21,12 @@ export default function App({}) {
 			},
 		],
 	};
+
+	// Selection of exercices
+	// const selectExo = (exo) => {
+	// 	setSelectedExo(exo);
+	// 	setMode('exo');
+	// };
 
 	useInput((_, key: Key) => {
 		if (key.return) {
