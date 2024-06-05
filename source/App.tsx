@@ -4,6 +4,13 @@ import {ExosList} from './ExosList.js';
 import {Header} from './Header.js';
 import {ExoDetails} from './ExoDetails.js';
 import type {Exo} from './types.js';
+import Help from './Help.js';
+
+type Shortcut = {
+    key: string;
+    action: () => void;
+    description: string;
+};
 
 export default function App({}) {
 	const [mode, setMode] = useState('list');
@@ -28,14 +35,72 @@ export default function App({}) {
 	// 	setMode('exo');
 	// };
 
-	useInput((_, key: Key) => {
+	const [prevMode, setPrevMode] = useState('list');
+	const shortcuts: Shortcut[] = [
+        {
+            key: '?',
+            action: () => setMode('help'),
+            description: "View help page"
+        },
+        {
+            key: 'escape',
+            action: () => setMode(prevMode),
+            description: "Go back"
+        },
+        {
+            key: 'j',
+            action: () => { /* Add logic for next item */ },
+            description: "Next item"
+        },
+        {
+            key: 'k',
+            action: () => { /* Add logic for previous item */ },
+            description: "Previous item"
+        },
+        {
+            key: 'h',
+            action: () => { /* Add logic for switch to files list */ },
+            description: "Switch to files list"
+        },
+        {
+            key: 'l',
+            action: () => { /* Add logic for switch to exos list */ },
+            description: "Switch to exos list"
+        }
+    ];
+
+	// useInput((_, key: Key) => {
+	// 	if (key.return) {
+	// 		setMode('exo');
+	// 	}
+	// 	if (key.escape) {
+	// 		setMode('list');
+	// 	}
+	// });
+	// useInput((input, key: Key) => {
+	// 	if (input === '?') {
+	// 		setMode('help');
+	// 	}
+	// 	if (key.return) {
+	// 		setMode('exo');
+	// 	}
+	// 	if (key.escape) {
+	// 		setMode('list');
+	// 	}
+	// });
+	useInput((input, key: Key) => {
+		const shortcut = shortcuts.find(sc => sc.key === input);
+		if (shortcut) {
+            setPrevMode(mode);
+            shortcut.action();
+        }
 		if (key.return) {
 			setMode('exo');
 		}
 		if (key.escape) {
 			setMode('list');
 		}
-	});
+    });
 
 	return (
 		<Box flexDirection="column" width="100%">
@@ -49,6 +114,11 @@ export default function App({}) {
 					<ExoDetails exo={sampleExo}></ExoDetails>
 				</Box>
 			)}
+			{mode === 'help' && (
+                <Box flexDirection="column">
+                    <Help shortcuts={shortcuts}></Help>
+                </Box>
+            )}
 		</Box>
 	);
 }
