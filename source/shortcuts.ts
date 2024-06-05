@@ -14,7 +14,7 @@ export const shortcuts: Shortcut[] = [
 	{
 		pattern: 'escape',
 		pages: ['list'],
-		action: s => (s.list.showSearchBar ? (s.list.showSearchBar = false) : null),
+		action: s => s.setSearchBarVisibility(false),
 		description: 'Escape search bar',
 	},
 	{
@@ -44,33 +44,30 @@ export const shortcuts: Shortcut[] = [
 	{
 		pattern: 'j',
 		pages: ['list'],
-		action: s => changeIndexInList(s, 1),
+		action: s => s.changeIndexInList(1),
 		description: 'Next item',
 	},
 	{
 		pattern: 'k',
 		pages: ['list'],
-		action: s => changeIndexInList(s, -1),
+		action: s => s.changeIndexInList(-1),
 		description: 'Previous item',
 	},
 	{
 		pattern: 'h',
 		pages: ['list'],
-		action: s => (s.list.index = 0),
+		action: s => s.switchToList(0),
 		description: 'Switch to files list',
 	},
 	{
 		pattern: 'l',
 		pages: ['list'],
-		action: s => (s.list.index = 1),
+		action: s => s.switchToList(1),
 		description: 'Switch to exos list',
 	},
 	{
 		pattern: 'f',
-		action: s => {
-			if (s.list.showSearchBar) return;
-			s.list.showSearchBar = true;
-		},
+		action: s => s.setSearchBarVisibility(true),
 		description: 'Find exo by title',
 	},
 	{
@@ -95,16 +92,17 @@ export function listenForShortcuts() {
 		for (const modifier of Object.keys(key)) {
 			// @ts-ignore
 			if (key[modifier] === true) {
-				if (modifier == 'shift') return;
-				debug('found modifier ' + modifier);
-				debug('pattern "' + pattern + '"');
+				if (modifier == 'shift') return; //we have a mysterious shift modifier enabled even if it is not
 				pattern = modifier + (pattern.length == 0 ? '' : '+') + pattern;
 				debug('pattern ' + pattern);
 				break;
 			}
 		}
-		debug('managing shortcut: ' + pattern);
 
+		// Disable all shortcuts (except escape) when search bar is enabled
+		if (store.list.showSearchBar && pattern != 'escape') return;
+
+		debug('managing shortcut: ' + pattern);
 		const foundShortcuts = shortcuts.filter(sc => sc.pattern === pattern);
 		if (foundShortcuts.length == 0) return;
 
@@ -112,21 +110,10 @@ export function listenForShortcuts() {
 		// if some pages constraint exists make sure to apply it
 		for (const sc of foundShortcuts) {
 			if (!sc.pages || (sc.pages && sc.pages.includes(store.page))) {
+				debug('found action for shortcut: ' + pattern);
 				sc.action(store);
 				return;
 			}
 		}
 	});
-}
-
-// Change the selected index in files or exos list with given offset
-function changeIndexInList(store: Store, offset: number) {
-	debug('offset' + offset);
-	const current: number = store.list.selectionIndexes[store.list.index] ?? 0;
-	const max: number =
-		store.list.index == 0 ? store.files.length : store.exos.length;
-	const final = offset + current;
-	if (final >= max || final < 0) return;
-
-	store.list.selectionIndexes[store.list.index] += final;
 }

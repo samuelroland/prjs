@@ -30,10 +30,13 @@ export type State = {
 };
 
 export type Action = {
-	start: (s: Store) => void;
-	setPage: (page: Page) => void;
-	backToPreviousPage: () => void;
-	getProgress: () => number;
+	start(s: Store): void;
+	setPage(page: Page): void;
+	backToPreviousPage(): void;
+	changeIndexInList(offset: number): void;
+	switchToList(index: number): void;
+	getProgress(): number;
+	setSearchBarVisibility(visible: boolean): void;
 };
 
 export type Store = State & Action;
@@ -56,7 +59,7 @@ const useStore = create<Store>((set: any) => ({
 	started: false,
 
 	//Actions
-	start: async (s: Store) => {
+	async start(s: Store) {
 		s.runner = new Runner();
 		await s.runner.startVitest();
 		log('starting vitest');
@@ -66,21 +69,55 @@ const useStore = create<Store>((set: any) => ({
 		set({currentFile: s.runner.currentFile});
 		set({exos: s.runner.getCurrentExos(s.runner.getFiles()[0]?.path ?? '')});
 	},
-	setPage: (page: Page) => {
+
+	setPage(page: Page) {
 		debug('defined page as ' + page);
 		set((state: Store) => ({page: page, previousPage: state.page}));
 	},
-	backToPreviousPage: () =>
+
+	backToPreviousPage() {
 		set((s: Store) => {
 			s.setPage(s.previousPage);
 			return {};
-		}),
+		});
+	},
+
+	// Change the selected index in files or exos list with given offset
+	changeIndexInList(offset: number) {
+		set((store: Store) => {
+			debug('offset' + offset);
+			const current: number =
+				store.list.selectionIndexes[store.list.index] ?? 0;
+			const max: number =
+				store.list.index == 0 ? store.files.length : store.exos.length;
+			const final = offset + current;
+			if (final >= max || final < 0) return {};
+			store.list.selectionIndexes[store.list.index] = final;
+			debug('store' + JSON.stringify(store.list));
+			return {
+				list: {...store.list, selectionIndexes: store.list.selectionIndexes},
+			};
+		});
+	},
+
+	switchToList(index: number) {
+		if (index > 1 || index < 0) return;
+		set((store: Store) => {
+			return {list: {...store.list, index: index}};
+		});
+	},
 
 	getProgress() {
 		// const totalExos = exos.length;
 		// const passedExos = exos.filter(e => e.state === 'pass').length;
 		// const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
 		return 24;
+	},
+
+	setSearchBarVisibility(visible: boolean) {
+		set((store: Store) => {
+			return {list: {...store.list, showSearchBar: visible}};
+		});
 	},
 }));
 
