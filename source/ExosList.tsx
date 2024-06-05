@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
 import type {Exo, ExoFile} from './types.js';
 import {Runner} from './Runner.js';
-
 import {get} from 'node-emoji';
+import {SearchBar} from './SearchBar.js';
+
+
 export function ExosList({}) {
 	const [files, setFiles] = useState<ExoFile[]>([]);
 	const [list, setList] = useState(1);
@@ -56,6 +58,7 @@ export function ExosList({}) {
 			<Text color="green" bold>
 				Exos list {idx}
 			</Text>
+			<SearchBar />
 			{/* TODO: refactor this list duplication ! */}
 			<Box>
 				<Box flexDirection="column" padding={1}>

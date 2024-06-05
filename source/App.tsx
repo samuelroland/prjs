@@ -66,7 +66,12 @@ export default function App({}) {
             key: 'l',
             action: () => { /* Add logic for switch to exos list */ },
             description: "Switch to exos list"
-        }
+        },
+		{
+			key: 'f',
+			action: () => { setMode('find') },
+			description: "Find exercice"
+		}
     ];
 
 	// useInput((_, key: Key) => {

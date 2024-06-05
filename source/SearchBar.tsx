@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
-import {Box, Text, useInput} from 'ink';
+import {Box, Text} from 'ink';
 import TextInput from 'ink-text-input';
 
-export function SearchBar({setSearchQuery, setMode}) {
+
+export function SearchBar({}) {
 	const [input, setInput] = useState('');
 
-	useInput((inputKey, key) => {
+	/* useInput((_, key) => {
 		if (key.return) {
 			setSearchQuery(input);
-			setMode('list');
 		}
 		if (key.escape) {
-			setMode('list');
 		}
 	});
-
+ */
 	return (
 		<Box flexDirection="column" padding={1}>
 			<Text>Search: </Text>
