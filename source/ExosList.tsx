@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
 import type {Exo, ExoFile} from './types.js';
 import {Runner} from './Runner.js';
+import ProgressBar from './ProgressBar.js';
+
 import {get} from 'node-emoji';
 import {SearchBar} from './SearchBar.js';
 
@@ -53,6 +55,10 @@ export function ExosList({}) {
 		}
 	});
 
+	const totalExos = exos.length;
+    const passedExos = exos.filter(e => e.state === 'pass').length;
+    const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
+
 	return (
 		<>
 			<Text color="green" bold>
@@ -91,6 +97,10 @@ export function ExosList({}) {
 					))}
 				</Box>
 			</Box>
+			<Box marginTop={1}>
+                <Text>Progress: </Text>
+                <ProgressBar percent={progress} />
+            </Box>
 		</>
 	);
 }
