@@ -1,3 +1,5 @@
+import {Store} from './store.js';
+
 export type ExoFile = {
 	filename: string;
 	state: string;
@@ -21,6 +23,6 @@ export type Page = 'list' | 'exo' | 'help';
 export type Shortcut = {
 	pattern: string;
 	pages?: Page[];
-	action: () => void;
+	action: (store: Store) => void;
 	description: string;
 };

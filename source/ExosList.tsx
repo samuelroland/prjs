@@ -44,8 +44,8 @@ export function ExosList({showSearchBar}: ExosListProps) {
 							}
 							wrap="truncate-end"
 						>
-							{i + 1}. {f.filename} {f.state}
 							{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
+							{f.filename}
 						</Text>
 					))}
 					{store.files.length == 0 && (
@@ -70,8 +70,8 @@ export function ExosList({showSearchBar}: ExosListProps) {
 							}
 							wrap="truncate-end"
 						>
-							{i + 1}. {e.title} {e.state}
-							{get(e.state == 'pass' ? 'white_check_mark' : 'x')}
+							{i + 1}. {get(e.state == 'pass' ? 'white_check_mark' : 'x')}
+							{e.title}
 						</Text>
 					))}
 				</Box>

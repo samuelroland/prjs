@@ -1,4 +1,4 @@
-import React, {useEffect, ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import {Box, Text} from 'ink';
 import {ExosList} from './ExosList.js';
 import {Header} from './Header.js';
@@ -6,12 +6,15 @@ import {ExoDetails} from './ExoDetails.js';
 import Help from './Help.js';
 import useStore, {State, Store} from './store.js';
 import {listenForShortcuts, shortcuts} from './shortcuts.js';
+import {useEffect} from 'react';
 
 export default function App({}) {
 	const store: Store = useStore();
 	useEffect(() => {
-		listenForShortcuts();
+		store.start(store);
 	}, []);
+
+	listenForShortcuts();
 
 	const pages = new Map<string, (state: State) => ReactNode>();
 	pages.set('list', (state: State) => (

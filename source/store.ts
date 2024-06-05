@@ -6,6 +6,7 @@ import {Exo, ExoFile, Page} from './types.js';
 import {Runner} from './Runner.js';
 import fs from 'fs';
 import util from 'util';
+import {debug} from './util.js';
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
@@ -29,7 +30,7 @@ export type State = {
 };
 
 export type Action = {
-	start: (s: State) => void;
+	start: (s: Store) => void;
 	setPage: (page: Page) => void;
 	backToPreviousPage: () => void;
 	getProgress: () => number;
@@ -55,18 +56,25 @@ const useStore = create<Store>((set: any) => ({
 	started: false,
 
 	//Actions
-	start: async s => {
-		set({started: true});
-		log('starting vitest');
+	start: async (s: Store) => {
+		s.runner = new Runner();
 		await s.runner.startVitest();
+		log('starting vitest');
+		set({started: true});
 		log('setting files');
 		set({files: s.runner.getFiles()});
-		log('got ' + s.files.length + ' files');
 		set({currentFile: s.runner.currentFile});
 		set({exos: s.runner.getCurrentExos(s.runner.getFiles()[0]?.path ?? '')});
 	},
-	setPage: (page: Page) => set({page: page, previousPage: store.page}),
-	backToPreviousPage: () => store.setPage(store.previousPage),
+	setPage: (page: Page) => {
+		debug('defined page as ' + page);
+		set((state: Store) => ({page: page, previousPage: state.page}));
+	},
+	backToPreviousPage: () =>
+		set((s: Store) => {
+			s.setPage(s.previousPage);
+			return {};
+		}),
 
 	getProgress() {
 		// const totalExos = exos.length;
@@ -75,7 +83,5 @@ const useStore = create<Store>((set: any) => ({
 		return 24;
 	},
 }));
-
-const store: Store = useStore();
 
 export default useStore;
