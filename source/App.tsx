@@ -105,19 +105,14 @@ export default function App({}) {
 	return (
 		<Box flexDirection="column" width="100%">
 			<Header></Header>
-			{mode == 'list' ? (
-				<Box flexDirection="column">
-					<ExosList></ExosList>
-				</Box>
-			) : (
-				<Box flexDirection="column">
-					<ExoDetails exo={sampleExo}></ExoDetails>
-				</Box>
-			)}
+			{mode === 'list' && (
+				<ExosList></ExosList>
+            )}
+			{mode === 'exo' && (
+				<ExoDetails exo={sampleExo}></ExoDetails>
+            )}
 			{mode === 'help' && (
-                <Box flexDirection="column">
-                    <Help shortcuts={shortcuts}></Help>
-                </Box>
+                <Help shortcuts={shortcuts}></Help>
             )}
 		</Box>
 	);
