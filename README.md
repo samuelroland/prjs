@@ -53,6 +53,7 @@ We use the following Ink extensions
 
 ## Todos
 Still to attribute/think about:
+- [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] !! Improve diffing and errors output
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more

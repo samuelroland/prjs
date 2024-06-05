@@ -20,11 +20,15 @@ export function ExosList({showSearchBar}: ExosListProps) {
 				</Text>
 				<Spacer />
 				<Box flexDirection="row" justifyContent="flex-end">
-					<Text>Search: </Text>
 					<Box width={'50'}>{showSearchBar ? <SearchBar /> : ''}</Box>
 				</Box>
 			</Box>
-			{/* TODO: refactor this list duplication ! */}
+			{/* TODO: refactor this list duplication ! 
+			with a new component StoreList passing as props: emptyError, listIndex, elements (as a ReactNode[])
+			note: elements are rendered here (like files.map(f => <Text>{f.filename}</Text>) ) 
+			so we can customize the rendering of the line, but selection
+			highlighting and error showingj should be managed
+			*/}
 			<Box>
 				<Box flexDirection="column" padding={1}>
 					{store.files.map((f, i) => (
