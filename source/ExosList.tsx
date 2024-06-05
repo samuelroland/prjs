@@ -69,9 +69,9 @@ export function ExosList({showSearchBar}: ExosListProps) {
 					Exos list {idx}
 				</Text>
 				<Spacer />
-				<Box flexDirection="row">
+				<Box flexDirection="row" justifyContent="flex-end">
 					<Text>Search: </Text>
-					{showSearchBar ? <SearchBar /> : ''}
+					<Box width={"50"}>{showSearchBar ? <SearchBar /> : ''}</Box>
 				</Box>
 			</Box>
 			{/* TODO: refactor this list duplication ! */}
