@@ -3,7 +3,7 @@ import {Vitest, startVitest} from 'vitest/node';
 import fs from 'fs';
 import util from 'util';
 import {writableNoopStream} from "noop-stream"
-import type {Exo, ExoFile} from "../types.ts"
+import type {Exo, ExoFile} from "./types.js"
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {

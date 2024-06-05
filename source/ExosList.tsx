@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
-import {Exo, ExoFile, Runner} from './Runner.js';
+import type {Exo, ExoFile} from './types.js';
+import {Runner} from './Runner.js';
 
 import {get} from 'node-emoji';
 export function ExosList({}) {

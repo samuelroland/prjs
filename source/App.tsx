@@ -1,23 +1,24 @@
 import React, {useState} from 'react';
-import {Text, Box, useInput, Key} from 'ink';
+import {Box, useInput, Key} from 'ink';
 import {ExosList} from './ExosList.js';
 import {Header} from './Header.js';
 import {ExoDetails} from './ExoDetails.js';
+import type {Exo} from './types.js';
 
 export default function App({}) {
 	const [mode, setMode] = useState('list');
 
 	// Sample exo object with error details
-	const sampleExo = {
-		title: "hugeArray: get huge array filled with x",
-		state: "fail",
+	const sampleExo: Exo = {
+		title: 'hugeArray: get huge array filled with x',
+		state: 'fail',
 		errors: [
 			{
-				message: "undefined return value",
-				actual: "undefined",
-				expected: "[1, 2, 3, 4, 5]"
-			}
-		]
+				message: 'undefined return value',
+				actual: 'undefined',
+				expected: '[1, 2, 3, 4, 5]',
+			},
+		],
 	};
 
 	useInput((_, key: Key) => {
@@ -38,7 +39,7 @@ export default function App({}) {
 				</Box>
 			) : (
 				<Box flexDirection="column">
-					<ExoDetails exo={{title: "hugeArray: get huge array filled with x", state: "fail", errors: ["undefined return value"]}}></ExoDetails>
+					<ExoDetails exo={sampleExo}></ExoDetails>
 				</Box>
 			)}
 		</Box>
