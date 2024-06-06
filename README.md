@@ -57,16 +57,17 @@ Still to attribute/think about:
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
-- [ ] Properly quit TUI (quit vitest, clean temp files, ...)
 - [ ] !! Implements hints (when exo metadata works)
 - [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Group all constants and magic values (like colors in hexa) in util.ts
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
 - [ ] Pres: Start hacking on slides with [Slidev](https://sli.dev/) in a `presentation` folder, just add a single slides.md with a title (not an entire Slidev setup)
+- [ ] readme: complete TODO about how to use and others
 - [ ] Pres: Define order and strategy of the slides
 - [ ] Pres: Includes required points with graphics
+- [ ] Pres: Create and add architecture schema, include in this readme
 - [ ] Pres: Design the demo
-- [ ] Pres: Attributes talking time
+- [ ] Pres: Attribute talking times
 - [ ] Pres: Pratice it in group 1-2 times
 
 Camille:
@@ -86,11 +87,12 @@ Guilherme:
 
 Samuel:
 - [x] Open a real exo
-- [ ] Show home page like Vim ? -> include ascii art, TUI version, basic shortcuts like help + links to this repos + tagline ...
+- [ ] Properly quit TUI (quit vitest, clean temp files, ...)
+- [x] Show home page like Vim ? -> include ascii art, TUI version, basic shortcuts like help + tagline ...
 - [ ] Fix shortcuts matching issues with shift and ?
 - [ ] Automatic reload of files and exos when vitest runs
 - [x] Show a list of files and exos from Vitest
-- [ ] Should we rename page namings ?
+- [x] Should we rename page namings ?
 - [ ] Translate above text in English
 - [ ] Support running exos in both TS and JS files
 - [ ] Support showing typescript compiler errors ?
@@ -121,3 +123,9 @@ This is a gradient of an ASCII ART. This was generated with the help of [Calligr
 **The architecture**
 
 TODO add schema
+
+**Further development**
+As the goal is to use this tool for the WEB course, it might be improved with the following improvments:
+- Publish it on a public Git repository
+- Release it under a Free software license
+- TODO

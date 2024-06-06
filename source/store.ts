@@ -30,7 +30,8 @@ export type State = {
 };
 
 export type Action = {
-	start(s: Store): void;
+	start(): Promise<void>;
+	stop(): Promise<void>;
 	setPage(page: Page): void;
 	backToPreviousPage(): void;
 	changeIndexInList(offset: number): void;
@@ -72,8 +73,10 @@ const useStore = create<Store>((set: any) => ({
 		this.updateExos();
 	},
 
+	async stop() {
+		return this.runner.stopVitest();
+	},
 	setPage(page: Page) {
-		debug('defined page as ' + page);
 		set((state: Store) => ({page: page, previousPage: state.page}));
 	},
 

@@ -12,7 +12,7 @@ import {useEffect} from 'react';
 export default function App({}) {
 	const store: Store = useStore();
 	useEffect(() => {
-		store.start(store);
+		store.start();
 	}, []);
 
 	listenForShortcuts();

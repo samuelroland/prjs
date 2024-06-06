@@ -1,5 +1,5 @@
 import {File} from 'vitest';
-import {Vitest, startVitest} from 'vitest/node';
+import {Vitest, createVitest, startVitest} from 'vitest/node';
 import {debug} from './util.js';
 import {Exo, ExoFile} from './types.js';
 import {readableNoopStream, writableNoopStream} from 'noop-stream';
@@ -19,16 +19,17 @@ import {readableNoopStream, writableNoopStream} from 'noop-stream';
 export class Runner {
 	vt: Vitest | undefined = undefined;
 	currentFile: string | null;
+	starting: boolean;
 	started: boolean;
 	constructor() {
 		this.currentFile = null;
+		this.starting = false;
 		this.started = false;
 	}
 
 	async startVitest(fn: Function) {
 		try {
-			// TODO: make Vitest unable to print things on stdout... Should we use an empty reporter ?
-
+			this.starting = true;
 			this.vt = await startVitest(
 				'test',
 				undefined,
@@ -38,6 +39,7 @@ export class Runner {
 				},
 				undefined,
 				{
+					// Defines empty readable and writable stream so Vitest does not interfere console output and cannot listen for its own shortcuts
 					// TODO: better like this and TS ignore or with tmp file ?
 					// @ts-ignore
 					stdin: readableNoopStream(),
@@ -48,17 +50,20 @@ export class Runner {
 					stderr: writableNoopStream(),
 				},
 			);
+			this.started = true;
+			this.starting = false;
 			const trytoupdate = () => {
 				debug('on close');
 				fn();
 				debug('store updated ??');
-			};	
+			};
 			this.vt?.runFiles([], true); //todo: really useful
-			this.vt?.runningPromise?.then(() => trytoupdate());
-			this.vt?.closingPromise?.then(() => trytoupdate());
-			this.vt?.onClose(() => trytoupdate());
+			// this.vt?.runningPromise?.then(() => trytoupdate());
+			// this.vt?.closingPromise?.then(() => trytoupdate());
+			// this.vt?.onClose(() => trytoupdate());
 		} catch (error) {
-			debug('error !' + error);
+			this.starting = false;
+			debug('error ! ' + error);
 		}
 	}
 

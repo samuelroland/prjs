@@ -1,15 +1,29 @@
 // Global shortcuts system
-// It enables the definitions of shortcuts for a given page
+// It enables the definitions of shortcuts all or specific pages and document them
+// to easily show a dynamically generated help page
+
 import {Key, useInput} from 'ink';
 import useStore from './store.js';
 import type {Shortcut} from './types.js';
 import {debug} from './util.js';
+import {useApp} from 'ink';
 
 export const shortcuts: Shortcut[] = [
 	{
 		pattern: '?',
 		action: s => s.setPage('help'),
 		description: 'View help page',
+	},
+	{
+		pattern: 'q',
+		action: (store, app) => {
+			if (store.runner.starting) return; //avoid exiting the app during vitest starting because it will never close
+			store.stop().then(() => {
+				debug('store.stop() end');
+				app.exit();
+			});
+		},
+		description: 'Quit the TUI',
 	},
 	{
 		pattern: 'l',
@@ -27,7 +41,6 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'escape',
 		pages: ['train'],
 		action: s => {
-			debug('setpagelist exo escape');
 			s.setPage('list');
 		},
 		description: 'Escape exo details',
@@ -42,7 +55,6 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'return',
 		pages: ['list'],
 		action: s => {
-			debug('setpagelist');
 			s.setPage('train');
 		},
 		description: 'Enter a selected exo',
@@ -76,17 +88,13 @@ export const shortcuts: Shortcut[] = [
 		action: s => s.setSearchBarVisibility(true),
 		description: 'Find exo by title',
 	},
-	{
-		pattern: 'm',
-		action: _ => {
-			debug('hey there shortcut !');
-		},
-		description: 'TMPPPP',
-	},
 ];
 
+// Setup shortcuts detection among the above list, support complex shortcuts with modifiers
+// Note: this is working very strangely for some modifiers
 export function listenForShortcuts() {
 	const store = useStore();
+	const app = useApp();
 
 	useInput((input, key: Key) => {
 		// Build the pattern to support modifiers
@@ -117,7 +125,7 @@ export function listenForShortcuts() {
 		for (const sc of foundShortcuts) {
 			if (!sc.pages || (sc.pages && sc.pages.includes(store.page))) {
 				debug('found action for shortcut: ' + pattern);
-				sc.action(store);
+				sc.action(store, app);
 				return;
 			}
 		}

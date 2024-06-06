@@ -1,3 +1,4 @@
+import { AppProps } from 'ink';
 import {Store} from './store.js';
 
 export type ExoFile = {
@@ -23,6 +24,6 @@ export type Page = 'home' | 'list' | 'train' | 'help';
 export type Shortcut = {
 	pattern: string;
 	pages?: Page[];
-	action: (store: Store) => void;
+	action: (store: Store, app: AppProps) => void;
 	description: string;
 };
