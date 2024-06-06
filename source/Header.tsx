@@ -4,7 +4,7 @@ import path from 'path';
 import {get} from 'node-emoji';
 import Gradient from 'ink-gradient';
 
-export function Header() {
+export default function Header() {
 	return (
 		<Box width="100%">
 			<Gradient colors={['1ABADB', '18E258']}>

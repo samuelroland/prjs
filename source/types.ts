@@ -18,7 +18,7 @@ export type Exo = {
 	errors: Error[];
 };
 
-export type Page = 'list' | 'exo' | 'help';
+export type Page = 'home' | 'list' | 'train' | 'help';
 
 export type Shortcut = {
 	pattern: string;

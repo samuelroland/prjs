@@ -3,7 +3,7 @@ import {Box, Text} from 'ink';
 import {Exo} from './types.js';
 import {get} from 'node-emoji';
 
-export function ExoDetails({exo}: {exo: Exo | null}) {
+export default function ExoDetails({exo}: {exo: Exo | null}) {
 	return (
 		<Box flexDirection="column" padding={1}>
 			{exo ? (
@@ -24,7 +24,7 @@ export function ExoDetails({exo}: {exo: Exo | null}) {
 							</Box>
 						))}
 					</Box>
-				</>	
+				</>
 			) : (
 				<Text color="red" italic>
 					Given exo is null, unable to render.

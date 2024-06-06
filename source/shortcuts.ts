@@ -19,7 +19,7 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'escape',
-		pages: ['exo'],
+		pages: ['train'],
 		action: s => {
 			debug('setpagelist exo escape');
 			s.setPage('list');
@@ -37,7 +37,7 @@ export const shortcuts: Shortcut[] = [
 		pages: ['list'],
 		action: s => {
 			debug('setpagelist');
-			s.setPage('exo');
+			s.setPage('train');
 		},
 		description: 'Enter a selected exo',
 	},

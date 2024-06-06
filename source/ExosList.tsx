@@ -9,7 +9,7 @@ interface ExosListProps {
 	showSearchBar: boolean;
 }
 
-export function ExosList({showSearchBar}: ExosListProps) {
+export default function ExosList({showSearchBar}: ExosListProps) {
 	const store = useStore();
 	const progress = store.getProgress();
 	return (

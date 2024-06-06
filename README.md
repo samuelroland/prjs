@@ -57,6 +57,7 @@ Still to attribute/think about:
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
+- [ ] Properly quit TUI (quit vitest, clean temp files, ...)
 - [ ] !! Implements hints (when exo metadata works)
 - [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
@@ -83,7 +84,8 @@ Guilherme:
 - [ ] !! Fix progress bar hard coded counter with correct total calculation (in store)
 
 Samuel:
-- [ ] Open a real exo
+- [x] Open a real exo
+- [ ] Show home page like Vim ? -> include ascii art, TUI version, basic shortcuts like help + links to this repos + tagline ...
 - [ ] Fix shortcuts matching issues with shift and ?
 - [ ] Automatic reload of files and exos when vitest runs
 - [x] Show a list of files and exos from Vitest

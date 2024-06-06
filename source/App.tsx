@@ -1,8 +1,9 @@
 import React, {ReactNode} from 'react';
 import {Box, Text} from 'ink';
-import {ExosList} from './ExosList.js';
-import {Header} from './Header.js';
-import {ExoDetails} from './ExoDetails.js';
+import ExosList from './ExosList.js';
+import Home from './Home.js';
+import Header from './Header.js';
+import ExoDetails from './ExoDetails.js';
 import Help from './Help.js';
 import useStore, {State, Store} from './store.js';
 import {listenForShortcuts, shortcuts} from './shortcuts.js';
@@ -17,10 +18,11 @@ export default function App({}) {
 	listenForShortcuts();
 
 	const pages = new Map<string, (state: State) => ReactNode>();
+	pages.set('home', () => <Home />);
 	pages.set('list', (state: State) => (
 		<ExosList showSearchBar={state.list.showSearchBar}></ExosList>
 	));
-	pages.set('exo', state => <ExoDetails exo={state.currentExo}></ExoDetails>);
+	pages.set('train', state => <ExoDetails exo={state.currentExo}></ExoDetails>);
 	pages.set('help', () => <Help shortcuts={shortcuts}></Help>);
 
 	const currentPage = pages.get(store.page);
