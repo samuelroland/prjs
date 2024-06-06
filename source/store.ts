@@ -17,7 +17,7 @@ export type State = {
 	page: Page;
 	list: {
 		index: number;
-		selectionIndexes: {[key: number]: number};
+		selectionIndexes: number[];
 		showSearchBar: boolean;
 	};
 	previousPage: Page;
@@ -38,6 +38,7 @@ export type Action = {
 	getProgress(): number;
 	setSearchBarVisibility(visible: boolean): void;
 	updateCurrentExo(): void;
+	updateExos(): void;
 };
 
 export type Store = State & Action;
@@ -49,7 +50,7 @@ const useStore = create<Store>((set: any) => ({
 	previousPage: 'list',
 	list: {
 		index: 0,
-		selectionIndexes: {0: 0, 1: 0},
+		selectionIndexes: [0, 1],
 		showSearchBar: false,
 	},
 	files: [],
@@ -62,15 +63,13 @@ const useStore = create<Store>((set: any) => ({
 	//Actions
 	async start() {
 		this.runner = new Runner();
-		await this.runner.startVitest();
+		await this.runner.startVitest(this.updateExos);
 		log('starting vitest');
 		set({started: true});
 		log('setting files');
 		set({files: this.runner.getFiles()});
 		set({currentFile: this.runner.currentFile});
-		set({
-			exos: this.runner.getCurrentExos(this.runner.getFiles()[0]?.path ?? ''),
-		});
+		this.updateExos();
 	},
 
 	setPage(page: Page) {
@@ -93,8 +92,12 @@ const useStore = create<Store>((set: any) => ({
 
 		list.selectionIndexes[list.index] = final;
 
-		this.updateCurrentExo();
 		set({list: list});
+		if (list.index == 0) {
+			this.updateExos();
+		} else {
+			this.updateCurrentExo();
+		}
 	},
 
 	switchToList(index: number) {
@@ -121,6 +124,24 @@ const useStore = create<Store>((set: any) => ({
 		if (this.exos.length <= index) return;
 
 		set({currentExo: this.exos[index]});
+	},
+
+	updateExos() {
+		const list = this.list;
+		const index: number = list.selectionIndexes[0] ?? 0;
+		if (this.files.length <= index) return;
+
+		set({
+			exos: this.runner.getCurrentExos(
+				this.runner.getFiles()[index]?.path ?? '',
+			),
+			list: {
+				...this.list,
+				// Reset exo indexes
+				selectionIndexes: [this.list.selectionIndexes[0], 0],
+			},
+		});
+		debug('updated exos() !!');
 	},
 }));
 

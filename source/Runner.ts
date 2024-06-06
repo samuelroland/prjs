@@ -1,15 +1,9 @@
 import {File} from 'vitest';
 import {Vitest, startVitest} from 'vitest/node';
+import {debug} from './util.js';
 import fs from 'fs';
-import util from 'util';
-import type {Exo, ExoFile} from "./types.js"
-// import {writableNoopStream} from 'noop-stream';
-
-// TODO: remove this debug function writing to a log file...
-const log = function (d: any) {
-	fs.appendFileSync('debug.log', util.format(d));
-};
-
+import {Exo, ExoFile} from './types.js';
+import {readableNoopStream, writableNoopStream} from 'noop-stream';
 // class ListenRunner extends JsonReporter {
 // 	callme: () => void;
 
@@ -32,7 +26,7 @@ export class Runner {
 		this.started = false;
 	}
 
-	async startVitest() {
+	async startVitest(fn: Function) {
 		try {
 			// TODO: make Vitest unable to print things on stdout... Should we use an empty reporter ?
 
@@ -41,19 +35,31 @@ export class Runner {
 				undefined,
 				{
 					watch: true, //watch mode ON
-					standalone: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
+					changed: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
 				},
 				undefined,
 				{
 					// TODO: better like this and TS ignore or with tmp file ?
-					stdout: fs.createWriteStream('out.tmp'),
-					//TODO: add back this to avoid having a file: writableNoopStream()
-					stderr: fs.createWriteStream('out.tmp'),
+					// @ts-ignore
+					stdin: readableNoopStream(),
+					// TODO: better like this and TS ignore or with tmp file ?
+					// @ts-ignore
+					stdout: writableNoopStream(),
+					// @ts-ignore
+					stderr: writableNoopStream(),
 				},
 			);
-			this.vt?.onClose(() => log('closed vitest...'));
+			const trytoupdate = () => {
+				debug('on close');
+				fn();
+				debug('store updated ??');
+			};	
+			this.vt?.runFiles([], true); //todo: really useful
+			this.vt?.runningPromise?.then(() => trytoupdate());
+			this.vt?.closingPromise?.then(() => trytoupdate());
+			this.vt?.onClose(() => trytoupdate());
 		} catch (error) {
-			log('error !' + error);
+			debug('error !' + error);
 		}
 	}
 
@@ -98,6 +104,8 @@ export class Runner {
 		if (!file) {
 			return [];
 		}
+
+		// file.tasks.map(t => debug(t.result));
 
 		return file.tasks.map(t => ({
 			title: t.name ?? '??',

@@ -53,28 +53,32 @@ We use the following Ink extensions
 
 ## Todos
 Still to attribute/think about:
+- [ ] Fix strange alignement in exos list
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
-- [ ] !! Improve diffing and errors output
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
-- [ ] More: Implements hints showing (when exo metadata works)
+- [ ] !! Implements hints (when exo metadata works)
+- [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
 - [ ] Pres: Start hacking on slides with [Slidev](https://sli.dev/) in a `presentation` folder, just add a single slides.md with a title (not an entire Slidev setup)
 - [ ] Pres: Define order and strategy of the slides
 - [ ] Pres: Includes required points with graphics
 - [ ] Pres: Design the demo
 - [ ] Pres: Attributes talking time
-- [ ] Pres: Try it 1-2 times
+- [ ] Pres: Pratice it in group 1-2 times
 
 Camille:
 - [ ] !! Filter exos with a live text input
 - [ ] !! Switch to next exo with 'n' and to previous with 'p' in exo page
 - [x] Show errors and state of an exo
+- [ ] !! Improve diffing and errors output
 - [ ] Automatically open exo file in VSCode ?
 
 Guilherme:
 - [ ] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
 - [x] Show dynamically generated help page
+- [ ] Refactor progress bar with https://github.com/brigand/ink-progress-bar ? Really need "Progress:"
+- [ ] Show progress bar at the bottom (use flex align items flex-end and direction column)
 - [ ] Enable going up and down if help page is long ??
 - [ ] !! Fix progress bar hard coded counter with correct total calculation (in store)
 
@@ -89,4 +93,6 @@ Samuel:
 - [ ] Support showing typescript compiler errors ?
 - [ ] Refactor colors assignation with some constants in utils.ts
 - [ ] Refactor and enhance the store
-
+- [ ] Refactor the "abstracted" list structure in store ??
+- [ ] Document how to easily write and tests exos and how to publish solutions
+- [ ] Support only expectation callback in exo() helper without anything else
