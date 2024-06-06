@@ -1,7 +1,7 @@
 // Global shortcuts system
 // It enables the definitions of shortcuts for a given page
 import {Key, useInput} from 'ink';
-import useStore, {Store} from './store.js';
+import useStore from './store.js';
 import type {Shortcut} from './types.js';
 import {debug} from './util.js';
 

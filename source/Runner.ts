@@ -1,7 +1,6 @@
 import {File} from 'vitest';
 import {Vitest, startVitest} from 'vitest/node';
 import {debug} from './util.js';
-import fs from 'fs';
 import {Exo, ExoFile} from './types.js';
 import {readableNoopStream, writableNoopStream} from 'noop-stream';
 // class ListenRunner extends JsonReporter {
