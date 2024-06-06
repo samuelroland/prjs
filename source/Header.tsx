@@ -12,7 +12,6 @@ export default function Header() {
 				<Text bold>PRJS</Text>
 			</Gradient>
 			<Spacer></Spacer>
-			<Spacer></Spacer>
 			<Text color="#667275">
 				{get('file_folder')} {path.basename(process.cwd()) + ' '}
 			</Text>

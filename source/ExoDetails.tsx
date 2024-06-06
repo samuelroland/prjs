@@ -5,7 +5,7 @@ import {get} from 'node-emoji';
 
 export default function ExoDetails({exo}: {exo: Exo | null}) {
 	return (
-		<Box flexDirection="column" padding={1}>
+		<Box flexDirection="column">
 			{exo ? (
 				<>
 					<Text color="blue" bold>

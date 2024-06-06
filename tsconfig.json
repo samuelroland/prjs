@@ -3,6 +3,11 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"noUnusedLocals": false,
+		"resolveJsonModule": true,
+		"module": "NodeNext"
 	},
-	"include": ["source"]
+	"include": [
+		"source",
+		"package.json"
+	]
 }

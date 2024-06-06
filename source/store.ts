@@ -77,6 +77,7 @@ const useStore = create<Store>((set: any) => ({
 		return this.runner.stopVitest();
 	},
 	setPage(page: Page) {
+		if (this.page === page) return; //do not reassign the current page because we will lose the previousPage otherwise
 		set((state: Store) => ({page: page, previousPage: state.page}));
 	},
 

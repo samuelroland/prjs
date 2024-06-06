@@ -87,8 +87,9 @@ Guilherme:
 
 Samuel:
 - [x] Open a real exo
-- [ ] Properly quit TUI (quit vitest, clean temp files, ...)
+- [x] Properly quit TUI (quit vitest, clean temp files, ...)
 - [x] Show home page like Vim ? -> include ascii art, TUI version, basic shortcuts like help + tagline ...
+- [x] Show real version number in Home page
 - [ ] Fix shortcuts matching issues with shift and ?
 - [ ] Automatic reload of files and exos when vitest runs
 - [x] Show a list of files and exos from Vitest

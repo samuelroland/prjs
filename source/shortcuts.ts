@@ -92,6 +92,9 @@ export const shortcuts: Shortcut[] = [
 
 // Setup shortcuts detection among the above list, support complex shortcuts with modifiers
 // Note: this is working very strangely for some modifiers
+// Note: the shift modifier is completly ignored because is incorrectly detected, any keyboard including it in the pattern will be ignored.
+// Complex keyboard shortcuts like ctrl+alt+a have not been tested and the order of modifiers maybe not checked in the correct order...
+
 export function listenForShortcuts() {
 	const store = useStore();
 	const app = useApp();
@@ -103,10 +106,13 @@ export function listenForShortcuts() {
 		// with a modifier (escape, ctrl, shift, ...), a '+'
 		let pattern = input.trim();
 		if (pattern.length > 2) return; //this is probably pasted text not a keyboard shortcut
+		debug('input=: ' + pattern);
+
 		for (const modifier of Object.keys(key)) {
 			// @ts-ignore
 			if (key[modifier] === true) {
-				if (modifier == 'shift') return; //we have a mysterious shift modifier enabled even if it is not
+				if (modifier == 'shift') continue; //we have a mysterious shift modifier enabled for all non alphabetic key...
+				debug('modifier: ' + modifier + ' is true');
 				pattern = modifier + (pattern.length == 0 ? '' : '+') + pattern;
 				debug('pattern ' + pattern);
 				break;
@@ -116,9 +122,12 @@ export function listenForShortcuts() {
 		// Disable all shortcuts (except escape) when search bar is enabled
 		if (store.list.showSearchBar && pattern != 'escape') return;
 
-		debug('managing shortcut: ' + pattern);
+		debug('final shortcut pattern: ' + pattern);
 		const foundShortcuts = shortcuts.filter(sc => sc.pattern === pattern);
-		if (foundShortcuts.length == 0) return;
+		if (foundShortcuts.length == 0) {
+			debug('no shortcut found...');
+			return;
+		}
 
 		// Loop over all found shortcuts, if no pages constraint are given, the first one is ran
 		// if some pages constraint exists make sure to apply it

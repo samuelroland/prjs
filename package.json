@@ -1,7 +1,7 @@
 {
 	"name": "prjs",
 	"version": "0.0.1",
-	"bin": "dist/CLI.js",
+	"bin": "dist/source/CLI.js",
 	"type": "module",
 	"engines": {
 		"node": ">=16"
