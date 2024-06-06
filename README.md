@@ -60,6 +60,7 @@ Still to attribute/think about:
 - [ ] Properly quit TUI (quit vitest, clean temp files, ...)
 - [ ] !! Implements hints (when exo metadata works)
 - [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
+- [ ] Group all constants and magic values (like colors in hexa) in util.ts
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
 - [ ] Pres: Start hacking on slides with [Slidev](https://sli.dev/) in a `presentation` folder, just add a single slides.md with a title (not an entire Slidev setup)
 - [ ] Pres: Define order and strategy of the slides
@@ -98,3 +99,25 @@ Samuel:
 - [ ] Refactor the "abstracted" list structure in store ??
 - [ ] Document how to easily write and tests exos and how to publish solutions
 - [ ] Support only expectation callback in exo() helper without anything else
+
+## How to use
+TODO
+
+## Development documentation
+
+**The logo**  
+This is a gradient of an ASCII ART. This was generated with the help of [Calligraphy](https://calligraphy.geopjr.dev/) with the font `Blocky`. The gradient is shown with ink-gradient and consists of these 2 colors: `#1ABADB`, `#18E258` applied to this text piece:
+
+```
+████████  ████████        ██  ██████  
+██     ██ ██     ██       ██ ██    ██ 
+██     ██ ██     ██       ██ ██       
+████████  ████████        ██  ██████  
+██        ██   ██   ██    ██       ██ 
+██        ██    ██  ██    ██ ██    ██ 
+██        ██     ██  ██████   ██████  
+```
+
+**The architecture**
+
+TODO add schema

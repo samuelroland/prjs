@@ -46,7 +46,7 @@ export type Store = State & Action;
 // Create your store, which includes both state and (optionally) actions
 const useStore = create<Store>((set: any) => ({
 	//Global state
-	page: 'list',
+	page: 'home',
 	previousPage: 'list',
 	list: {
 		index: 0,
@@ -95,9 +95,8 @@ const useStore = create<Store>((set: any) => ({
 		set({list: list});
 		if (list.index == 0) {
 			this.updateExos();
-		} else {
-			this.updateCurrentExo();
 		}
+		this.updateCurrentExo();
 	},
 
 	switchToList(index: number) {
@@ -105,6 +104,7 @@ const useStore = create<Store>((set: any) => ({
 		set((store: Store) => {
 			return {list: {...store.list, index: index}};
 		});
+		this.updateCurrentExo();
 	},
 
 	getProgress() {

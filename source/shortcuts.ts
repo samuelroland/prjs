@@ -12,6 +12,12 @@ export const shortcuts: Shortcut[] = [
 		description: 'View help page',
 	},
 	{
+		pattern: 'l',
+		pages: ['home'],
+		action: s => s.setPage('list'),
+		description: 'View list page',
+	},
+	{
 		pattern: 'escape',
 		pages: ['list'],
 		action: s => s.setSearchBarVisibility(false),
