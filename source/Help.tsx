@@ -9,7 +9,7 @@ export default function Help({shortcuts}: {shortcuts: Shortcut[]}) {
 	return (
 		<Box flexDirection="column">
 			<Text color="green" bold>
-				Help
+				Shortcuts
 			</Text>
 			{shortcuts.map((shortcut, index) => (
 				<Text key={index}>

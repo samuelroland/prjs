@@ -22,8 +22,9 @@ export type Exo = {
 export type Page = 'home' | 'list' | 'train' | 'help';
 
 export type Shortcut = {
-	pattern: string;
-	pages?: Page[];
-	action: (store: Store, app: AppProps) => void;
-	description: string;
+	pattern: string; //shorcut pattern like 't' or 'ctrl+t'
+	alt?: string; //alternative shortcut (q -> ctrl+c)
+	pages?: Page[]; //the pages where the shortcut is available, default: all
+	action: (store: Store, app: AppProps) => void; //the action to execute
+	description: string; //description for the help page
 };

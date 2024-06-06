@@ -55,6 +55,7 @@ We use the following Ink extensions
 Still to attribute/think about:
 - [ ] Fix strange alignement in exos list
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
+- [ ] Show Vitest errors and exceptions
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
 - [ ] !! Implements hints (when exo metadata works)
@@ -125,8 +126,11 @@ This is a gradient of an ASCII ART. This was generated with the help of [Calligr
 
 TODO add schema
 
+
 **Further development**
 As the goal is to use this tool for the WEB course, it might be improved with the following improvments:
 - Publish it on a public Git repository
 - Release it under a Free software license
 - TODO
+
+TODO: it will not exist if vitest is starting...

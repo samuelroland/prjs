@@ -2,8 +2,8 @@
 // It enables the definitions of shortcuts all or specific pages and document them
 // to easily show a dynamically generated help page
 
-import {Key, useInput} from 'ink';
-import useStore from './store.js';
+import {AppProps, Key, useInput} from 'ink';
+import useStore, {Store} from './store.js';
 import type {Shortcut} from './types.js';
 import {debug} from './util.js';
 import {useApp} from 'ink';
@@ -16,13 +16,8 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'q',
-		action: (store, app) => {
-			if (store.runner.starting) return; //avoid exiting the app during vitest starting because it will never close
-			store.stop().then(() => {
-				debug('store.stop() end');
-				app.exit();
-			});
-		},
+		alt: 'ctrl+c',
+		action: properExit,
 		description: 'Quit the TUI',
 	},
 	{
@@ -85,6 +80,7 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'f',
+		pages: ['list'],
 		action: s => s.setSearchBarVisibility(true),
 		description: 'Find exo by title',
 	},
@@ -123,7 +119,9 @@ export function listenForShortcuts() {
 		if (store.list.showSearchBar && pattern != 'escape') return;
 
 		debug('final shortcut pattern: ' + pattern);
-		const foundShortcuts = shortcuts.filter(sc => sc.pattern === pattern);
+		const foundShortcuts = shortcuts.filter(
+			sc => sc.pattern === pattern || sc.alt === pattern,
+		);
 		if (foundShortcuts.length == 0) {
 			debug('no shortcut found...');
 			return;
@@ -138,5 +136,15 @@ export function listenForShortcuts() {
 				return;
 			}
 		}
+	});
+}
+
+// Handle exit properly by stopping Vitest instance and calling app.exit() so the full screen mode can exit normally
+// More on https://github.com/DaniGuardiola/fullscreen-ink/tree/main?tab=readme-ov-file#exiting-the-app
+function properExit(store: Store, app: AppProps) {
+	if (store.runner.starting) return; //avoid exiting the app during vitest starting because it will never close
+	store.stop().then(() => {
+		debug('store.stop() end');
+		app.exit();
 	});
 }
