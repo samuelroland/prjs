@@ -1,0 +1,24 @@
+#slideshow {
+	background-color: #191919;
+height: 100%;
+position: relative;
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		background: #1abadb;
+		background: linear-gradient(to right, #1abadb 0%, #18e258 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		width: max-content;
+	}
+
+	.slidev-layout.default {
+		padding: 1em;
+	}
+
+	p:has(img) {
+		margin: 0px;
+	}
+}
