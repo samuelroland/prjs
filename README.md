@@ -81,7 +81,6 @@ Camille:
 Guilherme:
 - [ ] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
 - [x] Show dynamically generated help page
-- [ ] Refactor progress bar with https://github.com/brigand/ink-progress-bar ? Really need "Progress:"
 - [ ] Show progress bar at the bottom (use flex align items flex-end and direction column)
 - [ ] Enable going up and down if help page is long ??
 - [ ] !! Fix progress bar hard coded counter with correct total calculation (in store)
