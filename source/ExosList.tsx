@@ -12,6 +12,8 @@ interface ExosListProps {
 export default function ExosList({showSearchBar}: ExosListProps) {
 	const store = useStore();
 	const progress = store.getProgress();
+	const filteredExos = store.filteredExos;
+
 	return (
 		<>
 			<Box flexDirection="row" alignItems="center">
@@ -23,9 +25,9 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 					<Box width={'50'}>{showSearchBar ? <SearchBar /> : ''}</Box>
 				</Box>
 			</Box>
-			{/* TODO: refactor this list duplication ! 
+			{/* TODO: refactor this list duplication !
 			with a new component StoreList passing as props: emptyError, listIndex, elements (as a ReactNode[])
-			note: elements are rendered here (like files.map(f => <Text>{f.filename}</Text>) ) 
+			note: elements are rendered here (like files.map(f => <Text>{f.filename}</Text>) )
 			so we can customize the rendering of the line, but selection
 			highlighting and error showingj should be managed
 			*/}
@@ -57,23 +59,23 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 					)}
 				</Box>
 				<Box flexDirection="column" padding={1}>
-					{store.exos.map((e, i) => (
-						<Text
-							key={e.title}
-							backgroundColor={
-								store.list.index == 1 &&
-								store.list.selectionIndexes[store.list.index] == i
-									? '#0befae'
-									: ''
-							}
-							color={
-								store.list.index == 1 &&
-								store.list.selectionIndexes[store.list.index] == i
-									? 'black'
-									: ''
-							}
-							wrap="truncate-end"
-						>
+                    {filteredExos.map((e, i) => (
+                        <Text
+                            key={e.title}
+                            backgroundColor={
+                                store.list.index == 1 &&
+                                store.list.selectionIndexes[store.list.index] == i
+                                    ? '#0befae'
+                                    : ''
+                            }
+                            color={
+                                store.list.index == 1 &&
+                                store.list.selectionIndexes[store.list.index] == i
+                                    ? 'black'
+                                    : ''
+                            }
+                            wrap="truncate-end"
+                        >
 							{i + 1}. {get(e.state == 'pass' ? 'white_check_mark' : 'x')}
 							{e.title}
 						</Text>

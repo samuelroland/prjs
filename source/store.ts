@@ -23,6 +23,7 @@ export type State = {
 	previousPage: Page;
 	files: ExoFile[];
 	currentFile: string | null;
+	filteredExos: Exo[],
 	exos: Exo[];
 	currentExo: Exo | null;
 	runner: Runner;
@@ -40,12 +41,13 @@ export type Action = {
 	setSearchBarVisibility(visible: boolean): void;
 	updateCurrentExo(): void;
 	updateExos(): void;
+	updateSearchFilter(filter: string): void;
 };
 
 export type Store = State & Action;
 
 // Create your store, which includes both state and (optionally) actions
-const useStore = create<Store>((set: any) => ({
+const useStore = create<Store>((set: any, get: any) => ({
 	//Global state
 	page: 'home',
 	previousPage: 'list',
@@ -56,6 +58,7 @@ const useStore = create<Store>((set: any) => ({
 	},
 	files: [],
 	currentFile: null,
+	filteredExos: [],
 	exos: [],
 	currentExo: null,
 	runner: new Runner(),
@@ -126,27 +129,49 @@ const useStore = create<Store>((set: any) => ({
 		const list = this.list;
 		const index: number = list.selectionIndexes[list.index] ?? 0;
 		if (this.exos.length <= index) return;
+		if (this.filteredExos.length <= index) return;
 
 		set({currentExo: this.exos[index]});
 	},
 
 	updateExos() {
-		const list = this.list;
-		const index: number = list.selectionIndexes[0] ?? 0;
-		if (this.files.length <= index) return;
+        const list = this.list;
+        const index: number = list.selectionIndexes[0] ?? 0;
+        if (this.files.length <= index) return;
 
-		set({
-			exos: this.runner.getCurrentExos(
-				this.runner.getFiles()[index]?.path ?? '',
-			),
-			list: {
-				...this.list,
-				// Reset exo indexes
-				selectionIndexes: [this.list.selectionIndexes[0], 0],
-			},
-		});
-		debug('updated exos() !!');
-	},
+        const exos = this.runner.getCurrentExos(
+            this.runner.getFiles()[index]?.path ?? ''
+        );
+
+        set((state: Store) => ({
+            exos,
+            filteredExos: exos,
+            list: {
+                ...state.list,
+                selectionIndexes: [state.list.selectionIndexes[0], 0],
+            },
+        }));
+        debug('updated exos() !!');
+    },
+
+	updateSearchFilter(filter: string) {
+        const { exos } = get();
+        if (!exos) {
+            return;
+        }
+
+        const filteredExos = exos.filter((exo: Exo) =>
+            exo.title.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        set((state: Store) => ({
+            filteredExos,
+            list: {
+                ...state.list,
+                selectionIndexes: [0, 0],
+            },
+        }));
+    },
 }));
 
 export default useStore;
