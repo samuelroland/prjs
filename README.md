@@ -81,9 +81,9 @@ Camille:
 Guilherme:
 - [ ] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
 - [x] Show dynamically generated help page
-- [ ] Show progress bar at the bottom (use flex align items flex-end and direction column)
+- [x] Show progress bar at the bottom (use flex align items flex-end and direction column)
 - [ ] Enable going up and down if help page is long ??
-- [ ] !! Fix progress bar hard coded counter with correct total calculation (in store)
+- [x] !! Fix progress bar hard coded counter with correct total calculation (in store)
 
 Samuel:
 - [x] Open a real exo

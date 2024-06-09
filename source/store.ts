@@ -116,10 +116,11 @@ const useStore = create<Store>((set: any, get: any) => ({
 	},
 
 	getProgress() {
-		// const totalExos = exos.length;
-		// const passedExos = exos.filter(e => e.state === 'pass').length;
-		// const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
-		return 24;
+		const allExos = this.runner.getAllExos();
+		const totalExos = allExos.length;
+		const passedExos = allExos.filter((exo:Exo) => exo.state === 'pass').length;
+		const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
+		return progress;
 	},
 
 	setSearchBarVisibility(visible: boolean) {

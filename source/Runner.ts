@@ -123,4 +123,8 @@ export class Runner {
 				})) ?? [],
 		}));
 	}
+
+	getAllExos(): Exo[] {
+        return this.vt?.state.getFiles().flatMap(file => this.getCurrentExos(file.filepath)) ?? [];
+    }
 }
