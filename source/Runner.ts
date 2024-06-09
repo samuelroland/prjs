@@ -119,6 +119,7 @@ export class Runner {
 					message: e.message,
 					actual: e.actual,
 					expected: e.expected,
+					diff: e.diff,
 				})) ?? [],
 		}));
 	}

@@ -3,9 +3,19 @@ import {Box, Text } from 'ink';
 import {Exo} from './types.js';
 import {get} from 'node-emoji';
 import useStore from './store.js';
+import { diffWords, Change } from 'diff';
 
 export default function ExoDetails({exo}: {exo: Exo | null}) {
 	const changeExoInList = useStore((state) => state.changeExoInList);
+
+	const renderDiff = (actual: string, expected: string) => {
+        const differences: Change[] = diffWords(actual, expected);
+        return differences.map((part: Change, index: number) => {
+            const color = part.added ? 'green' :
+                          part.removed ? 'red' : 'white';
+            return <Text key={index} color={color}>{part.value}</Text>;
+        });
+    };
 
 	return (
 		<Box flexDirection="column">
@@ -23,6 +33,9 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 								</Text>
 								<Text>
 									Expected result: <Text color="green">{error.expected}</Text>
+								</Text>
+								<Text>
+									Diff: {renderDiff(error.actual, error.expected)}
 								</Text>
 							</Box>
 						))}

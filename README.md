@@ -75,7 +75,7 @@ Camille:
 - [x] !! Filter exos with a live text input
 - [x] !! Switch to next exo with 'n' and to previous with 'p' in exo page
 - [x] Show errors and state of an exo
-- [ ] !! Improve diffing and errors output
+- [x] !! Improve diffing and errors output
 - [ ] Automatically open exo file in VSCode ?
 
 Guilherme:

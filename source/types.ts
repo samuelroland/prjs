@@ -11,6 +11,7 @@ export type Error = {
 	message: string;
 	actual: string;
 	expected: any;
+	diff: any;
 };
 
 export type Exo = {
