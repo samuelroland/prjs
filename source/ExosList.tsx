@@ -31,60 +31,62 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 			so we can customize the rendering of the line, but selection
 			highlighting and error showingj should be managed
 			*/}
-			<Box>
-				<Box flexDirection="column" padding={1}>
-					{store.files.map((f, i) => (
-						<Text
-							key={f.path}
-							backgroundColor={
-								store.list.index == 0 &&
-								store.list.selectionIndexes[store.list.index] == i
-									? '#0befae'
-									: ''
-							}
-							color={
-								store.list.index == 0 &&
-								store.list.selectionIndexes[store.list.index] == i
-									? 'black'
-									: ''
-							}
-							wrap="truncate-end"
-						>
-							{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
-							{f.filename}
-						</Text>
-					))}
-					{store.files.length == 0 && (
-						<Text color={'red'}>No test found in this folder...</Text>
-					)}
+			<Box display="flex" flexDirection="column">
+				<Box>
+					<Box flexDirection="column" padding={1}>
+						{store.files.map((f, i) => (
+							<Text
+								key={f.path}
+								backgroundColor={
+									store.list.index == 0 &&
+									store.list.selectionIndexes[store.list.index] == i
+										? '#0befae'
+										: ''
+								}
+								color={
+									store.list.index == 0 &&
+									store.list.selectionIndexes[store.list.index] == i
+										? 'black'
+										: ''
+								}
+								wrap="truncate-end"
+							>
+								{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
+								{f.filename}
+							</Text>
+						))}
+						{store.files.length == 0 && (
+							<Text color={'red'}>No test found in this folder...</Text>
+						)}
+					</Box>
+					<Box flexDirection="column" padding={1}>
+						{filteredExos.map((e, i) => (
+							<Text
+								key={e.title}
+								backgroundColor={
+									store.list.index == 1 &&
+									store.list.selectionIndexes[store.list.index] == i
+										? '#0befae'
+										: ''
+								}
+								color={
+									store.list.index == 1 &&
+									store.list.selectionIndexes[store.list.index] == i
+										? 'black'
+										: ''
+								}
+								wrap="truncate-end"
+							>
+								{i + 1}. {get(e.state == 'pass' ? 'white_check_mark' : 'x')}
+								{e.title}
+							</Text>
+						))}
+					</Box>
 				</Box>
-				<Box flexDirection="column" padding={1}>
-                    {filteredExos.map((e, i) => (
-                        <Text
-                            key={e.title}
-                            backgroundColor={
-                                store.list.index == 1 &&
-                                store.list.selectionIndexes[store.list.index] == i
-                                    ? '#0befae'
-                                    : ''
-                            }
-                            color={
-                                store.list.index == 1 &&
-                                store.list.selectionIndexes[store.list.index] == i
-                                    ? 'black'
-                                    : ''
-                            }
-                            wrap="truncate-end"
-                        >
-							{i + 1}. {get(e.state == 'pass' ? 'white_check_mark' : 'x')}
-							{e.title}
-						</Text>
-					))}
+				<Box marginTop={1} >
+					<Text>Progress: </Text>
+					<ProgressBar percent={progress} />
 				</Box>
-			</Box>
-			<Box marginTop={1}>
-				<Text>Progress: </Text>
-				<ProgressBar percent={progress} />
 			</Box>
 		</>
 	);
