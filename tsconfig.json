@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"noUnusedLocals": false,
+		"noUnusedParameters": false,
 		"resolveJsonModule": true,
 		"module": "NodeNext"
 	},
