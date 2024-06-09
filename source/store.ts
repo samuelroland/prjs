@@ -169,11 +169,12 @@ const useStore = create<Store>((set: any, get: any) => ({
             filteredExos,
             list: {
                 ...state.list,
-                selectionIndexes: [0, 0],
+                selectionIndexes: [state.list.selectionIndexes[0], 0],
             },
         }));
     },
-	
+
+	// TODO code duplicate refactor ?
 	changeExoInList(offset: number) {
         const { filteredExos, currentExo } = get();
         if (!currentExo) return;

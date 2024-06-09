@@ -140,7 +140,7 @@ export function listenForShortcuts() {
 		}
 
 		// Disable all shortcuts (except escape) when search bar is enabled
-		if (store.list.showSearchBar && pattern != 'escape') return;
+		if (store.list.showSearchBar && !['escape', 'return'].includes(pattern)) return;
 
 		debug('final shortcut pattern: ' + pattern);
 		const foundShortcuts = shortcuts.filter(

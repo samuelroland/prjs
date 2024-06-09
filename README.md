@@ -73,7 +73,7 @@ Still to attribute/think about:
 
 Camille:
 - [ ] !! Filter exos with a live text input
-- [ ] !! Switch to next exo with 'n' and to previous with 'p' in exo page
+- [x] !! Switch to next exo with 'n' and to previous with 'p' in exo page
 - [x] Show errors and state of an exo
 - [ ] !! Improve diffing and errors output
 - [ ] Automatically open exo file in VSCode ?
@@ -108,7 +108,7 @@ TODO
 
 ## Development documentation
 
-**The logo**  
+**The logo**
 This is a gradient of an ASCII ART. This was generated with the help of [Calligraphy](https://calligraphy.geopjr.dev/) with the font `Blocky`. The gradient is shown with ink-gradient and consists of these 2 colors: `#1ABADB`, `#18E258` applied to this text piece:
 
 ```

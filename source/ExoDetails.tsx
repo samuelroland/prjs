@@ -1,20 +1,11 @@
 import React from 'react';
-import {Box, Text, useInput } from 'ink';
+import {Box, Text } from 'ink';
 import {Exo} from './types.js';
 import {get} from 'node-emoji';
 import useStore from './store.js';
 
 export default function ExoDetails({exo}: {exo: Exo | null}) {
 	const changeExoInList = useStore((state) => state.changeExoInList);
-
-    useInput((input, key) => {
-        if (input === 'n') {
-            changeExoInList(1);
-        }
-        if (input === 'p') {
-            changeExoInList(-1);
-        }
-    });
 
 	return (
 		<Box flexDirection="column">
