@@ -48,13 +48,21 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'return',
+		pages: ['list'],
+		action: s => {
+			if (!s.list.showSearchBar) {
+				s.setPage('train');
+			}
+		},
+		description: 'Enter a selected exo',
+	},
+	{
+		pattern: 'return',
         pages: ['list'],
         action: s => {
             if (s.list.showSearchBar) {
                 s.setSearchBarVisibility(false);
-            } else {
-                s.setPage('train');
-            }
+			}
         },
         description: 'Enter a selected exo',
 	},
@@ -88,6 +96,18 @@ export const shortcuts: Shortcut[] = [
 		action: s => s.setSearchBarVisibility(true),
 		description: 'Find exo by title',
 	},
+	{
+        pattern: 'n',
+        pages: ['train'],
+        action: s => s.changeExoInList(1),
+        description: 'Next exo',
+    },
+    {
+        pattern: 'p',
+        pages: ['train'],
+        action: s => s.changeExoInList(-1),
+        description: 'Previous exo',
+    },
 ];
 
 // Setup shortcuts detection among the above list, support complex shortcuts with modifiers

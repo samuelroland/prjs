@@ -42,6 +42,7 @@ export type Action = {
 	updateCurrentExo(): void;
 	updateExos(): void;
 	updateSearchFilter(filter: string): void;
+	changeExoInList(offset: number): void;
 };
 
 export type Store = State & Action;
@@ -171,6 +172,18 @@ const useStore = create<Store>((set: any, get: any) => ({
                 selectionIndexes: [0, 0],
             },
         }));
+    },
+	
+	changeExoInList(offset: number) {
+        const { filteredExos, currentExo } = get();
+        if (!currentExo) return;
+
+        const currentIndex = filteredExos.findIndex((exo: Exo) => exo.title === currentExo.title);
+        const newIndex = currentIndex + offset;
+
+        if (newIndex < 0 || newIndex >= filteredExos.length) return;
+
+        set({ currentExo: filteredExos[newIndex] });
     },
 }));
 
