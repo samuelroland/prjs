@@ -5,7 +5,10 @@ import useStore from './store.js';
 
 export function SearchBar({}) {
 	const [input, setInput] = useState('');
-	const updateSearchFilter = useStore((state) => state.updateSearchFilter);
+	const updateSearchFilter = useStore(state => state.updateSearchFilter);
+	const setSearchBarVisibility = useStore(
+		state => state.setSearchBarVisibility,
+	);
 
 	// TODO: import the store, create and call a method updateSearchFilter() on change
 	// store the filter in the store so we can reuse it when coming back on list
@@ -15,19 +18,24 @@ export function SearchBar({}) {
 	// TODO: the goal is to have a live update like Vitest does
 
 	useEffect(() => {
-        if (updateSearchFilter) {
-            updateSearchFilter(input);
-        }
-    }, [input, updateSearchFilter]);
+		if (updateSearchFilter) {
+			updateSearchFilter(input);
+		}
+	}, [input, updateSearchFilter]);
 
-    return (
-        <Box flexDirection="row">
-            <Text>Search: </Text>
-            <TextInput
-                value={input}
-                onChange={setInput}
-                placeholder="Enter a search keyword"
-            />
-        </Box>
-    );
+	const handleSubmit = () => {
+		setSearchBarVisibility(false);
+	};
+
+	return (
+		<Box flexDirection="row">
+			<Text>Search: </Text>
+			<TextInput
+				value={input}
+				onChange={setInput}
+				placeholder="Enter a search keyword"
+				onSubmit={handleSubmit}
+			/>
+		</Box>
+	);
 }

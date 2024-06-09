@@ -72,7 +72,7 @@ Still to attribute/think about:
 - [ ] Pres: Pratice it in group 1-2 times
 
 Camille:
-- [ ] !! Filter exos with a live text input
+- [x] !! Filter exos with a live text input
 - [x] !! Switch to next exo with 'n' and to previous with 'p' in exo page
 - [x] Show errors and state of an exo
 - [ ] !! Improve diffing and errors output
