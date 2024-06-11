@@ -162,9 +162,9 @@ const useStore = create<Store>((set: any, get: any) => ({
     },
 
 	updateSearchFilter(filter: string) {
-		set((store: Store) => ({
+		set((state: Store) => ({
             list: {
-                ...store.list,
+                ...state.list,
 				search: filter,
             },
         }));

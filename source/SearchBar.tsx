@@ -4,7 +4,8 @@ import TextInput from 'ink-text-input';
 import useStore from './store.js';
 
 export function SearchBar({}) {
-	const [input, setInput] = useState('');
+	const search = useStore(state => state.list.search);
+	const [input, setInput] = useState(search);
 	const updateSearchFilter = useStore(state => state.updateSearchFilter);
 	const setSearchBarVisibility = useStore(
 		state => state.setSearchBarVisibility,
