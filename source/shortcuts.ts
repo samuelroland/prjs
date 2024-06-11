@@ -58,13 +58,9 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'return',
-        pages: ['list'],
-        action: s => {
-            if (s.list.showSearchBar) {
-                s.setSearchBarVisibility(false);
-			}
-        },
-        description: 'Enter a selected exo',
+		pages: ['list'],
+		action: s => s.setSearchBarVisibility(false),
+		description: 'Escape search bar',
 	},
 	{
 		pattern: 'j',

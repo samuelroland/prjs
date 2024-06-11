@@ -123,9 +123,11 @@ const useStore = create<Store>((set: any, get: any) => ({
 		return progress;
 	},
 
-	setSearchBarVisibility(visible: boolean) {
-		set({list: {...this.list, showSearchBar: visible}});
+	setSearchBarVisibility: (visible: boolean) => {
+		let list = get().list;
+		set({ list: { ...list, showSearchBar: visible } });
 	},
+
 
 	updateCurrentExo() {
 		const list = this.list;
