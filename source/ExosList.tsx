@@ -34,7 +34,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 			so we can customize the rendering of the line, but selection
 			highlighting and error showingj should be managed
 			*/}
-			<Box display="flex" flexDirection="column">
+			<Box display="flex" height="100%" flexDirection="column">
 				<Box>
 					<Box flexDirection="column" padding={1}>
 						{store.getAllFiles().map((f, i) => (
@@ -82,6 +82,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 						))}
 					</Box>
 				</Box>
+				<Spacer />
 				<Box marginTop={1}>
 					<Text>Progress: </Text>
 					<ProgressBar percent={progress} />

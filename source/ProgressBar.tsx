@@ -17,8 +17,8 @@ export default function ProgressBar({percent}: ProgressBarProps) {
 
 	return (
 		<Box>
-			<Text backgroundColor="green">{' '.repeat(filledWidth)}</Text>
-			<Text backgroundColor="grey">{' '.repeat(emptyWidth)}</Text>
+			<Text color="green">{'>'.repeat(filledWidth)}</Text>
+			<Text color="grey">{'>'.repeat(emptyWidth)}</Text>
 			<Text> {percent.toFixed(2)}%</Text>
 		</Box>
 	);
