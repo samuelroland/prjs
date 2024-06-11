@@ -17,6 +17,7 @@ export type Error = {
 export type Exo = {
 	title: string;
 	state: string;
+	uid: string;
 	errors: Error[];
 };
 

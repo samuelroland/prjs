@@ -30,9 +30,9 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'escape',
 		pages: ['list'],
 		action: s => {
-			 s.setSearchBarVisibility(false);
-			 s.updateSearchFilter('');
-			},
+			s.setSearchBarVisibility(false);
+			s.updateSearchFilter('');
+		},
 		description: 'Escape search bar',
 	},
 	{
@@ -53,7 +53,7 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'return',
 		pages: ['list'],
 		action: s => {
-			if (!s.list.showSearchBar) {
+			if (!s.showSearchBar) {
 				s.setPage('train');
 			}
 		},
@@ -63,18 +63,18 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'return',
 		pages: ['list'],
 		action: s => s.setSearchBarVisibility(false),
-        description: 'Validate search',
+		description: 'Validate search',
 	},
 	{
 		pattern: 'j',
 		pages: ['list'],
-		action: s => s.changeIndexInList(1),
+		action: s => s.changeSelectionInCurrentList(1),
 		description: 'Next item',
 	},
 	{
 		pattern: 'k',
 		pages: ['list'],
-		action: s => s.changeIndexInList(-1),
+		action: s => s.changeSelectionInCurrentList(-1),
 		description: 'Previous item',
 	},
 	{
@@ -96,17 +96,17 @@ export const shortcuts: Shortcut[] = [
 		description: 'Find exo by title',
 	},
 	{
-        pattern: 'n',
-        pages: ['train'],
-        action: s => s.changeExoInList(1),
-        description: 'Next exo',
-    },
-    {
-        pattern: 'p',
-        pages: ['train'],
-        action: s => s.changeExoInList(-1),
-        description: 'Previous exo',
-    },
+		pattern: 'n',
+		pages: ['train'],
+		action: s => s.changeSelectionInCurrentList(1),
+		description: 'Next exo',
+	},
+	{
+		pattern: 'p',
+		pages: ['train'],
+		action: s => s.changeSelectionInCurrentList(-1),
+		description: 'Previous exo',
+	},
 ];
 
 // Setup shortcuts detection among the above list, support complex shortcuts with modifiers
@@ -125,28 +125,29 @@ export function listenForShortcuts() {
 		// with a modifier (escape, ctrl, shift, ...), a '+'
 		let pattern = input.trim();
 		if (pattern.length > 2) return; //this is probably pasted text not a keyboard shortcut
-		debug('input=: ' + pattern);
+		// debug('input=: ' + pattern);
 
 		for (const modifier of Object.keys(key)) {
 			// @ts-ignore
 			if (key[modifier] === true) {
 				if (modifier == 'shift') continue; //we have a mysterious shift modifier enabled for all non alphabetic key...
-				debug('modifier: ' + modifier + ' is true');
+				// debug('modifier: ' + modifier + ' is true');
 				pattern = modifier + (pattern.length == 0 ? '' : '+') + pattern;
-				debug('pattern ' + pattern);
+				// debug('pattern ' + pattern);
 				break;
 			}
 		}
 
 		// Disable all shortcuts (except escape) when search bar is enabled
-		if (store.list.showSearchBar && !['escape', 'return'].includes(pattern)) return;
+		if (store.showSearchBar && !['escape', 'return'].includes(pattern))
+			return;
 
-		debug('final shortcut pattern: ' + pattern);
+		// debug('final shortcut pattern: ' + pattern);
 		const foundShortcuts = shortcuts.filter(
 			sc => sc.pattern === pattern || sc.alt === pattern,
 		);
 		if (foundShortcuts.length == 0) {
-			debug('no shortcut found...');
+			// debug('no shortcut found...');
 			return;
 		}
 
@@ -154,7 +155,7 @@ export function listenForShortcuts() {
 		// if some pages constraint exists make sure to apply it
 		for (const sc of foundShortcuts) {
 			if (!sc.pages || (sc.pages && sc.pages.includes(store.page))) {
-				debug('found action for shortcut: ' + pattern);
+				// debug('found action for shortcut: ' + pattern);
 				sc.action(store, app);
 				return;
 			}

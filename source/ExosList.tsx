@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Spacer, Text} from 'ink';
 import ProgressBar from './ProgressBar.js';
 import {get} from 'node-emoji';
 import {SearchBar} from './SearchBar.js';
 import useStore from './store.js';
+import {debug} from './util.js';
 
 interface ExosListProps {
 	showSearchBar: boolean;
@@ -11,14 +12,16 @@ interface ExosListProps {
 
 export default function ExosList({showSearchBar}: ExosListProps) {
 	const store = useStore();
-	const progress = store.getProgress();
-	const filteredExos = store.filteredExos;
 
+	const progress = store.getProgress();
+	const times = useStore(s => s.reloadTimes);
+
+	debug('rendered exoslist !');
 	return (
 		<>
 			<Box flexDirection="row" alignItems="center">
 				<Text color="green" bold>
-					Exos list
+					Exos list {times}
 				</Text>
 				<Spacer />
 				<Box flexDirection="row" justifyContent="flex-end">
@@ -34,18 +37,16 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 			<Box display="flex" flexDirection="column">
 				<Box>
 					<Box flexDirection="column" padding={1}>
-						{store.files.map((f, i) => (
+						{store.getAllFiles().map((f, i) => (
 							<Text
 								key={f.path}
 								backgroundColor={
-									store.list.index == 0 &&
-									store.list.selectionIndexes[store.list.index] == i
+									store.listNumber == 0 && store.currentFileIndex == i
 										? '#0befae'
 										: ''
 								}
 								color={
-									store.list.index == 0 &&
-									store.list.selectionIndexes[store.list.index] == i
+									store.listNumber == 0 && store.currentFileIndex == i
 										? 'black'
 										: ''
 								}
@@ -55,23 +56,21 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 								{f.filename}
 							</Text>
 						))}
-						{store.files.length == 0 && (
+						{store.getAllFiles().length == 0 && (
 							<Text color={'red'}>No test found in this folder...</Text>
 						)}
 					</Box>
 					<Box flexDirection="column" padding={1}>
-						{filteredExos.map((e, i) => (
+						{store.getFilteredExos().map((e, i) => (
 							<Text
-								key={e.title}
+								key={e.uid}
 								backgroundColor={
-									store.list.index == 1 &&
-									store.list.selectionIndexes[store.list.index] == i
+									store.listNumber == 1 && store.currentExoIndex == i
 										? '#0befae'
 										: ''
 								}
 								color={
-									store.list.index == 1 &&
-									store.list.selectionIndexes[store.list.index] == i
+									store.listNumber == 1 && store.currentExoIndex == i
 										? 'black'
 										: ''
 								}
@@ -83,7 +82,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 						))}
 					</Box>
 				</Box>
-				<Box marginTop={1} >
+				<Box marginTop={1}>
 					<Text>Progress: </Text>
 					<ProgressBar percent={progress} />
 				</Box>

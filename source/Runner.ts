@@ -3,31 +3,18 @@ import {Vitest, createVitest, startVitest} from 'vitest/node';
 import {debug} from './util.js';
 import {Exo, ExoFile} from './types.js';
 import {readableNoopStream, writableNoopStream} from 'noop-stream';
-// class ListenRunner extends JsonReporter {
-// 	callme: () => void;
-
-// 	constructor(callme: () => void) {
-// 		super({})
-// 		this.callme = callme
-// 	}
-// 	override onFinished(_?: File[] | undefined): Promise<void> {
-// 		this.callme()
-// 		return Promise.resolve()
-// 	}
-// }
-
+import fs from 'fs';
 export class Runner {
 	vt: Vitest | undefined = undefined;
-	currentFile: string | null;
 	starting: boolean;
 	started: boolean;
+
 	constructor() {
-		this.currentFile = null;
 		this.starting = false;
 		this.started = false;
 	}
 
-	async startVitest(fn: Function) {
+	async startVitest() {
 		try {
 			this.starting = true;
 			this.vt = await startVitest(
@@ -45,33 +32,31 @@ export class Runner {
 					stdin: readableNoopStream(),
 					// TODO: better like this and TS ignore or with tmp file ?
 					// @ts-ignore
-					stdout: writableNoopStream(),
+					// stdout: writableNoopStream(),
+					stdout: fs.createWriteStream('out.tmp'),
 					// @ts-ignore
-					stderr: writableNoopStream(),
+					// stderr: writableNoopStream(),
+					stderr: fs.createWriteStream('out2.tmp'),
 				},
 			);
 			this.started = true;
 			this.starting = false;
-			const trytoupdate = () => {
-				debug('on close');
-				fn();
-				debug('store updated ??');
-			};
-			this.vt?.runFiles([], true); //todo: really useful
-			// this.vt?.runningPromise?.then(() => trytoupdate());
-			// this.vt?.closingPromise?.then(() => trytoupdate());
-			// this.vt?.onClose(() => trytoupdate());
 		} catch (error) {
 			this.starting = false;
 			debug('error ! ' + error);
 		}
 	}
 
-	async stopVitest() {
+	async stopVitest(): Promise<void> {
 		return this.vt?.close();
 	}
 
-	getFiles(): ExoFile[] {
+	async runAll() {
+		debug('running all !');
+		return this.vt?.rerunFiles();
+	}
+
+	getAllFiles(): ExoFile[] {
 		return (
 			this.vt?.state
 				.getFiles()
@@ -86,34 +71,20 @@ export class Runner {
 		);
 	}
 
-	getGivenFile(givenPath: string): File | undefined {
+	private getGivenFile(givenPath: string): File | undefined {
 		return this.vt?.state.getFiles().find(f => f.filepath === givenPath);
 	}
 
-	setCurrentFile(givenFile: string): boolean {
-		if (!this.getGivenFile(givenFile)) return false;
+	getExosInFile(filepath: string | null): Exo[] {
+		if (!filepath) return [];
 
-		this.currentFile = givenFile;
-		return true;
-	}
-
-	async runCurrentFile() {
-		if (this.currentFile) {
-			await this.vt?.rerunFiles([this.currentFile]);
-		}
-	}
-
-	getCurrentExos(filepath: string): Exo[] {
 		const file = this.getGivenFile(filepath);
-		if (!file) {
-			return [];
-		}
-
-		// file.tasks.map(t => debug(t.result));
+		if (!file) return [];
 
 		return file.tasks.map(t => ({
 			title: t.name ?? '??',
 			state: t.result?.state ?? 'unknown',
+			uid: t.id,
 			errors:
 				t.result?.errors?.map(e => ({
 					message: e.message,
@@ -125,6 +96,10 @@ export class Runner {
 	}
 
 	getAllExos(): Exo[] {
-        return this.vt?.state.getFiles().flatMap(file => this.getCurrentExos(file.filepath)) ?? [];
-    }
+		return (
+			this.vt?.state
+				.getFiles()
+				.flatMap(file => this.getExosInFile(file.filepath)) ?? []
+		);
+	}
 }

@@ -4,85 +4,138 @@
 import {create} from 'zustand';
 import {Exo, ExoFile, Page} from './types.js';
 import {Runner} from './Runner.js';
-import fs from 'fs';
-import util from 'util';
 import {debug} from './util.js';
-import { search } from 'node-emoji';
+import chokidar from 'chokidar';
 
-// TODO: remove this debug function writing to a log file...
-const log = function (d: any) {
-	fs.appendFileSync('debug.log', util.format(d) + '\n');
-};
-
-export type State = {
+type State = {
+	// Routing system
 	page: Page;
-	list: {
-		index: number;
-		selectionIndexes: number[];
-		showSearchBar: boolean;
-		search: string;
-	};
 	previousPage: Page;
-	files: ExoFile[];
-	currentFile: string | null;
-	filteredExos: Exo[],
-	exos: Exo[];
-	currentExo: Exo | null;
+
+	// Selection of list and elements
+	listNumber: number; //number of the list (among all list from left to right)
+	currentExoIndex: number;	//todo: should we switch to exo uid defined by Vitest ?
+	currentFileIndex: number;
+
+	// Search system
+	showSearchBar: boolean;
+	search: string;
+
+	// Runner and watcher related
 	runner: Runner;
 	started: boolean;
+	watcher: chokidar.FSWatcher | null;
+	reloadTimes: number;
 };
 
-export type Action = {
+type Action = {
+	// Getters
+	getProgress(): number;
+	getCurrentExo(): Exo | null;
+	getCurrentFile(): ExoFile | null;
+	getAllFiles(): ExoFile[];
+	getFilteredExos(): Exo[];
+
+	// Actions
 	start(): Promise<void>;
-	stop(): Promise<void>;
+	stop(): Promise<any>;
+	startWatcher(): void;
 	setPage(page: Page): void;
 	backToPreviousPage(): void;
-	changeIndexInList(offset: number): void;
+	changeSelectionInCurrentList(offset: number): void;
 	switchToList(index: number): void;
-	getProgress(): number;
 	setSearchBarVisibility(visible: boolean): void;
-	updateCurrentExo(): void;
-	updateExos(): void;
 	updateSearchFilter(filter: string): void;
-	changeExoInList(offset: number): void;
 };
 
 export type Store = State & Action;
 
-// Create your store, which includes both state and (optionally) actions
+// The global store of our app
 const useStore = create<Store>((set: any, get: any) => ({
-	//Global state
+	//Default values
 	page: 'home',
-	previousPage: 'list',
-	list: {
-		index: 0,
-		selectionIndexes: [0, 1],
-		showSearchBar: false,
-		search: '',
-	},
-	files: [],
-	currentFile: null,
-	filteredExos: [],
-	exos: [],
-	currentExo: null,
+	previousPage: 'home',
+	listNumber: 0,
+	currentExoIndex: 0,
+	currentFileIndex: 0,
+	showSearchBar: false,
+	search: '',
 	runner: new Runner(),
 	started: false,
+	watcher: null,
+	reloadTimes: 0,
 
-	//Actions
+	// GETTERS (without any side effects)
+	// Get the global progress in percentage of passed exos among all exos
+	getProgress() {
+		const allExos = this.runner.getAllExos();
+		const passedExosLength = allExos.filter(
+			(exo: Exo) => exo.state === 'pass',
+		).length;
+		return allExos.length > 0 ? (passedExosLength / allExos.length) * 100 : 0;
+	},
+
+	// Get current file selected via currentExoIndex
+	getCurrentExo() {
+		const exos = this.getFilteredExos();
+		const index = this.currentExoIndex;
+		if (index >= exos.length) return null;
+		return exos[index] ?? null;
+	},
+
+	// Get current file selected via currentFileIndex
+	getCurrentFile() {
+		const files = this.getAllFiles();
+		const index = this.currentFileIndex;
+		if (index >= files.length) return null;
+		return files[index] ?? null;
+	},
+
+	// Get all files detected by Vitest
+	getAllFiles() {
+		return this.runner.getAllFiles();
+	},
+
+	// Get filtered exos of the current file
+	getFilteredExos() {
+		const search = this.search.trim().toLowerCase();
+		const exos = this.runner.getExosInFile(this.getCurrentFile()?.path ?? null);
+
+		if (search.length == 0) return exos;
+
+		return exos.filter((exo: Exo) => exo.title.toLowerCase().includes(search));
+	},
+
+	// ACTIONS
 	async start() {
 		this.runner = new Runner();
-		await this.runner.startVitest(this.updateExos);
-		log('starting vitest');
+		await this.runner.startVitest();
+		debug('starting vitest');
 		set({started: true});
-		log('setting files');
-		set({files: this.runner.getFiles()});
-		set({currentFile: this.runner.currentFile});
-		this.updateExos();
+		debug('setting files');
+		this.startWatcher();
 	},
 
 	async stop() {
-		return this.runner.stopVitest();
+		return Promise.all([this.watcher?.close(), this.runner.stopVitest()]);
 	},
+
+	startWatcher() {
+		const updateit = async (event: any, path: string) => {
+			if (!path.endsWith('.js')) return;
+			debug('watcher: ' + path);
+			await this.runner.runAll();
+			set({reloadTimes: this.reloadTimes + 1});
+			debug('runned tests !');
+			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
+		};
+		this.watcher = chokidar
+			.watch('.', {ignored: '.git/**|.vite/**|**.log|**.tmp'})
+			.on('all', updateit);
+
+		debug('registered watcher !');
+	},
+
 	setPage(page: Page) {
 		if (this.page === page) return; //do not reassign the current page because we will lose the previousPage otherwise
 		set((state: Store) => ({page: page, previousPage: state.page}));
@@ -92,113 +145,44 @@ const useStore = create<Store>((set: any, get: any) => ({
 		this.setPage(this.previousPage);
 	},
 
-	// Change the selected index in files or exos list with given offset
-	changeIndexInList(offset: number) {
-		const list = this.list;
-		const current: number = list.selectionIndexes[list.index] ?? 0;
-		const max: number = list.index == 0 ? this.files.length : this.exos.length;
-		const final = offset + current;
-
-		if (final >= max || final < 0) return;
-
-		list.selectionIndexes[list.index] = final;
-
-		set({list: list});
-		if (list.index == 0) {
-			this.updateExos();
+	// Change the selected index in current list (files or exos) list with given offset
+	changeSelectionInCurrentList(offset: number) {
+		let newIndex;
+		switch (this.listNumber) {
+			case 0:
+				newIndex = this.currentFileIndex + offset;
+				if (newIndex >= 0 && newIndex < this.getAllFiles().length) {
+					set({currentFileIndex: newIndex});
+				}
+				break;
+			case 1:
+				newIndex = this.currentExoIndex + offset;
+				if (newIndex >= 0 && newIndex < this.getFilteredExos().length) {
+					set({currentExoIndex: newIndex});
+				}
+				break;
 		}
-		this.updateCurrentExo();
 	},
 
 	switchToList(index: number) {
 		if (index > 1 || index < 0) return;
 		set((store: Store) => {
-			return {list: {...store.list, index: index}};
+			return {listNumber: index};
 		});
-		this.updateCurrentExo();
-	},
-
-	getProgress() {
-		const allExos = this.runner.getAllExos();
-		const totalExos = allExos.length;
-		const passedExos = allExos.filter((exo:Exo) => exo.state === 'pass').length;
-		const progress = totalExos > 0 ? (passedExos / totalExos) * 100 : 0;
-		return progress;
 	},
 
 	setSearchBarVisibility: (visible: boolean) => {
 		let list = get().list;
-		set({ list: { ...list, showSearchBar: visible } });
+		set({list: {...list, showSearchBar: visible}});
 	},
-
-
-	updateCurrentExo() {
-		const list = this.list;
-		const index: number = list.selectionIndexes[list.index] ?? 0;
-		if (this.exos.length <= index) return;
-		if (this.filteredExos.length <= index) return;
-
-		set({currentExo: this.exos[index]});
-	},
-
-	updateExos() {
-        const list = this.list;
-        const index: number = list.selectionIndexes[0] ?? 0;
-        if (this.files.length <= index) return;
-
-        const exos = this.runner.getCurrentExos(
-            this.runner.getFiles()[index]?.path ?? ''
-        );
-
-        set((state: Store) => ({
-            exos,
-            filteredExos: exos,
-            list: {
-                ...state.list,
-                selectionIndexes: [state.list.selectionIndexes[0], 0],
-            },
-        }));
-        debug('updated exos() !!');
-    },
 
 	updateSearchFilter(filter: string) {
-		set((state: Store) => ({
-            list: {
-                ...state.list,
-				search: filter,
-            },
-        }));
-
-		const { exos } = get();
-        if (!exos) {
-            return;
-        }
-
-        const filteredExos = exos.filter((exo: Exo) =>
-            exo.title.toLowerCase().includes(filter.toLowerCase())
-        );
-
-        set((state: Store) => ({
-            filteredExos,
-            list: {
-                ...state.list,
-                selectionIndexes: [state.list.selectionIndexes[0], 0],
-            },
-        }));
-    },
-
-	// TODO code duplicate refactor ?
-	changeExoInList(offset: number) {
-        const { filteredExos, currentExo } = get();
-        if (!currentExo) return;
-
-        const currentIndex = filteredExos.findIndex((exo: Exo) => exo.title === currentExo.title);
-        const newIndex = currentIndex + offset;
-
-        if (newIndex < 0 || newIndex >= filteredExos.length) return;
-
-        set({ currentExo: filteredExos[newIndex] });
-    },
+		set({
+			search: filter.trim(), //persist new filter
+			//reset index of the second list
+			currentExoIndex: 0,
+		});
+	},
 }));
 
 export default useStore;
