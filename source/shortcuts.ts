@@ -29,7 +29,10 @@ export const shortcuts: Shortcut[] = [
 	{
 		pattern: 'escape',
 		pages: ['list'],
-		action: s => s.setSearchBarVisibility(false),
+		action: s => {
+			 s.setSearchBarVisibility(false);
+			 s.updateSearchFilter('');
+			},
 		description: 'Escape search bar',
 	},
 	{

@@ -7,6 +7,7 @@ import {Runner} from './Runner.js';
 import fs from 'fs';
 import util from 'util';
 import {debug} from './util.js';
+import { search } from 'node-emoji';
 
 // TODO: remove this debug function writing to a log file...
 const log = function (d: any) {
@@ -19,6 +20,7 @@ export type State = {
 		index: number;
 		selectionIndexes: number[];
 		showSearchBar: boolean;
+		search: string;
 	};
 	previousPage: Page;
 	files: ExoFile[];
@@ -56,6 +58,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 		index: 0,
 		selectionIndexes: [0, 1],
 		showSearchBar: false,
+		search: '',
 	},
 	files: [],
 	currentFile: null,
@@ -159,7 +162,14 @@ const useStore = create<Store>((set: any, get: any) => ({
     },
 
 	updateSearchFilter(filter: string) {
-        const { exos } = get();
+		set((store: Store) => ({
+            list: {
+                ...store.list,
+				search: filter,
+            },
+        }));
+
+		const { exos } = get();
         if (!exos) {
             return;
         }
