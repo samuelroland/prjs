@@ -63,7 +63,7 @@ export const shortcuts: Shortcut[] = [
 		pattern: 'return',
 		pages: ['list'],
 		action: s => s.setSearchBarVisibility(false),
-		description: 'Escape search bar',
+        description: 'Validate search',
 	},
 	{
 		pattern: 'j',
