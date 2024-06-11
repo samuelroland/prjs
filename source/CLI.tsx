@@ -6,22 +6,21 @@ import {withFullScreen} from 'fullscreen-ink';
 import Help from './Help.js';
 import {render, Text, Box} from 'ink';
 import {shortcuts} from './shortcuts.js';
+import {DEFINITION, NAME, SUBDEF} from './util.js';
 
-const CLI_NAME = 'PRJS';
-const INTRO = CLI_NAME + ' - Practice Runner for JavaScript';
+const INTRO = NAME + ' - ' + DEFINITION;
 
 const cli = meow(
 	INTRO +
 		// TODO: refactor those constants in util.ts
-		'\nRun small JS exos in your terminal with instant feedback loop\n' +
+		'\n' +
+		SUBDEF +
+		'\n' +
 		'\nUsage' +
 		'\n$ prjs' +
 		'\n\nOptions' +
 		'\n -v, --version: Show version' +
 		'\n -h, --help: Show this help',
-	// Examples
-	//   $ prjs --name=Jane
-	//   Hello, Jane
 
 	// Supported flags
 	{
@@ -37,7 +36,7 @@ const cli = meow(
 
 // Redefine version display to include CLI name
 cli.showVersion = () => {
-	console.log(CLI_NAME + ': v' + cli.pkg.version);
+	console.log(NAME + ': v' + cli.pkg.version);
 };
 
 if (cli.flags.help) {
@@ -52,5 +51,8 @@ if (cli.flags.help) {
 	);
 } else {
 	// Start TUI in fullscreen mode, or output other information and quit
+	// We don't want to exit on Ctrl+C because we want to manage exit ourself via our shortcut
 	withFullScreen(<App />, {exitOnCtrlC: false}).start();
+	// Note: to easily runtime errors and their stack traces, use this line instead
+	// render(<App />, {exitOnCtrlC: false});
 }

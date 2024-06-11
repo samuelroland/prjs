@@ -1,7 +1,7 @@
 import {Box, Text, Newline} from 'ink';
 import Gradient from 'ink-gradient';
 import React from 'react';
-import {LOGO_COLORS, ASCII_ART} from './util.js';
+import {LOGO_COLORS, ASCII_ART, DEFINITION, SUBDEF} from './util.js';
 import {debug} from './util.js';
 import fs from 'fs';
 
@@ -36,14 +36,14 @@ export default function Home() {
 			>
 				<Box>
 					<Gradient colors={LOGO_COLORS}>
-						<Text bold>Practice Runner for JavaScript</Text>
+						<Text bold>{DEFINITION}</Text>
 					</Gradient>
 					<Text> - </Text>
 					<Text color={LOGO_COLORS[0]}>{prjsVersion}</Text>
 				</Box>
 				<Newline></Newline>
 				<Gradient colors={LOGO_COLORS}>
-					<Text>Run small JS exos in your terminal with instant feedback</Text>
+					<Text>{SUBDEF}</Text>
 				</Gradient>
 				<Gradient colors={LOGO_COLORS}>
 					<Text> and delightful errors printing</Text>
