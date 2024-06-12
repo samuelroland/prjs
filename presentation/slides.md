@@ -14,7 +14,34 @@ layout: none
 
 ### Technologies
 
-<!-- Include logos of React, TS, Ink, zustand -->
+1. React
+1. TypeScript
+1. Ink
+1. Zustand
+```jsx
+<Box width="100%">
+	<Text bold>PRJS</Text>
+	<Spacer></Spacer>
+	<Text backgroundColor="gray">Current folder</Text>
+	<Newline></Newline>
+</Box>
+```
+
+```js
+const useStore = create<Store>((set: any) => ({
+	page: 'home',
+	previousPage: 'home',
+	getAllPagesInUppercase() {
+		return [this.page, this.previousPage].map(p => p.toUpperCase())
+	},
+	setPage(page: Page) {
+		set((state: Store) => ({page: page, previousPage: state.page}));
+	}
+)}
+
+const store = useStore();
+store.getAllPagesInUppercase()
+```
 
 ---
 
@@ -23,25 +50,111 @@ layout: none
 <!-- Do and include schema -->
 ---
 
-### Exo abstraction
-- todo: example of 2 duplicated tests
-
----
-
 ### Challenges
+<v-clicks>
 - No hot reload mode in Ink
 - Bad errors display
 - No easy way to debug other than writing to a file
 - Test system
-- Hard to be averted when on test update, had to reimplement watch mode
-- exo abstraction
+- Watch mode rabbit hole
+- zustand `set()` not correctly typed...
+</v-clicks>
+
+
+---
+
+### Watch mode trials
+
+```js
+listenForChanges(fn: Function) {
+	if (!this.vt) return;
+	this.vt?.runningPromise?.then(async () => {
+		while (true) {
+			if (this.vt?.runningPromise) {
+				await this.vt?.runningPromise;
+				fn();
+				setTimeout(() => this.listenForChanges(fn), 1);
+			}
+		}
+	});
+}
+```
+
+----
+### Watch mode trials - 2
+
+```js
+runner: new URL('run.js', import.meta.url).toString(),
+```
+
+```js
+class ListenRunner extends JsonReporter {
+	callme: () => void;
+	constructor(callme: () => void) {
+		super({})
+		this.callme = callme
+	}
+	override onFinished(_?: File[] | undefined): Promise<void> {
+		this.callme()
+		return Promise.resolve()
+	}
+}
+```
+
+### Watch mode trials - 3
+
+```js
+export default class CustomRunner extends VitestTestRunner {
+	override onAfterRunFiles(): void {
+		debug('got changes !');
+		debug('memory id' + useStore.getState().list.selectionIndexes[0]);
+		useStore.getState().updateExos();
+		debug('ran fn()');
+	}
+}
+
+export default class CustomReporter extends BasicReporter {
+	constructor() {
+		super();
+	}
+	override onTaskUpdate(_: TaskResultPack[]): void {
+		debug('got changes !');
+		debug('memory id' + useStore.getState().list.selectionIndexes[0]);
+		useStore.getState().updateExos();
+		debug('ran fn()');
+	}
+}
+```
+
+### Watch mode - working !
+```js
+const update = async (event: any, path: string) => {
+	if (!path.endsWith('.js')) return;
+	await this.runner.runAll();
+	set({reloadTimes: this.reloadTimes + 1});
+};
+this.watcher = chokidar.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|**.log|**.tmp'})
+	.on('all', update);
+```
+
+---
+
+### Debugging
+
+![debug-terminal.png](imgs/debug-terminal.png)
+
+---
 
 ### Fun moments
+<v-clicks>
 - ASCII art
-- So easy to deal with colors even with Gradient
+- Live search filter
+- Easy to deal with colors and gradient
 - A lot of nice plugins
-- A watch mode working very well - instant reload with native diff
-
+- Native diff from Vitest
+- Exo metadata
+- Watch mode fast and satisfaying
+</v-clicks>
 
 ---
 layout: center
@@ -54,6 +167,6 @@ layout: center
 ---
 
 ### What's next ?
-1. Support of TS
-1. Adding hints and instruction
+1. Adding hints
 1. Publishing a NPM package to easily import helper.ts
+1. Fixing a few rendering issues
