@@ -83,9 +83,9 @@ export class Runner {
 			state: t.result?.state ?? 'unknown',
 			uid: t.id,
 			// @ts-ignore
-			functionName: t.meta.exo.functionName,
+			functionName: t.meta.exo.functionName ?? '?',
 			// @ts-ignore
-			instruction: t.meta.exo.instruction,
+			instruction: t.meta.exo.instruction ?? null,
 			// @ts-ignore
 			tests: t.meta.exo.tests,
 			errors:
