@@ -98,12 +98,18 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	// Get filtered exos of the current file
 	getFilteredExos() {
-		const search = this.search.trim().toLowerCase();
-		const exos = this.runner.getExosInFile(this.getCurrentFile()?.path ?? null);
-
-		if (search.length == 0) return exos;
-
-		return exos.filter((exo: Exo) => exo.title.toLowerCase().includes(search));
+		debug('running getFilteredExos');
+		const given = this.search.trim().toLowerCase();
+		const exos: Exo[] = this.runner.getExosInFile(
+			this.getCurrentFile()?.path ?? null,
+		);
+		debug('in total' + exos.length + ' exos !');
+		if (given.length == 0) return exos;
+		const filtered = exos.filter((exo: Exo) =>
+			exo.title.toLowerCase().includes(given),
+		);
+		debug('and filtered = ' + exos.length + ' exos !');
+		return filtered;
 	},
 
 	// ACTIONS
@@ -154,6 +160,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 				if (newIndex >= 0 && newIndex < this.getAllFiles().length) {
 					set({currentFileIndex: newIndex});
 				}
+				set({search: ''})	//reset search
 				break;
 			case 1:
 				newIndex = this.currentExoIndex + offset;
@@ -165,23 +172,25 @@ const useStore = create<Store>((set: any, get: any) => ({
 	},
 
 	switchToList(index: number) {
-		if (index > 1 || index < 0) return;
-		set((store: Store) => {
-			return {listNumber: index};
-		});
+		if (index > 1 || index < 0 || index == this.listNumber) return;
+		set({listNumber: index});
 	},
 
-	setSearchBarVisibility: (visible: boolean) => {
-		let list = get().list;
-		set({list: {...list, showSearchBar: visible}});
+	setSearchBarVisibility(visible: boolean): void {
+		set({showSearchBar: visible});
 	},
 
 	updateSearchFilter(filter: string) {
-		set({
-			search: filter.trim(), //persist new filter
-			//reset index of the second list
-			currentExoIndex: 0,
+		debug('updatedsarchfilter: ' + filter);
+		set((s: Store) => {
+			return {
+				search: filter.trim(), //persist new filter
+				//reset index of the second list
+				currentExoIndex: 0,
+			};
 		});
+
+		debug('updatedsarchfilter result: ' + this.search);
 	},
 }));
 

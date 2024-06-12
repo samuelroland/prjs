@@ -4,20 +4,17 @@ import TextInput from 'ink-text-input';
 import useStore from './store.js';
 
 export function SearchBar({}) {
+	const store = useStore();
 	const search = useStore(state => state.search);
-	const [input, setInput] = useState(search);
-	const updateSearchFilter = useStore(state => state.updateSearchFilter);
-	const setSearchBarVisibility = useStore(
-		state => state.setSearchBarVisibility,
-	);
+
 	return (
 		<Box flexDirection="row">
 			<Text>Search: </Text>
 			<TextInput
-				value={input}
-				onChange={setInput}
+				value={search}
+				onChange={a => store.updateSearchFilter(a)}
 				placeholder="Enter a search keyword"
-				onSubmit={() => setSearchBarVisibility(false)}
+				onSubmit={() => store.setSearchBarVisibility(false)}
 			/>
 		</Box>
 	);
