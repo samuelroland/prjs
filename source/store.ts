@@ -122,7 +122,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 	},
 
 	startWatcher() {
-		const updateit = async (event: any, path: string) => {
+		const update = async (event: any, path: string) => {
 			if (!path.endsWith('.js')) return;
 			debug('watcher: ' + path);
 			await this.runner.runAll();
@@ -131,8 +131,8 @@ const useStore = create<Store>((set: any, get: any) => ({
 			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};
 		this.watcher = chokidar
-			.watch('.', {ignored: '.git/**|.vite/**|**.log|**.tmp'})
-			.on('all', updateit);
+			.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|**.log|**.tmp'})
+			.on('all', update);
 
 		debug('registered watcher !');
 	},

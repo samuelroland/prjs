@@ -1,9 +1,8 @@
 import {File} from 'vitest';
-import {Vitest, createVitest, startVitest} from 'vitest/node';
+import {Vitest, startVitest} from 'vitest/node';
 import {debug} from './util.js';
 import {Exo, ExoFile} from './types.js';
 import {readableNoopStream, writableNoopStream} from 'noop-stream';
-import fs from 'fs';
 export class Runner {
 	vt: Vitest | undefined = undefined;
 	starting: boolean;
@@ -21,22 +20,20 @@ export class Runner {
 				'test',
 				undefined,
 				{
-					watch: true, //watch mode ON
+					watch: true, //watch mode ON (unnecessary but it doesn't find tests otherwise)
 					changed: true, //do not exit when no tests are found so we can display an error and not just exit the whole process
 				},
 				undefined,
 				{
 					// Defines empty readable and writable stream so Vitest does not interfere console output and cannot listen for its own shortcuts
-					// TODO: better like this and TS ignore or with tmp file ?
 					// @ts-ignore
 					stdin: readableNoopStream(),
-					// TODO: better like this and TS ignore or with tmp file ?
 					// @ts-ignore
-					// stdout: writableNoopStream(),
-					stdout: fs.createWriteStream('out.tmp'),
+					stdout: writableNoopStream(),
+					// stdout: fs.createWriteStream('out.tmp'),
 					// @ts-ignore
-					// stderr: writableNoopStream(),
-					stderr: fs.createWriteStream('out2.tmp'),
+					stderr: writableNoopStream(),
+					// stderr: fs.createWriteStream('out2.tmp'),
 				},
 			);
 			this.started = true;

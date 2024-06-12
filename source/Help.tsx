@@ -35,8 +35,6 @@ const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 };
 
 export default function Help({shortcuts}: {shortcuts: Shortcut[]}) {
-	// TODO: categorize shortcuts in 4 categories (pages): all, help, list, exo and show them one section after the other
-	// without code duplication
 	// TODO: show the list as arrays (without any border), the first column is the pattern (in color), second is the description. To show arrays easily, search for a table plugin...
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 

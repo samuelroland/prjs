@@ -12,7 +12,6 @@ const INTRO = NAME + ' - ' + DEFINITION;
 
 const cli = meow(
 	INTRO +
-		// TODO: refactor those constants in util.ts
 		'\n' +
 		SUBDEF +
 		'\n' +
