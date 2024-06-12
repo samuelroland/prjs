@@ -1,6 +1,6 @@
 # PRJS - Practice Runner for JavaScript
 
-> Run small JS exos in your terminal with instant feedback loop and delightful errors printing
+> Run small JS exos in your terminal with instant feedback loop
 
 ![gradient](gradient_banner.png)
 
@@ -38,6 +38,54 @@ prjs
 
 If the command is still not found, try reloading your terminal or make sure the global bin folder is in your PATH...
 
+If you type `?` or you run `prjs -h` you can get the list of shortcuts
+```
+PRJS - Practice Runner for JavaScript
+Run small JS exos in your terminal with instant feedback
+
+Usage
+$ prjs
+
+Options
+-v, --version: Show version
+-h, --help: Show this help
+
+
+Home Shortcuts
+l View list page
+
+List Shortcuts
+escape Escape search bar
+return Enter a selected exo
+return Validate search
+j Next item
+k Previous item
+h Switch to files list
+l Switch to exos list
+f Find exo by title
+
+Help Shortcuts
+escape Escape help page
+
+Train Shortcuts
+escape Escape exo details
+n Next exo
+p Previous exo
+
+All Shortcuts
+? View help page
+q, ctrl+c Quit the TUI
+```
+
+Here is an example repository where you can try it
+```sh
+git clone https://github.com/samuelroland/WEB-training
+cd WEB-training
+npm i
+prjs
+```
+Note: for some unknown reason, Vitest ^1.6.0 need to be installed in the training repository too...
+
 ### Development
 In addition to the global installation documented above, you need to enable a continuous build to make sure Typescript files and React components are built and updated in the `dist` folder at each code change. Just run this command:
 ```bash
@@ -45,11 +93,12 @@ npm run dev
 ```
 
 ## About
-### Extensions
+<!-- ### Extensions
 We use the following Ink extensions
 1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
 1. [gradient-ink]: to easily show gradients on texts
-
+TODO: finish this list
+ -->
 
 ## Todos
 Still to attribute/think about:
@@ -62,7 +111,7 @@ Still to attribute/think about:
 - [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Group all constants and magic values (like colors in hexa) in util.ts
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
-- [ ] Pres: Start hacking on slides with [Slidev](https://sli.dev/) in a `presentation` folder, just add a single slides.md with a title (not an entire Slidev setup)
+- [ ] Support running exos in both TS and JS files
 - [ ] readme: complete TODO about how to use and others
 - [ ] Pres: Define order and strategy of the slides
 - [ ] Pres: Includes required points with graphics
@@ -70,19 +119,20 @@ Still to attribute/think about:
 - [ ] Pres: Design the demo
 - [ ] Pres: Attribute talking times
 - [ ] Pres: Pratice it in group 1-2 times
+- [ ] Automatically open exo file in VSCode ?
+- [ ] Enable going up and down if help page is long ??
+- [ ] Fix shortcuts matching issues with shift and ?
 
 Camille:
 - [x] !! Filter exos with a live text input
 - [x] !! Switch to next exo with 'n' and to previous with 'p' in exo page
 - [x] Show errors and state of an exo
 - [x] !! Improve diffing and errors output
-- [ ] Automatically open exo file in VSCode ?
 
 Guilherme:
-- [ ] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
+- [x] Organise shortcuts on help page by categories (separate by page (see Shortcut.pages): all, help, list, then exo specifics)
 - [x] Show dynamically generated help page
 - [x] Show progress bar at the bottom (use flex align items flex-end and direction column)
-- [ ] Enable going up and down if help page is long ??
 - [x] !! Fix progress bar hard coded counter with correct total calculation (in store)
 
 Samuel:
@@ -90,21 +140,22 @@ Samuel:
 - [x] Properly quit TUI (quit vitest, clean temp files, ...)
 - [x] Show home page like Vim ? -> include ascii art, TUI version, basic shortcuts like help + tagline ...
 - [x] Show real version number in Home page
-- [ ] Fix shortcuts matching issues with shift and ?
-- [ ] Automatic reload of files and exos when vitest runs
+- [x] Automatic reload of files and exos when vitest runs
 - [x] Show a list of files and exos from Vitest
 - [x] Should we rename page namings ?
 - [ ] Translate above text in English
-- [ ] Support running exos in both TS and JS files
 - [ ] Support showing typescript compiler errors ?
 - [ ] Refactor colors assignation with some constants in utils.ts
-- [ ] Refactor and enhance the store
-- [ ] Refactor the "abstracted" list structure in store ??
+- [x] Refactor and enhance the store
+- [x] Refactor the "abstracted" list structure in store ??
 - [ ] Document how to easily write and tests exos and how to publish solutions
 - [ ] Support only expectation callback in exo() helper without anything else
 
-## How to use
-TODO
+## How to create exos
+
+1. Look at https://github.com/samuelroland/WEB-training/blob/main/arrays/arrays.test.js as an example
+1. You need to copy paste this helper in your repository https://github.com/samuelroland/WEB-training/blob/main/helper.ts
+1. and then you'll be able to import the `exo()` function that let's you declare exo declaratively and with some metadata
 
 ## Development documentation
 
@@ -120,16 +171,14 @@ This is a gradient of an ASCII ART. This was generated with the help of [Calligr
 ██        ██    ██  ██    ██ ██    ██ 
 ██        ██     ██  ██████   ██████  
 ```
-
+<!-- 
 **The architecture**
 
-TODO add schema
+TODO add schema -->
 
 
 **Further development**
 As the goal is to use this tool for the WEB course, it might be improved with the following improvments:
 - Publish it on a public Git repository
 - Release it under a Free software license
-- TODO
-
-TODO: it will not exist if vitest is starting...
+- Todos of above
