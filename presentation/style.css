@@ -4,6 +4,9 @@
 height: 100%;
 position: relative;
 
+	code {
+		color: black;
+	}
 	h1,
 	h2,
 	h3,

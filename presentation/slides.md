@@ -18,10 +18,11 @@ layout: none
 1. TypeScript
 1. Ink
 1. Zustand
+
 ```jsx
 <Box width="100%">
 	<Text bold>PRJS</Text>
-	<Spacer></Spacer>
+	<TextInput value={search} onChange={a => store.updateSearchFilter(a)} placeholder="Enter a search keyword" onSubmit={() => store.setSearchBarVisibility(false)} />
 	<Text backgroundColor="gray">Current folder</Text>
 	<Newline></Newline>
 </Box>
@@ -47,17 +48,21 @@ store.getAllPagesInUppercase()
 
 ### Architecture
 
-<!-- Do and include schema -->
+
+![architecture](imgs/architecture.png)
+
 ---
 
 ### Challenges
 <v-clicks>
+
 - No hot reload mode in Ink
 - Bad errors display
 - No easy way to debug other than writing to a file
 - Test system
 - Watch mode rabbit hole
 - zustand `set()` not correctly typed...
+
 </v-clicks>
 
 
@@ -101,13 +106,13 @@ class ListenRunner extends JsonReporter {
 }
 ```
 
+----
+
 ### Watch mode trials - 3
 
 ```js
 export default class CustomRunner extends VitestTestRunner {
 	override onAfterRunFiles(): void {
-		debug('got changes !');
-		debug('memory id' + useStore.getState().list.selectionIndexes[0]);
 		useStore.getState().updateExos();
 		debug('ran fn()');
 	}
@@ -118,13 +123,13 @@ export default class CustomReporter extends BasicReporter {
 		super();
 	}
 	override onTaskUpdate(_: TaskResultPack[]): void {
-		debug('got changes !');
-		debug('memory id' + useStore.getState().list.selectionIndexes[0]);
 		useStore.getState().updateExos();
 		debug('ran fn()');
 	}
 }
 ```
+
+---
 
 ### Watch mode - working !
 ```js
@@ -147,6 +152,7 @@ this.watcher = chokidar.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|*
 
 ### Fun moments
 <v-clicks>
+
 - ASCII art
 - Live search filter
 - Easy to deal with colors and gradient
@@ -154,6 +160,7 @@ this.watcher = chokidar.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|*
 - Native diff from Vitest
 - Exo metadata
 - Watch mode fast and satisfaying
+
 </v-clicks>
 
 ---
