@@ -85,6 +85,12 @@ export class Runner {
 			title: t.name ?? '??',
 			state: t.result?.state ?? 'unknown',
 			uid: t.id,
+			// @ts-ignore
+			functionName: t.meta.exo.functionName,
+			// @ts-ignore
+			instruction: t.meta.exo.instruction,
+			// @ts-ignore
+			tests: t.meta.exo.tests,
 			errors:
 				t.result?.errors?.map(e => ({
 					message: e.message,

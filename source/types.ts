@@ -14,10 +14,23 @@ export type Error = {
 	diff: any;
 };
 
+export type ReturnTest = {
+	args?: any[];
+	expected: any;
+};
+
+export type AdvancedTest = {
+	args: any[];
+	expect: (_: any) => void;
+};
+
 export type Exo = {
 	title: string;
 	state: string;
 	uid: string;
+	instruction: string;
+	functionName: string;
+	tests: (ReturnTest | AdvancedTest)[];
 	errors: Error[];
 };
 

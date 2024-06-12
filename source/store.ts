@@ -103,13 +103,8 @@ const useStore = create<Store>((set: any, get: any) => ({
 		const exos: Exo[] = this.runner.getExosInFile(
 			this.getCurrentFile()?.path ?? null,
 		);
-		debug('in total' + exos.length + ' exos !');
 		if (given.length == 0) return exos;
-		const filtered = exos.filter((exo: Exo) =>
-			exo.title.toLowerCase().includes(given),
-		);
-		debug('and filtered = ' + exos.length + ' exos !');
-		return filtered;
+		return exos.filter((exo: Exo) => exo.title.toLowerCase().includes(given));
 	},
 
 	// ACTIONS
