@@ -5,6 +5,10 @@
 ![gradient](gradient_banner.png)
 
 ## Idea
+During the WEB course, we trained with various online games or tutorials. The very visual [Flexbox froggy](https://flexboxfroggy.com/) 
+
+We had the opportunity to work on a lab on our own idea on condition of working with React and 2 other web technologies. We picked Ink (that uses React components) and TypeScript.
+
 Je me faisais la réflexion que je ne voulais vraiment pas faire un labo basique comme une extension du Tetris sans utilité une fois rendu. En même temps, je rêverai de voir des cours délibérés à la HEIG. Pour le cours de WEB, il manque un moyen de faire ces fameux petits exos de drill sur une grande partie des compétences de JS. J'ai tenté qqch avec mon repos WEB-training, évidemment que ça ne couvre que la manipulation de tableaux et il y aura moyen d'aller beaucoup plus loin. Et le problème technique c'est que Vitest n'est pas adapté à 100% à ce use case: c'est très bon pour le watch mode, mais ce qui est affiché n'est pas adapté: pas de transition entre les exos (toujours en train de fail), pas possibilité de détaillers les tests sans ouvrir le fichier de test, peu de couleurs, ...
 
 ## Goal
@@ -93,16 +97,18 @@ npm run dev
 ```
 
 ## About
-<!-- ### Extensions
+### Extensions
 We use the following Ink extensions
 1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
 1. [gradient-ink]: to easily show gradients on texts
-TODO: finish this list
- -->
+1. TODO: finish this list
 
-## Project history
-- `22.05.2024` -> `12.06.2024`: 3 students developed the original version for a WEB course lab and released and presented the project on the last day. See `presentation` folder for more details. [See project at commit 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
-- 18.06.2024: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 21.06.2024. The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
+### Project status
+The goal is to finish all these todos during the holidays of summer 2024 to make PRJS really stable and ready for the next semester.
+
+### Project history
+- `22.05.2024` -> `12.06.2024`: a group of 3 students: [@samuelroland](https://github.com/samuelroland), [@CamilleKoestli](https://github.com/CamilleKoestli) and [@GuilhermePintodac](https://github.com/GuilhermePintodac) developed the original version for a WEB course lab. They released and presented the project on the last day. See `presentation` folder for more details. [See project at commit 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
+- `18.06.2024`: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 21.06.2024. The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
 
 ## Todos
 Still to attribute/think about:
@@ -126,6 +132,15 @@ Still to attribute/think about:
 - [ ] Automatically open exo file in VSCode ?
 - [ ] Enable going up and down if help page is long ??
 - [ ] Fix shortcuts matching issues with shift and ?
+- [ ] BUG: need 2 Ctrl+S until it refreshes...
+- [ ] BUG: no reload of test when changing the exo itself (worse that with the tested function)
+- [ ] BUG: often sees "no test in this folder" after tapping 'l' or when Vitest crashes or is in infinite loop...
+- [ ] BUG: rendering several times the help page reinsert the 'all' section each time
+- [ ] !! Print code and syntax errors to avoid having a blank list of exos
+- [ ] !! Print the solution code when exo is done ? How and where to read this solution ?
+- [ ] Support basic Markdown in instruction ??
+- [ ] Show which test case has created the error (ex: if we have a suite of boolean tests, if it is wrong we have no idea which test case actually failed...)
+- [ ] Support adding more metadata about tests suite like a better name that the test file name, eventually the folder.
 
 Camille:
 - [x] !! Filter exos with a live text input
@@ -156,10 +171,12 @@ Samuel:
 - [ ] Support only expectation callback in exo() helper without anything else
 
 ## How to create exos
-
-1. Look at https://github.com/samuelroland/WEB-training/blob/main/arrays/arrays.test.js as an example
+1. `npm install vitest` in your repository
+1. Create a new test suite in a `*.test.ts` file: Look at https://github.com/samuelroland/WEB-training/blob/main/strings/strings.test.ts as an example
 1. You need to copy paste this helper in your repository https://github.com/samuelroland/WEB-training/blob/main/helper.ts
 1. and then you'll be able to import the `exo()` function that let's you declare exo declaratively and with some metadata
+
+**Note: this is a temporary workaround, you shouldn't need to copy paste helper.ts in the future...**
 
 ## Development documentation
 
