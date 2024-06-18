@@ -59,12 +59,17 @@ store.getAllPagesInUppercase()
 - No hot reload mode in Ink
 - Bad errors display
 - No easy way to debug other than writing to a file
-- Test system
-- Watch mode rabbit hole
+- Watch mode hard to implement
 - zustand `set()` not correctly typed...
 
 </v-clicks>
 
+
+---
+
+### Debugging
+
+![debug-terminal.png](imgs/debug-terminal.png)
 
 ---
 
@@ -142,11 +147,6 @@ this.watcher = chokidar.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|*
 	.on('all', update);
 ```
 
----
-
-### Debugging
-
-![debug-terminal.png](imgs/debug-terminal.png)
 
 ---
 
@@ -170,10 +170,3 @@ layout: center
 ### Demo time !
 1. WEB-training repository
 1. Exo training
-
----
-
-### What's next ?
-1. Adding hints
-1. Publishing a NPM package to easily import helper.ts
-1. Fixing a few rendering issues
