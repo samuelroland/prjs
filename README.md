@@ -100,6 +100,10 @@ We use the following Ink extensions
 TODO: finish this list
  -->
 
+## Project history
+- `22.05.2024` -> `12.06.2024`: 3 students developed the original version for a WEB course lab and released and presented the project on the last day. See `presentation` folder for more details. [See project at commit 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
+- 18.06.2024: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 21.06.2024. The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
+
 ## Todos
 Still to attribute/think about:
 - [ ] Fix strange alignement in exos list
