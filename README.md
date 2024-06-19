@@ -163,6 +163,7 @@ Still to attribute/think about:
 - [ ] Show which test case has created the error (ex: if we have a suite of boolean tests, if it is wrong we have no idea which test case actually failed...)
 - [ ] Support adding more metadata about tests suite like a better name that the test file name, eventually the folder.
 - [ ] Add level number ? From 1-5 to easily identify very easy and hard exos.
+- [ ] Do not allow undefined expected value in helper.ts, do not show obtained vs expected
 
 Camille:
 - [x] !! Filter exos with a live text input

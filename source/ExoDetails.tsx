@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Newline, Text} from 'ink';
 import {AdvancedTest, Exo, ReturnTest} from './types.js';
 import {get} from 'node-emoji';
+import {LOGO_COLORS} from './util.js';
 
 export default function ExoDetails({exo}: {exo: Exo | null}) {
 	function formatValue(v: any) {
@@ -11,7 +12,8 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 			case 'number':
 				return v;
 			case 'object':
-				return JSON.stringify(v);
+				if (Array.isArray(v)) return JSON.stringify(v);
+				return JSON.stringify(v, null, 2);
 			case 'boolean':
 				return v;
 		}
@@ -26,12 +28,13 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 		return list.join(', ');
 	}
 
-	function getExpected(t: AdvancedTest | ReturnTest) {
+	function getExpected(t: AdvancedTest | ReturnTest): string | null {
 		if ((t as ReturnTest).expected != undefined) {
 			return '=> ' + formatValue((t as ReturnTest).expected);
 		}
-		return '';
+		return null;
 	}
+
 	return (
 		<Box flexDirection="column">
 			{exo ? (
@@ -41,17 +44,21 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 					</Text>
 					{exo.instruction?.length > 0 ? (
 						<Box>
-							<Text color="cyan">{exo?.instruction}</Text>
+							<Text italic>{exo?.instruction}</Text>
 						</Box>
 					) : null}
 					{exo.tests &&
 						exo.tests.map(t => (
 							<Text>
-								- <Text color="cyanBright">{exo?.functionName}(</Text>
-								<Text>{formatArgs(t.args)}</Text>
-								<Text color="cyanBright">)</Text>
-								<Newline></Newline>
-								<Text color="cyanBright">{getExpected(t)}</Text>
+								<Text color={LOGO_COLORS[0]}>{exo?.functionName}(</Text>
+								<Text color="#14C6BA">{formatArgs(t.args)}</Text>
+								<Text color={LOGO_COLORS[0]}>)</Text>
+								{getExpected(t) && (
+									<>
+										<Newline></Newline>
+										<Text color={LOGO_COLORS[1]}>{getExpected(t)}</Text>
+									</>
+								)}
 							</Text>
 						))}
 					<Newline />
@@ -66,7 +73,7 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 										{error.expected != undefined && (
 											<>
 												<Text>
-													Obtained result:{' '}
+													Returned result:{' '}
 													<Text color="red">{error.actual}</Text>
 												</Text>
 												<Text>
