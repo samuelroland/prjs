@@ -123,7 +123,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	startWatcher() {
 		const update = async (event: any, path: string) => {
-			if (!path.endsWith('.js')) return;
 			debug('watcher: ' + path);
 			await this.runner.runAll();
 			set({reloadTimes: this.reloadTimes + 1});
