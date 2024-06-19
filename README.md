@@ -38,12 +38,14 @@ Les avantages:
 
 ### Installation
 
-After cloning this repository
 ```sh
+git clone git@github.com:samuelroland/prjs.git
+cd prjs
 npm install
 npm run build
 npm install --global .
 ```
+*You might need to run the last command as `sudo`.*
 
 You should now be able to call
 ```sh
@@ -98,7 +100,7 @@ cd WEB-training
 npm i
 prjs
 ```
-Note: for some unknown reason, Vitest ^1.6.0 need to be installed in the training repository too...
+<!-- Note: for some unknown reason, Vitest ^1.6.0 need to be installed in the training repository too... not sure actually... -->
 
 ### Known issues
 1. The watch mode is not perfect, sometimes you need to hit Ctrl+S twice before seeing the current result/exo error.
@@ -141,10 +143,10 @@ Still to attribute/think about:
 - [ ] Fix strange alignement in exos list
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Show Vitest errors and exceptions
-- [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
+- [x] Fix loading time of vitest showing "no file found" instead of something like "loading"
 - [x] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
 - [ ] !! Implements hints (when exo metadata works)
-- [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
+- [x] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Group all constants and magic values (like colors in hexa) in util.ts
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
 - [ ] Support running exos in both TS and JS files
@@ -152,7 +154,7 @@ Still to attribute/think about:
 - [ ] Enable going up and down if help page is long ??
 - [ ] Fix shortcuts matching issues with shift and ?
 - [ ] BUG: need 2 Ctrl+S until it refreshes...
-- [ ] BUG: no reload of test when changing the exo itself (worse that with the tested function)
+- [ ] BUG: no reload ofljkjkk test when changing the exo itself (worse that with the tested function)
 - [ ] BUG: often sees "no test in this folder" after tapping 'l' or when Vitest crashes or is in infinite loop...
 - [ ] BUG: rendering several times the help page reinsert the 'all' section each time
 - [ ] !! Print code and syntax errors to avoid having a blank list of exos
