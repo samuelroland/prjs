@@ -14,7 +14,7 @@ type State = {
 
 	// Selection of list and elements
 	listNumber: number; //number of the list (among all list from left to right)
-	currentExoIndex: number;	//todo: should we switch to exo uid defined by Vitest ?
+	currentExoIndex: number; //todo: should we switch to exo uid defined by Vitest ?
 	currentFileIndex: number;
 
 	// Search system
@@ -130,11 +130,12 @@ const useStore = create<Store>((set: any, get: any) => ({
 			debug('runned tests !');
 			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};
+		debug('starting watcher !');
 		this.watcher = chokidar
-			.watch('.', {ignored: '.git/**|node_modules/**|.vite/**|**.log|**.tmp'})
+			.watch(['*/**.js', '*/**.ts', '*.js', '*.ts'], {
+				ignored: '.git/**|node_modules/**|.vite/**|**.log|**.tmp',
+			})
 			.on('all', update);
-
-		debug('registered watcher !');
 	},
 
 	setPage(page: Page) {
@@ -155,7 +156,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 				if (newIndex >= 0 && newIndex < this.getAllFiles().length) {
 					set({currentFileIndex: newIndex});
 				}
-				set({search: ''})	//reset search
+				set({search: ''}); //reset search
 				break;
 			case 1:
 				newIndex = this.currentExoIndex + offset;

@@ -4,7 +4,7 @@ import ProgressBar from './ProgressBar.js';
 import {get} from 'node-emoji';
 import {SearchBar} from './SearchBar.js';
 import useStore from './store.js';
-import {debug} from './util.js';
+import {LOGO_COLORS, debug} from './util.js';
 
 interface ExosListProps {
 	showSearchBar: boolean;
@@ -56,8 +56,19 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 								{f.filename}
 							</Text>
 						))}
+						<Text color={LOGO_COLORS[1]}>
+							{store.runner.starting && 'Vitest is starting...'}
+						</Text>
+						<Text color={LOGO_COLORS[1]}>
+							{!store.runner.starting &&
+								!store.runner.started &&
+								'Vitest start has failed...'}
+						</Text>
 						{store.getAllFiles().length == 0 && (
-							<Text color={'red'}>No test found in this folder...</Text>
+							<Text color={'red'}>
+								{!store.runner.starting &&
+									'Vitest found no test in this folder...'}
+							</Text>
 						)}
 					</Box>
 					<Box flexDirection="column" padding={1}>

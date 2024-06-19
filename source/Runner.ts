@@ -9,13 +9,12 @@ export class Runner {
 	started: boolean;
 
 	constructor() {
-		this.starting = false;
+		this.starting = true;
 		this.started = false;
 	}
 
 	async startVitest() {
 		try {
-			this.starting = true;
 			this.vt = await startVitest(
 				'test',
 				undefined,
@@ -36,6 +35,8 @@ export class Runner {
 					// stderr: fs.createWriteStream('out2.tmp'),
 				},
 			);
+			// Note: for some reason, startVitest doesn't take into account all test files, this is why we run it again
+			await this.runAll();
 			this.started = true;
 			this.starting = false;
 		} catch (error) {
@@ -50,7 +51,8 @@ export class Runner {
 
 	async runAll() {
 		debug('running all !');
-		return this.vt?.rerunFiles();
+		// Note: globTestFiles() seems to always take all files (contrary to vt.state.getFiles() because we started with changed: true), so this make sure we are running all of them
+		return this.vt?.runFiles(await this.vt?.globTestFiles(), true);
 	}
 
 	getAllFiles(): ExoFile[] {
