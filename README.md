@@ -108,6 +108,14 @@ Note: for some unknown reason, Vitest ^1.6.0 need to be installed in the trainin
 	1. Try typing `j` and `k` a few times, it sometimes helps
 1. If you already started to implement the functions, make sure you don't have an infinite loop or a syntax error, because we don't support displaying them yet.
 
+
+### Update
+If you need to update PRJS because it was changed just run
+```bash
+git pull
+npm run build
+```
+
 ### Development
 In addition to the global installation documented above, you need to enable a continuous build to make sure Typescript files and React components are built and updated in the `dist` folder at each code change. Just run this command:
 ```bash
@@ -134,19 +142,12 @@ Still to attribute/think about:
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Show Vitest errors and exceptions
 - [ ] Fix loading time of vitest showing "no file found" instead of something like "loading"
-- [ ] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
+- [x] Hard: Transfer exo metadata from Vitest tests to include instruction, hints and more
 - [ ] !! Implements hints (when exo metadata works)
 - [ ] !! Show arguments of function calls as an easy way to understand what the function should do (when exo metadata works)
 - [ ] Group all constants and magic values (like colors in hexa) in util.ts
 - [ ] Teacher: How to easily provide the helper.ts abstraction (commited in web-training currently) ?
 - [ ] Support running exos in both TS and JS files
-- [ ] readme: complete TODO about how to use and others
-- [ ] Pres: Define order and strategy of the slides
-- [ ] Pres: Includes required points with graphics
-- [ ] Pres: Create and add architecture schema, include in this readme
-- [ ] Pres: Design the demo
-- [ ] Pres: Attribute talking times
-- [ ] Pres: Pratice it in group 1-2 times
 - [ ] Automatically open exo file in VSCode ?
 - [ ] Enable going up and down if help page is long ??
 - [ ] Fix shortcuts matching issues with shift and ?
@@ -181,7 +182,7 @@ Samuel:
 - [x] Automatic reload of files and exos when vitest runs
 - [x] Show a list of files and exos from Vitest
 - [x] Should we rename page namings ?
-- [ ] Translate above text in English
+- [x] Translate above text in English
 - [ ] Support showing typescript compiler errors ?
 - [ ] Refactor colors assignation with some constants in utils.ts
 - [x] Refactor and enhance the store
@@ -194,6 +195,8 @@ Samuel:
 1. Create a new test suite in a `*.test.ts` file: Look at https://github.com/samuelroland/WEB-training/blob/main/strings/strings.test.ts as an example
 1. You need to copy paste this helper in your repository https://github.com/samuelroland/WEB-training/blob/main/helper.ts
 1. and then you'll be able to import the `exo()` function that let's you declare exo declaratively and with some metadata
+
+TODO: document this in a clearer way
 
 **Note: this is a temporary workaround, you shouldn't need to copy paste helper.ts in the future...**
 
@@ -211,17 +214,23 @@ This is a gradient of an ASCII ART. This was generated with the help of [Calligr
 ██        ██    ██  ██    ██ ██    ██ 
 ██        ██     ██  ██████   ██████  
 ```
-<!--
-**The architecture**
-
-TODO add schema -->
-
 
 **Further development**
 As the goal is to use this tool for the WEB course, it might be improved with the following improvments:
 - Publish it on a public Git repository
 - Release it under a Free software license
-- Todos of above
+- All the todos above
+- Make it more stable
+
+**Architecture**
+
+![architecture diagram](presentation/imgs/architecture.png)
+
+TODO: document how the project is structured, refactor components and duplications, add unit tests.
 
 ## Presentation
 You can see our slides for the lab release in [`presentation`](presentation/README.md)
+
+
+## Contribution
+This project is not opened to contributions until we can get the approval of the school to apply a free license on it. But you can contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !
