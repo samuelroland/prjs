@@ -25,7 +25,6 @@ type State = {
 	runner: Runner;
 	started: boolean;
 	watcher: chokidar.FSWatcher | null;
-	reloadTimes: number;
 };
 
 type Action = {
@@ -63,7 +62,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 	runner: new Runner(),
 	started: false,
 	watcher: null,
-	reloadTimes: 0,
 
 	// GETTERS (without any side effects)
 	// Get the global progress in percentage of passed exos among all exos
@@ -125,7 +123,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 		const update = async (event: any, path: string) => {
 			debug('watcher: ' + path);
 			await this.runner.runAll();
-			set({reloadTimes: this.reloadTimes + 1});
 			debug('runned tests !');
 			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};

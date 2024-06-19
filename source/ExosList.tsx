@@ -14,15 +14,15 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 	const store = useStore();
 
 	const progress = store.getProgress();
-	const times = useStore(s => s.reloadTimes);
 	const files = useStore(store => store.getAllFiles());
+	const filteredExos = useStore(store => store.getFilteredExos());
 
 	debug('rendered exoslist !');
 	return (
 		<>
-			<Box flexDirection="row" alignItems="center">
+			<Box flexDirection="row">
 				<Text color="green" bold>
-					Exos list {times}
+					Exos list
 				</Text>
 				<Spacer />
 				<Box flexDirection="row" justifyContent="flex-end">
@@ -65,7 +65,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 						)}
 					</Box>
 					<Box flexDirection="column" padding={1}>
-						{store.getFilteredExos().map((e, i) => (
+						{filteredExos.map((e, i) => (
 							<Text
 								key={e.uid}
 								backgroundColor={
@@ -88,6 +88,13 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 								{' ' + e.title}
 							</Text>
 						))}
+						{filteredExos.length == 0 && !store.runner.starting && (
+							<Text color="gray">
+								{store.search?.trim() != ''
+									? 'No exo matched this search...'
+									: 'No exo found in this suite'}
+							</Text>
+						)}
 					</Box>
 				</Box>
 				<Spacer />
