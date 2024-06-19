@@ -156,6 +156,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 					set({currentFileIndex: newIndex});
 				}
 				set({search: ''}); //reset search
+				set({currentExoIndex: 0}); //reset exos list selection
 				break;
 			case 1:
 				newIndex = this.currentExoIndex + offset;

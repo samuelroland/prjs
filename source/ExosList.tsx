@@ -15,6 +15,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 
 	const progress = store.getProgress();
 	const times = useStore(s => s.reloadTimes);
+	const files = useStore(store => store.getAllFiles());
 
 	debug('rendered exoslist !');
 	return (
@@ -37,23 +38,15 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 			<Box display="flex" height="100%" flexDirection="column">
 				<Box>
 					<Box flexDirection="column" padding={1}>
-						{store.getAllFiles().map((f, i) => (
+						{files.map((f, i) => (
 							<Text
 								key={f.path}
-								backgroundColor={
-									store.listNumber == 0 && store.currentFileIndex == i
-										? '#0befae'
-										: ''
-								}
-								color={
-									store.listNumber == 0 && store.currentFileIndex == i
-										? 'black'
-										: ''
-								}
+								backgroundColor={store.currentFileIndex == i ? '#0befae' : ''}
+								color={store.currentFileIndex == i ? 'black' : ''}
 								wrap="truncate-end"
 							>
 								{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
-								{f.filename}
+								{' ' + f.filename}
 							</Text>
 						))}
 						<Text color={LOGO_COLORS[1]}>
@@ -64,7 +57,7 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 								!store.runner.started &&
 								'Vitest start has failed...'}
 						</Text>
-						{store.getAllFiles().length == 0 && (
+						{files.length == 0 && (
 							<Text color={'red'}>
 								{!store.runner.starting &&
 									'Vitest found no test in this folder...'}
@@ -87,8 +80,12 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 								}
 								wrap="truncate-end"
 							>
+								{
+									i >= files.length ? ' ' : ''
+									/*Fix alignement issue caused by emoji length on the files list that is 1 char longer that measured by Ink. We add an extra space to the following lines to realign the list.*/
+								}
 								{i + 1}. {get(e.state == 'pass' ? 'white_check_mark' : 'x')}
-								{e.title}
+								{' ' + e.title}
 							</Text>
 						))}
 					</Box>
