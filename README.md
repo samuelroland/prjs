@@ -166,6 +166,9 @@ Still to attribute/think about:
 - [ ] Support adding more metadata about tests suite like a better name that the test file name, eventually the folder.
 - [ ] Add level number ? From 1-5 to easily identify very easy and hard exos.
 - [ ] Do not allow undefined expected value in helper.ts, do not show obtained vs expected
+- [ ] Setup a debug view to easily see Vitest outputs and logs inside PRJS
+- [ ] Add a way to export all these logs to ease the debug process
+- [ ] Do not pollute user directory with temp files like out.tmp
 
 Camille:
 - [x] !! Filter exos with a live text input
