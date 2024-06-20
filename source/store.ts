@@ -127,16 +127,22 @@ const useStore = create<Store>((set: any, get: any) => ({
 			debug('watcher: ' + path);
 			await this.runner.runAll();
 			debug('runned tests !');
-			set({reloadTimes: this.reloadTimes + 1});
-			this.getCurrentExo();
+			// Note: this is a useless counter for now, but this is the only way currently to have the watch mode fully working (it doesn't render any change otherwise)
+			set((s: Store) => {
+				return {
+					reloadTimes: s.reloadTimes + 1,
+				};
+			});
 			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};
 		debug('starting watcher !');
 
 		this.watcher = chokidar
-			.watch(['*/**.js', '*/**.ts', '*.js', '*.ts'], {
-				ignored:
-					'.git/**|node_modules/**|remoji/**|**/node_modules/**.js|**/node_modules/**.ts|**/node_modules/**|*/node_modules/**|.vite/**|**.log|**.tmp',
+			// Only watch on current folder and 1 level subfolders
+			.watch(['*/*.js', '*/*.ts', '*.js', '*.ts'], {
+				//WARNING: if we expand the watch pattern above (and change depth config below), make sure to also ignore those folders recursively !! it would cause big slowdowns otherwise
+				ignored: '.git/**|node_modules/**|.vite/**',
+				depth: 1,
 			})
 			.on('all', update);
 	},
