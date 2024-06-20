@@ -129,7 +129,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 		debug('starting watcher !');
 		this.watcher = chokidar
 			.watch(['*/**.js', '*/**.ts', '*.js', '*.ts'], {
-				ignored: '.git/**|node_modules/**|.vite/**|**.log|**.tmp',
+				ignored: '.git/**|node_modules/**|**/node_modules/**|.vite/**|**.log|**.tmp',
 			})
 			.on('all', update);
 	},
