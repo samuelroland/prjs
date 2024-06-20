@@ -16,13 +16,14 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 	const progress = store.getProgress();
 	const files = useStore(store => store.getAllFiles());
 	const filteredExos = useStore(store => store.getFilteredExos());
+	const times = useStore(s => s.reloadTimes);
 
 	debug('rendered exoslist !');
 	return (
 		<>
 			<Box flexDirection="row">
 				<Text color="green" bold>
-					Exos list
+					Exos list {times}
 				</Text>
 				<Spacer />
 				<Box flexDirection="row" justifyContent="flex-end">
