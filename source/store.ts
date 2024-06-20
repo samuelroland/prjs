@@ -124,12 +124,14 @@ const useStore = create<Store>((set: any, get: any) => ({
 			debug('watcher: ' + path);
 			await this.runner.runAll();
 			debug('runned tests !');
+			this.getCurrentExo();
 			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};
 		debug('starting watcher !');
 		this.watcher = chokidar
 			.watch(['*/**.js', '*/**.ts', '*.js', '*.ts'], {
-				ignored: '.git/**|node_modules/**|**/node_modules/**|.vite/**|**.log|**.tmp',
+				ignored:
+					'.git/**|node_modules/**|remoji/**|**/node_modules/**.js|**/node_modules/**.ts|**/node_modules/**|*/node_modules/**|.vite/**|**.log|**.tmp',
 			})
 			.on('all', update);
 	},
