@@ -1,6 +1,18 @@
 {
 	"name": "prjs",
 	"version": "0.0.1",
+	"description": "Run small JS exos in your terminal with instant feedback loop",
+	"keywords": [
+		"deliberate-practice",
+		"practice",
+		"learn",
+		"exercises",
+		"feedback",
+		"tui",
+		"ink",
+		"deliberate",
+		"kata"
+	],
 	"bin": "dist/source/CLI.js",
 	"type": "module",
 	"engines": {
