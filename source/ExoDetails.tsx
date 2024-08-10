@@ -48,8 +48,8 @@ export default function ExoDetails({ exo }: { exo: Exo | null }) {
 						</Box>
 					) : null}
 					{exo.tests &&
-						exo.tests.map(t => (
-							<Text>
+						exo.tests.map((t, i) => (
+							<Text key={i}>
 								<Text color={LOGO_COLORS[0]}>{exo?.functionName}(</Text>
 								<Text color="#14C6BA">{formatArgs(t.args)}</Text>
 								<Text color={LOGO_COLORS[0]}>)</Text>
