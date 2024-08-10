@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {Box, Text, useStdout} from 'ink';
-import {useScreenSize} from './hooks/useScreenSize.js';
+import React, { useEffect } from 'react';
+import { Box, Text, useStdout } from 'ink';
+import { useScreenSize } from './hooks/useScreenSize.js';
 type ProgressBarProps = {
 	percent: number;
 };
 
-export default function ProgressBar({percent}: ProgressBarProps) {
+export default function ProgressBar({ percent }: ProgressBarProps) {
 	const terminalWidth = useScreenSize().width;
 	const textWidth = 10; // Approximate width for "Progress: "
 	const percentText = `${percent.toFixed(2)}%`;

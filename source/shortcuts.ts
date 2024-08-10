@@ -2,11 +2,11 @@
 // It enables the definitions of shortcuts all or specific pages and document them
 // to easily show a dynamically generated help page
 
-import {AppProps, Key, useInput} from 'ink';
-import useStore, {Store} from './store.js';
-import type {Shortcut} from './types.js';
-import {debug} from './util.js';
-import {useApp} from 'ink';
+import { AppProps, Key, useInput } from 'ink';
+import useStore, { Store } from './store.js';
+import type { Shortcut } from './types.js';
+import { useApp } from 'ink';
+import { debug } from './App.js';
 
 export const shortcuts: Shortcut[] = [
 	{

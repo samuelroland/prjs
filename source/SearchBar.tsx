@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {Box, Text} from 'ink';
+import React, { useState, useEffect } from 'react';
+import { Box, Text } from 'ink';
 import TextInput from 'ink-text-input';
 import useStore from './store.js';
 
-export function SearchBar({}) {
+export function SearchBar({ }) {
 	const store = useStore();
 	const search = useStore(state => state.search);
 

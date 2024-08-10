@@ -1,5 +1,5 @@
 import { AppProps } from 'ink';
-import {Store} from './store.js';
+import { Store } from './store.js';
 
 export type ExoFile = {
 	filename: string;

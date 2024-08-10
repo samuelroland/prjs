@@ -1,10 +1,10 @@
 import React from 'react';
-import {Box, Newline, Text} from 'ink';
-import {AdvancedTest, Exo, ReturnTest} from './types.js';
-import {get} from 'node-emoji';
-import {LOGO_COLORS} from './util.js';
+import { Box, Newline, Text } from 'ink';
+import { AdvancedTest, Exo, ReturnTest } from './types.js';
+import { get } from 'node-emoji';
+import { LOGO_COLORS } from './util.js';
 
-export default function ExoDetails({exo}: {exo: Exo | null}) {
+export default function ExoDetails({ exo }: { exo: Exo | null }) {
 	function formatValue(v: any) {
 		switch (typeof v) {
 			case 'string':

@@ -1,13 +1,13 @@
-import React, {ReactNode} from 'react';
-import {Box, Text} from 'ink';
+import React, { ReactNode } from 'react';
+import { Box, Text } from 'ink';
 import ExosList from './ExosList.js';
 import Home from './Home.js';
 import Header from './Header.js';
 import ExoDetails from './ExoDetails.js';
 import Help from './Help.js';
-import useStore, {Store} from './store.js';
-import {listenForShortcuts, shortcuts} from './shortcuts.js';
-import {useEffect} from 'react';
+import useStore, { Store } from './store.js';
+import { listenForShortcuts, shortcuts } from './shortcuts.js';
+import { useEffect } from 'react';
 
 export default function App({}) {
 	const store: Store = useStore();

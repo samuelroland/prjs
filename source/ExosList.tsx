@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
-import {Box, Spacer, Text} from 'ink';
+import React, { useEffect } from 'react';
+import { Box, Spacer, Text } from 'ink';
 import ProgressBar from './ProgressBar.js';
-import {get} from 'node-emoji';
-import {SearchBar} from './SearchBar.js';
+import { get } from 'node-emoji';
+import { SearchBar } from './SearchBar.js';
 import useStore from './store.js';
-import {LOGO_COLORS, debug} from './util.js';
+import { LOGO_COLORS } from './util.js';
+import { debug } from './App.js';
 
 interface ExosListProps {
 	showSearchBar: boolean;
 }
 
-export default function ExosList({showSearchBar}: ExosListProps) {
+export default function ExosList({ showSearchBar }: ExosListProps) {
 	const store = useStore();
 
 	const progress = store.getProgress();

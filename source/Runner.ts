@@ -1,8 +1,10 @@
-import {File} from 'vitest';
-import {Vitest, startVitest} from 'vitest/node';
-import {debug} from './util.js';
-import {Exo, ExoFile} from './types.js';
-import {readableNoopStream, writableNoopStream} from 'noop-stream';
+import { File } from 'vitest';
+import { Vitest, startVitest } from 'vitest/node';
+import { Exo, ExoFile } from './types.js';
+import { debug } from './App.js';
+import { readableNoopStream, writableNoopStream } from 'noop-stream';
+import fs from "fs"
+
 export class Runner {
 	vt: Vitest | undefined = undefined;
 	starting: boolean;

@@ -2,24 +2,24 @@
 import React from 'react';
 import meow from 'meow';
 import App from './App.js';
-import {withFullScreen} from 'fullscreen-ink';
+import { withFullScreen } from 'fullscreen-ink';
 import Help from './Help.js';
-import {render, Text, Box} from 'ink';
-import {shortcuts} from './shortcuts.js';
-import {DEFINITION, NAME, SUBDEF} from './util.js';
+import { render, Text, Box } from 'ink';
+import { shortcuts } from './shortcuts.js';
+import { DEFINITION, NAME, SUBDEF } from './util.js';
 
 const INTRO = NAME + ' - ' + DEFINITION;
 
 const cli = meow(
 	INTRO +
-		'\n' +
-		SUBDEF +
-		'\n' +
-		'\nUsage' +
-		'\n$ prjs' +
-		'\n\nOptions' +
-		'\n -v, --version: Show version' +
-		'\n -h, --help: Show this help',
+	'\n' +
+	SUBDEF +
+	'\n' +
+	'\nUsage' +
+	'\n$ prjs' +
+	'\n\nOptions' +
+	'\n -v, --version: Show version' +
+	'\n -h, --help: Show this help',
 
 	// Supported flags
 	{

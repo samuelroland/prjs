@@ -1,10 +1,10 @@
 // Global store to manage all the state of PRJS, with the help of zustand
 // The store can be easily accessed in any components by importing useStore() and const store = useStore();
 
-import {create} from 'zustand';
-import {Exo, ExoFile, Page} from './types.js';
-import {Runner} from './Runner.js';
-import {debug} from './util.js';
+import { create } from 'zustand';
+import { Exo, ExoFile, Page } from './types.js';
+import { Runner } from './Runner.js';
+import { debug } from './App.js';
 import chokidar from 'chokidar';
 
 type State = {
@@ -113,7 +113,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 		this.runner = new Runner();
 		await this.runner.startVitest();
 		debug('starting vitest');
-		set({started: true});
+		set({ started: true });
 		debug('setting files');
 		this.startWatcher();
 	},
@@ -149,7 +149,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	setPage(page: Page) {
 		if (this.page === page) return; //do not reassign the current page because we will lose the previousPage otherwise
-		set((state: Store) => ({page: page, previousPage: state.page}));
+		set((state: Store) => ({ page: page, previousPage: state.page }));
 	},
 
 	backToPreviousPage() {
@@ -163,15 +163,15 @@ const useStore = create<Store>((set: any, get: any) => ({
 			case 0:
 				newIndex = this.currentFileIndex + offset;
 				if (newIndex >= 0 && newIndex < this.getAllFiles().length) {
-					set({currentFileIndex: newIndex});
+					set({ currentFileIndex: newIndex });
 				}
-				set({search: ''}); //reset search
-				set({currentExoIndex: 0}); //reset exos list selection
+				set({ search: '' }); //reset search
+				set({ currentExoIndex: 0 }); //reset exos list selection
 				break;
 			case 1:
 				newIndex = this.currentExoIndex + offset;
 				if (newIndex >= 0 && newIndex < this.getFilteredExos().length) {
-					set({currentExoIndex: newIndex});
+					set({ currentExoIndex: newIndex });
 				}
 				break;
 		}
@@ -179,11 +179,11 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	switchToList(index: number) {
 		if (index > 1 || index < 0 || index == this.listNumber) return;
-		set({listNumber: index});
+		set({ listNumber: index });
 	},
 
 	setSearchBarVisibility(visible: boolean): void {
-		set({showSearchBar: visible});
+		set({ showSearchBar: visible });
 	},
 
 	updateSearchFilter(filter: string) {

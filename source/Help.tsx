@@ -1,8 +1,6 @@
 import React from 'react';
-import {Text, Box} from 'ink';
-import {Shortcut, Page} from './types.js';
-import {debug} from './util.js';
-import {b} from 'vitest/dist/suite-IbNSsUWN.js';
+import { Text, Box } from 'ink';
+import { Shortcut, Page } from './types.js';
 
 type CategorizedShortcuts = Record<Page, Shortcut[]> & {
 	[key: string]: Shortcut[];
@@ -34,7 +32,7 @@ const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	return categories;
 };
 
-export default function Help({shortcuts}: {shortcuts: Shortcut[]}) {
+export default function Help({ shortcuts }: { shortcuts: Shortcut[] }) {
 	// TODO: show the list as arrays (without any border), the first column is the pattern (in color), second is the description. To show arrays easily, search for a table plugin...
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 
