@@ -45,9 +45,6 @@ export default function Home() {
 				<Gradient colors={LOGO_COLORS}>
 					<Text>{SUBDEF}</Text>
 				</Gradient>
-				<Gradient colors={LOGO_COLORS}>
-					<Text> and delightful errors printing</Text>
-				</Gradient>
 				<Text dimColor={true}>Project: Coming soon</Text>
 				{/* <Text>License: TODO</Text> */}
 				{/* <Text>Website: TODO</Text> */}

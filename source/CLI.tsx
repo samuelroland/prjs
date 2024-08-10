@@ -19,7 +19,8 @@ const cli = meow(
 	'\n$ prjs' +
 	'\n\nOptions' +
 	'\n -v, --version: Show version' +
-	'\n -h, --help: Show this help',
+	'\n -h, --help: Show this help' +
+	'\n -d, --debug: Enable debug mode',
 
 	// Supported flags
 	{
