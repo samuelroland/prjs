@@ -8,11 +8,24 @@ import Help from './Help.js';
 import useStore, { Store } from './store.js';
 import { listenForShortcuts, shortcuts } from './shortcuts.js';
 import { useEffect } from 'react';
+var globalDebugMode: boolean = false
+// Some util functions
+import fs from 'fs';
+import util from 'util';
+export function debug(...d: any) {
+	if (!globalDebugMode) return
+	let append = '';
+	for (const v of d) {
+		append += util.format(d) + '\n';
+	}
+	fs.appendFileSync('debug.log', append + '\n');
+}
 
-export default function App({}) {
+export default function App({ debugMode }: { debugMode: boolean }) {
+	globalDebugMode = debugMode
 	const store: Store = useStore();
 	useEffect(() => {
-		store.start();
+		store.start(debugMode);
 	}, []);
 
 	listenForShortcuts();
@@ -30,7 +43,7 @@ export default function App({}) {
 	const currentPage = pages.get(store.page);
 	return (
 		<Box flexDirection="column" width="100%">
-			<Header></Header>
+			<Header debugMode={debugMode}></Header>
 			{currentPage != undefined ? (
 				currentPage(store)
 			) : (

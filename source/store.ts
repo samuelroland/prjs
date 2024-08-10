@@ -38,7 +38,7 @@ type Action = {
 	getFilteredExos(): Exo[];
 
 	// Actions
-	start(): Promise<void>;
+	start(debugMode: boolean): Promise<void>;
 	stop(): Promise<any>;
 	startWatcher(): void;
 	setPage(page: Page): void;
@@ -109,9 +109,9 @@ const useStore = create<Store>((set: any, get: any) => ({
 	},
 
 	// ACTIONS
-	async start() {
+	async start(debugMode: boolean) {
 		this.runner = new Runner();
-		await this.runner.startVitest();
+		await this.runner.startVitest(debugMode);
 		debug('starting vitest');
 		set({ started: true });
 		debug('setting files');

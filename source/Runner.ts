@@ -15,7 +15,7 @@ export class Runner {
 		this.started = false;
 	}
 
-	async startVitest() {
+	async startVitest(debugMode: boolean) {
 		try {
 			this.vt = await startVitest(
 				'test',
@@ -30,13 +30,10 @@ export class Runner {
 					// @ts-ignore
 					stdin: readableNoopStream(),
 					// @ts-ignore
-					stdout: writableNoopStream(),
-					// stdout: fs.createWriteStream('out.tmp'),
+					stdout: debugMode ? fs.createWriteStream('out.log') : writableNoopStream(),
 					// @ts-ignore
-					stderr: writableNoopStream(),
-					// stderr: fs.createWriteStream('out2.tmp'),
-				},
-			);
+					stderr: debugMode ? fs.createWriteStream('err.log') : writableNoopStream(),
+				});
 			// Note: for some reason, startVitest doesn't take into account all test files, this is why we run it again
 			await this.runAll();
 			this.started = true;

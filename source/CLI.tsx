@@ -29,6 +29,9 @@ const cli = meow(
 			help: {
 				alias: 'h', //just to create an alias -h
 			},
+			debug: { // --debug
+				alias: 'd', // create an alias -d
+			},
 		},
 	},
 );
@@ -49,9 +52,11 @@ if (cli.flags.help) {
 		</>,
 	);
 } else {
+
+	const debugMode = cli.flags.debug === true ? true : false
 	// Start TUI in fullscreen mode, or output other information and quit
 	// We don't want to exit on Ctrl+C because we want to manage exit ourself via our shortcut
-	withFullScreen(<App />, {exitOnCtrlC: false}).start();
+	withFullScreen(<App debugMode={debugMode} />, { exitOnCtrlC: false }).start();
 	// Note: to easily runtime errors and their stack traces, use this line instead
 	// render(<App />, {exitOnCtrlC: false});
 }
