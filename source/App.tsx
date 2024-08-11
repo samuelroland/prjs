@@ -16,16 +16,19 @@ export function debug(...d: any) {
 	if (!globalDebugMode) return
 	let append = '';
 	for (const v of d) {
-		append += util.format(d) + '\n';
+		append += util.format(v) + '\n';
 	}
 	fs.appendFileSync('debug.log', append + '\n');
 }
 
-export default function App({ debugMode }: { debugMode: boolean }) {
-	globalDebugMode = debugMode
+export default function App({ debugMode }: { debugMode?: boolean }) {
+	globalDebugMode = debugMode ?? false
 	const store: Store = useStore();
 	useEffect(() => {
-		store.start(debugMode);
+		store.start(debugMode ?? false);
+		return () => {
+			store.stop()
+		}
 	}, []);
 
 	listenForShortcuts();
@@ -43,7 +46,7 @@ export default function App({ debugMode }: { debugMode: boolean }) {
 	const currentPage = pages.get(store.page);
 	return (
 		<Box flexDirection="column" width="100%">
-			<Header debugMode={debugMode}></Header>
+			<Header debugMode={globalDebugMode}></Header>
 			{currentPage != undefined ? (
 				currentPage(store)
 			) : (
