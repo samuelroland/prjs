@@ -1,6 +1,7 @@
 ## Todos
 Still to attribute/think about:
 - [x] Fix strange alignement in exos list
+- [ ] Sort all default deps of Ink to avoid installing anything useless
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Show Vitest errors and exceptions
 - [x] Fix loading time of vitest showing "no file found" instead of something like "loading"
@@ -42,6 +43,12 @@ In case we create a lot of exos, we are currently going to have a slower feedbac
 - [ ] Help page too big to display -> PartialList with selection mode disabled
 - [x] Need to be debugged by a user but doesn't access logs: implement a --debug mode
 - [ ] Is it possible to have too much tests results and data in memory and causes crash because of that ?
+- [ ] When writing exos in 10+ files, this is going to become difficult
+		- make sure we didn't forget to change the import to solution.js or array.js
+		- make sure all exos have a solution in the solution branch
+		- make sure all solutions are actually passing tests
+		- make sure all exos are empty and do not pass the tests
+	Solution: add a command to help contributors check everything is coherent
 
 ## Old done TODOs
 Camille:
