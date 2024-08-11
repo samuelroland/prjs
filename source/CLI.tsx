@@ -28,10 +28,10 @@ const cli = meow(
 		importMeta: import.meta,
 		flags: {
 			help: {
-				alias: 'h', //just to create an alias -h
+				shortFlag: 'h', //just to create an alias -h
 			},
 			debug: { // --debug
-				alias: 'd', // create an alias -d
+				shortFlag: 'd', // create an alias -d
 			},
 		},
 	},
