@@ -26,24 +26,44 @@ function getColoredTextByType(msg: string): ReactNode {
 	const sepIndex = msg.indexOf(":")
 	if (sepIndex === -1) return <Text>{msg}</Text>
 	const type = msg.substring(0, sepIndex).trim()
-	console.log(type)
 	if (colorByMessagesTypes[type] !== undefined) {
 		return <Text color={colorByMessagesTypes[type]}>{msg.substring(sepIndex + 1).trim()}</Text>
 	}
 	return <Text>{msg}</Text>
 }
 
-export default function PartialList({ list, height, selectionEnabled, selectedIndex, emptyListMessage }: Props) {
-	const startIndex = 0
-	const listHeight = height >= list.length ? list.length : height
-	const finalIndexInPortion = selectedIndex
-	//Only take a portion of the list
-	//
-	const finalList = list.slice(startIndex, listHeight - startIndex)
+export function getSliceStartIndex(selectionEnabled: boolean, selectionIndex: number, height: number, length: number): number {
+	if (height >= length) return 0
 
-	function selected(i) {
+	let idx = 0
+	if (selectionEnabled) {
+		if (selectionIndex >= height) {
+			idx = selectionIndex - height + 1
+		}
+		//else already 0
+	}
+	else idx = selectionIndex
+
+	// Make sure it doesn't go over the max
+	if (idx > length - height) idx = length - height
+
+	return idx
+}
+
+export default function PartialList({ list, height, selectionEnabled, selectedIndex, emptyListMessage }: Props) {
+	const partialHeight = height < list.length ? height : list.length
+
+	// The start index is by default 0 but it could be bigger
+	// if the list is too big (and selection is not 0)
+	let startIndex = getSliceStartIndex(selectionEnabled, selectedIndex ?? 0, partialHeight, list.length)
+	console.log(startIndex)
+	const finalList = list.slice(startIndex, partialHeight - startIndex)
+	console.log(finalList)
+
+	// Return true if the i element is selected !
+	function selected(i: number) {
 		if (!selectionEnabled) return false
-		return finalIndexInPortion == i
+		return selectedIndex - startIndex == i
 	}
 
 	return (

@@ -5,7 +5,7 @@ import { Text } from 'ink'
 import { render } from 'ink-testing-library';
 import chalk from 'chalk';
 import { mustShow, mustContain, mustNotContain, expectNFrames, type } from "./utils/helpers.ts"
-import PartialList from "../src/PartialList"
+import PartialList, { getSliceStartIndex } from "../src/PartialList"
 import { BG_VARIANTES } from '../src/util'
 
 test('PartialList can show a short list of numbers', async () => {
@@ -49,6 +49,31 @@ test('PartialList show selected item when selection is enabled', async () => {
 	// Selection disabled
 	inst.unmount()
 });
+
+test('PartialList getSliceStartIndex() is correct', () => {
+	// When selection mode is disabled, start index should be equal to selectedIndex
+	// and should not exceed max
+	expect(getSliceStartIndex(false, 0, 10, 100)).to.eq(0)
+	expect(getSliceStartIndex(false, 2, 10, 100)).to.eq(2)
+	expect(getSliceStartIndex(false, 90, 5, 100)).to.eq(90)
+	expect(getSliceStartIndex(false, 95, 5, 100)).to.eq(95)
+	expect(getSliceStartIndex(false, 96, 5, 100)).to.eq(95)
+	expect(getSliceStartIndex(false, 99, 5, 100)).to.eq(95)
+
+	// When selection mode is enabled, start index = 0 if i < h, else i - h + 1 and should not exceed max
+	expect(getSliceStartIndex(true, 0, 5, 100)).to.eq(0)
+	expect(getSliceStartIndex(true, 3, 5, 100)).to.eq(0)
+	expect(getSliceStartIndex(true, 4, 5, 100)).to.eq(0)
+	expect(getSliceStartIndex(true, 5, 5, 100)).to.eq(1)
+	expect(getSliceStartIndex(true, 10, 5, 100)).to.eq(6)
+	expect(getSliceStartIndex(true, 95, 5, 100)).to.eq(91)
+	expect(getSliceStartIndex(true, 96, 5, 100)).to.eq(92)
+	expect(getSliceStartIndex(true, 99, 5, 100)).to.eq(95)
+
+	// When list length < height, test that is doesn't became negative...
+	expect(getSliceStartIndex(false, 3, 10, 5)).to.eq(0)
+	expect(getSliceStartIndex(true, 4, 10, 5)).to.eq(0)
+})
 
 // test('PartialList shift the view via selectionIndex when selection is enabled', async () => {
 // 	const inst = render(<PartialList
