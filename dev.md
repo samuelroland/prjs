@@ -1,4 +1,4 @@
-# Technical documentation for development
+# Development documentation
 
 ### Architecture
 

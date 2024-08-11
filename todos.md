@@ -1,6 +1,6 @@
 ## Todos
 Still to attribute/think about:
-- [ ] Fix strange alignement in exos list
+- [x] Fix strange alignement in exos list
 - [ ] Refactor list duplication in ExosList with StoreList component (see TODO in ExosList)
 - [ ] Show Vitest errors and exceptions
 - [x] Fix loading time of vitest showing "no file found" instead of something like "loading"
@@ -28,6 +28,22 @@ Still to attribute/think about:
 - [ ] Add a way to export all these logs to ease the debug process
 - [ ] Do not pollute user directory with temp files like out.tmp
 
+- [ ] Document how to easily write and tests exos and how to publish solutions
+- [ ] Support showing typescript compiler errors ?
+- [ ] Refactor colors assignation with some constants in utils.ts
+- [ ] Support only expectation callback in exo() helper without anything else
+
+## Potential future scaling issues
+In case we create a lot of exos, we are currently going to have a slower feedback and display issues because scaling issues and optimisations has not been considered for now. This is kind of a pre-mortem analysis of things that could go wrong and how we can fix it in advance.
+
+- [ ] More exos than possible to display horizontally -> PartialList needed
+- [ ] Too much exos and associated tests constantly ran at each change, including some tests that takes several seconds... -> Fix PRJS to run a single test file or a single test is very important !
+- [ ] Too much .js files watched by the watcher making things very slow (this already happened with remoji node_modules)... -> how to fix a limit of watched file ? Should we read .gitignore ? Should we implement a way to profile the TUI and measure start time, loading time and quit time ?
+- [ ] Help page too big to display -> PartialList with selection mode disabled
+- [x] Need to be debugged by a user but doesn't access logs: implement a --debug mode
+- [ ] Is it possible to have too much tests results and data in memory and causes crash because of that ?
+
+## Old done TODOs
 Camille:
 - [x] !! Filter exos with a live text input
 - [x] !! Switch to next exo with 'n' and to previous with 'p' in exo page
@@ -49,10 +65,6 @@ Samuel:
 - [x] Show a list of files and exos from Vitest
 - [x] Should we rename page namings ?
 - [x] Translate above text in English
-- [ ] Support showing typescript compiler errors ?
-- [ ] Refactor colors assignation with some constants in utils.ts
 - [x] Refactor and enhance the store
 - [x] Refactor the "abstracted" list structure in store ??
-- [ ] Document how to easily write and tests exos and how to publish solutions
-- [ ] Support only expectation callback in exo() helper without anything else
 
