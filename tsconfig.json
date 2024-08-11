@@ -8,7 +8,7 @@
 		"module": "NodeNext"
 	},
 	"include": [
-		"source",
+		"src",
 		"package.json"
 	]
 }

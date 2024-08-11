@@ -59,5 +59,5 @@ if (cli.flags.help) {
 	// We don't want to exit on Ctrl+C because we want to manage exit ourself via our shortcut
 	withFullScreen(<App debugMode={debugMode} />, { exitOnCtrlC: false }).start();
 	// Note: to easily runtime errors and their stack traces, use this line instead
-	// render(<App />, {exitOnCtrlC: false});
+	// render(<App debugMode={debugMode} />, { exitOnCtrlC: false });
 }

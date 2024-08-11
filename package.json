@@ -13,7 +13,7 @@
 		"deliberate",
 		"kata"
 	],
-	"bin": "dist/source/CLI.js",
+	"bin": "dist/src/CLI.js",
 	"type": "module",
 	"engines": {
 		"node": ">=16"
