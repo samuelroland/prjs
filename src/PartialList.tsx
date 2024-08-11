@@ -14,6 +14,25 @@ type Props = {
 	emptyListMessage?: string;
 }
 
+
+// Convert "info: super message" to a Text node in gray with content "super message"
+//TODO: should we test this function ?
+const colorByMessagesTypes: { [key: string]: string } = {
+	'info': 'gray',
+	'error': 'red',
+	'warning': 'orange',
+}
+function getColoredTextByType(msg: string): ReactNode {
+	const sepIndex = msg.indexOf(":")
+	if (sepIndex === -1) return <Text>{msg}</Text>
+	const type = msg.substring(0, sepIndex).trim()
+	console.log(type)
+	if (colorByMessagesTypes[type] !== undefined) {
+		return <Text color={colorByMessagesTypes[type]}>{msg.substring(sepIndex + 1).trim()}</Text>
+	}
+	return <Text>{msg}</Text>
+}
+
 export default function PartialList({ list, height, selectionEnabled, selectedIndex, emptyListMessage }: Props) {
 	const startIndex = 0
 	const listHeight = height >= list.length ? list.length : height
@@ -26,6 +45,7 @@ export default function PartialList({ list, height, selectionEnabled, selectedIn
 		if (!selectionEnabled) return false
 		return finalIndexInPortion == i
 	}
+
 	return (
 		<Box display='flex' flexDirection='column'>
 			{finalList.map((el, i) => <Text key={i}
@@ -37,7 +57,7 @@ export default function PartialList({ list, height, selectionEnabled, selectedIn
 			</Text>
 			)}
 			{finalList.length === 0 ?
-				<Text color='red'>{emptyListMessage}</Text>
+				getColoredTextByType(emptyListMessage ?? "No element to show.")
 				: null}
 		</Box>
 	);
