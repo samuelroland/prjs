@@ -1,11 +1,11 @@
 // Helper functions to easily write assertions on Ink instance and frames...
 import { render } from 'ink-testing-library'
 import { expect } from 'vitest';
-import { sendInputAndWaitForChange } from './shopify-cli-testing-helpers';
+import { sendInputAndWait, sendInputAndWaitForChange } from './shopify-cli-testing-helpers';
 
 // Wait a certain amount of time in milliseconds
 export function wait(time: number) {
-	return new Promise((resolve) => setTimeout(resolve, 100))
+	return new Promise((resolve) => setTimeout(resolve, time))
 }
 
 export function mustShow(instance: ReturnType<typeof render>, text: string) {
@@ -27,8 +27,16 @@ export function expectNFrames(instance: ReturnType<typeof render>, n: number) {
 	expect(instance.frames.length).to.equal(n)
 }
 
-export async function type(inst: ReturnType<typeof render>, input: string) {
-	await wait(10)
-	await sendInputAndWaitForChange(inst, input)
+// Simulate typing
+//Send one letter at a time to enable shortcuts (more than 2 letters at the same time as considered text in shortcuts.ts)
+// we expect some change every time
+
+export async function type(inst: ReturnType<typeof render>, input: string, expectChange: boolean = true) {
+	for (const i of input.split("")) {
+		if (expectChange)
+			await sendInputAndWaitForChange(inst, i)
+		else // simulate a small typing pause
+			await sendInputAndWait(inst, 10, i)
+	}
 }
 
