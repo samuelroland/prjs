@@ -55,28 +55,27 @@ export function getSliceStartIndex(selectionEnabled: boolean, selectionIndex: nu
 export default function PartialList({ list, height, selectionEnabled, selectedIndex: selectionIndex, emptyListMessage, full }: Props) {
 	let finalList = list
 	let startIndex = 0
+	const [localScrollIndex, setLocalScrollIndex] = useState(0) // do not run hooks in condition so we do it here
+	useInput((input, key: Key) => {
+		// If selection is enabled do not manage shortcuts
+		if (selectionEnabled) return
+
+		const pattern = interpretShortcut(input, key)
+		if (pattern === null) return
+		switch (pattern) {
+			case 'j':
+				setLocalScrollIndex(localScrollIndex < list.length ? localScrollIndex + 1 : localScrollIndex)
+				break;
+			case 'k':
+				setLocalScrollIndex(localScrollIndex > 0 ? localScrollIndex - 1 : 0)
+				break;
+		}
+	})
 
 	// In we are not in the exception where we still want to show the full list,
 	// calculate the new finalList
 	if (!full) {
 		const partialHeight = height < list.length ? height : list.length
-		const [localScrollIndex, setLocalScrollIndex] = useState(0)
-
-		// If selection is disabled, we have to manage the scroll index locally
-		if (!selectionEnabled) {
-			useInput((input, key: Key) => {
-				const pattern = interpretShortcut(input, key)
-				if (pattern === null) return
-				switch (pattern) {
-					case 'j':
-						setLocalScrollIndex(localScrollIndex < list.length ? localScrollIndex + 1 : localScrollIndex)
-						break;
-					case 'k':
-						setLocalScrollIndex(localScrollIndex > 0 ? localScrollIndex - 1 : 0)
-						break;
-				}
-			})
-		}
 
 		// The start index is by default 0 but it could be bigger
 		// if the list is too big (and selection is not 0)
