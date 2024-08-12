@@ -67,11 +67,7 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 						: 'No exo found in this suite'}
 				></PartialList>
 			</Box >
-			<Spacer />
-			<Box marginTop={1}>
-				<Text>Progress: </Text>
-				<ProgressBar percent={progress} />
-			</Box>
-		</>
+			<ProgressBar percent={progress} />
+		</Box>
 	);
 }
