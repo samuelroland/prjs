@@ -41,7 +41,7 @@ test('show selected item when selection is enabled', async () => {
 		height={HEIGHT}
 		list={NUMBERS.map(n => <Text>{n}</Text>)}
 		selectionEnabled={true}
-		selectedIndex={3} //4rd element
+		selectionIndex={3} //4rd element
 	/>);
 
 	mustContain(inst, NUMBERS.slice(0, 3).join("\n"))

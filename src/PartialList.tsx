@@ -12,7 +12,7 @@ type Props = {
 	list: ReactNode[];
 	height: number;	//the maximum height
 	selectionEnabled: boolean;
-	selectedIndex?: number;
+	selectionIndex?: number;
 	emptyListMessage?: string;
 	full?: boolean;
 }
@@ -52,7 +52,7 @@ export function getSliceStartIndex(selectionEnabled: boolean, selectionIndex: nu
 	return idx
 }
 
-export default function PartialList({ list, height, selectionEnabled, selectedIndex: selectionIndex, emptyListMessage, full }: Props) {
+export default function PartialList({ list, height, selectionEnabled, selectionIndex: selectionIndex, emptyListMessage, full }: Props) {
 	let finalList = list
 	let startIndex = 0
 	const [localScrollIndex, setLocalScrollIndex] = useState(0) // do not run hooks in condition so we do it here

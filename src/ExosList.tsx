@@ -46,7 +46,7 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 				))}
 					height={LIST_HEIGHT}
 					selectionEnabled={true}
-					selectedIndex={store.currentFileIndex}
+					selectionIndex={store.currentFileIndex}
 					emptyListMessage={store.runner.starting ? 'info:Vitest is starting...'
 						: (!store.runner.started ? 'error:Vitest start has failed...' : 'info:Vitest found no test in this folder...')}
 				></PartialList>
@@ -64,7 +64,7 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 				))}
 					height={LIST_HEIGHT}
 					selectionEnabled={store.listNumber == 1}
-					selectedIndex={store.currentExoIndex}
+					selectionIndex={store.currentExoIndex}
 					emptyListMessage={filteredExos.length == 0 && !store.runner.starting && store.search?.trim() != ''
 						? 'No exo matched this search...'
 						: 'No exo found in this suite'}
