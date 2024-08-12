@@ -67,34 +67,36 @@ Usage
 $ prjs
 
 Options
--v, --version: Show version
--h, --help: Show this help
+	-v, --version: Show version
+	-h, --help: Show this help
+	-d, --debug: Enable debug mode
 
+Common shortcuts
+? View help page
+q, ctrl+c Quit the TUI
 
-Home Shortcuts
+Help shortcuts
+escape Escape help page
+j, downArrow Scroll down
+k, upArrow Scroll up
+
+Home shortcuts
 l View list page
 
-List Shortcuts
+List shortcuts
 escape Escape search bar
 return Enter a selected exo
 return Validate search
-j Next item
-k Previous item
-h Switch to files list
-l Switch to exos list
+j, downArrow Next item
+k, upArrow Previous item
+h, leftArrow Switch to files list
+l, rightArrow Switch to exos list
 f Find exo by title
 
-Help Shortcuts
-escape Escape help page
-
-Train Shortcuts
+Train shortcuts
 escape Escape exo details
 n Next exo
-p Previous exo
-
-All Shortcuts
-? View help page
-q, ctrl+c Quit the TUI
+  p Previous exo
 ```
 
 Here is an example repository where you can try it
