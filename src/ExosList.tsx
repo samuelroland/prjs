@@ -17,30 +17,31 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 	const store = useStore();
 
 	const LIST_HEIGHT = useScreenSize().height - 4 // 3 lines at the top, 1 at the bottom
+	const WIDTH = useScreenSize().width
 	const progress = store.getProgress();
 	const files = useStore(store => store.getAllFiles());
 	const filteredExos = useStore(store => store.getFilteredExos());
-	const times = useStore(s => s.reloadTimes);
 
 	debug('rendered exoslist !');
 	return (
-		<>
-			<Box flexDirection="row">
-				<Text color="green" bold>
-					Exos list {times}
+		<Box flexDirection='column'>
+			<Box flexDirection={WIDTH > 70 ? 'row' : 'column'}>
+				<Text color={LOGO_COLORS[0]} bold>
+					{/* Exos <Text color='gray'>{times}</Text>. Note: in case watch mode doesn't work, display times again... */}
+					Exos
 				</Text>
 				<Spacer />
-				<Box flexDirection="row" justifyContent="flex-end">
+				<Box flexDirection="row" justifyContent={WIDTH > 70 ? 'flex-end' : 'flex-start'}>
 					<Box width={'50'}>{showSearchBar ? <SearchBar /> : ''}</Box>
 				</Box>
 			</Box>
 
-			<Box height="100%" >
+			<Box height="100%" flexDirection={WIDTH > 70 ? 'row' : 'column'} >
 				{/*Skill list*/}
 				<PartialList list={files.map(f => (
 					<Text>
-						{get(f.state == 'pass' ? 'white_check_mark' : 'x')}
-						{' ' + f.filename}
+						{' ' + get(f.state == 'pass' ? 'white_check_mark' : 'x')}
+						{` ${f.filename} `}
 					</Text>
 				))}
 					height={LIST_HEIGHT}

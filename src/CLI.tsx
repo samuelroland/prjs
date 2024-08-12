@@ -52,7 +52,7 @@ if (cli.flags.help) {
 				</Gradient>
 				<Text color='magenta'>{HELP}</Text>
 				<Text> </Text>
-				<Help full={true} height={50} shortcuts={shortcuts} />
+				<Help full={true} height={0} shortcuts={shortcuts} />
 			</Box>
 		</>,
 	);

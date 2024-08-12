@@ -5,7 +5,7 @@
 import React, { ReactNode, useState } from 'react';
 import { Key } from 'ink';
 import { Text, Spacer, Box, Newline, useInput } from 'ink';
-import { BG_VARIANTES } from '../src/util.js'
+import { BG_VARIANTES, LOGO_COLORS } from '../src/util.js'
 import { interpretShortcut } from './shortcuts.js';
 
 type Props = {
@@ -95,7 +95,7 @@ export default function PartialList({ list, height, selectionEnabled, selectedIn
 			{finalList.map((el, i) => <Text key={i}
 				wrap="truncate-end"
 				color={selected(i) ? 'black' : ''}
-				backgroundColor={selected(i) ? BG_VARIANTES[0] : ''}>
+				backgroundColor={selected(i) ? LOGO_COLORS[0] : ''}>
 				{/* <Text>{selected(i) ? "> " : ''}</Text> */}
 				{el}
 			</Text>
