@@ -50,20 +50,18 @@ export function getSliceStartIndex(selectionEnabled: boolean, selectionIndex: nu
 	return idx
 }
 
-export default function PartialList({ list, height, selectionEnabled, selectedIndex, emptyListMessage }: Props) {
+export default function PartialList({ list, height, selectionEnabled, selectedIndex: selectionIndex, emptyListMessage }: Props) {
 	const partialHeight = height < list.length ? height : list.length
 
 	// The start index is by default 0 but it could be bigger
 	// if the list is too big (and selection is not 0)
-	let startIndex = getSliceStartIndex(selectionEnabled, selectedIndex ?? 0, partialHeight, list.length)
-	console.log(startIndex)
+	let startIndex = getSliceStartIndex(selectionEnabled, selectionIndex ?? 0, partialHeight, list.length)
 	const finalList = list.slice(startIndex, partialHeight - startIndex)
-	console.log(finalList)
 
 	// Return true if the i element is selected !
 	function selected(i: number) {
 		if (!selectionEnabled) return false
-		return selectedIndex - startIndex == i
+		return selectionIndex - startIndex == i
 	}
 
 	return (

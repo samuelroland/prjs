@@ -1,19 +1,20 @@
+// Help page showing provided shortcuts dynamically organized by pages
+// allowing to have a help page always up-to-date
 import React from 'react';
-import { Text, Box } from 'ink';
+import { Text, Box, Newline } from 'ink';
 import { Shortcut, Page } from './types.js';
+import PartialList from './PartialList.js';
+import useStore, { Store } from './store.js';
 
 type CategorizedShortcuts = Record<Page, Shortcut[]> & {
 	[key: string]: Shortcut[];
 };
 
-// Liste des pages pour s'assurer que les clés sont du type Page
-const pages: Page[] = ['home', 'list', 'help', 'train'];
-
-const categorizeShortcuts = (shortcuts: Shortcut[]) => {
+export const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	const categories: CategorizedShortcuts = {
-		home: [],
-		all: [],
+		common: [],
 		help: [],
+		home: [],
 		list: [],
 		train: [],
 	};
@@ -23,7 +24,7 @@ const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 			if (shortcut.pages?.includes(name as Page)) {
 				categories[name as Page].push(shortcut);
 			} else if (!shortcut.pages || shortcut.pages.length === 0) {
-				categories['all']?.push(shortcut);
+				categories['common']?.push(shortcut);
 				break;
 			}
 		}
@@ -32,34 +33,44 @@ const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	return categories;
 };
 
-export default function Help({ shortcuts }: { shortcuts: Shortcut[] }) {
-	// TODO: show the list as arrays (without any border), the first column is the pattern (in color), second is the description. To show arrays easily, search for a table plugin...
+export default function Help({ shortcuts, height }: { shortcuts: Shortcut[], height: number }) {
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 
-	// Include "all" in the list of categories
-	const pagesWithAll = ['all', ...pages];
-	// @ts-ignore
-	pages.push('all');
+	// Include "common" in the list of categories, define a special order to existing pages
+	const pagesListWithCommon = ['common', ...['help', 'home', 'list', 'train']];
+
+	// We build a list of lines instead of a hierarchical Box+Text structure
+	// because we want to have all lines be of height 1 for PartialList usage
+	const lines = []
+
+	pagesListWithCommon.forEach(page => {
+		lines.push(
+			<Text color="blue" bold>
+				{page.charAt(0).toUpperCase() + page.slice(1)} shortcuts
+			</Text>
+		)
+		categorizedShortcuts[page]?.forEach(shortcut => {
+			lines.push(<Text>
+				<Text color="yellow">{shortcut.pattern}</Text>
+				{shortcut.alt && `,`}
+				<Text color="yellow">
+					{shortcut.alt && ` ${shortcut.alt}`}
+				</Text>{' '}
+				{shortcut.description}
+			</Text>
+			)
+		})
+		lines.push(<Text> </Text>) //NewLine seems to be 2 empty lines so we use an invisible space
+	})
+
+	const store: Store = useStore();
 
 	return (
-		<Box flexDirection="column">
-			{pages.map(category => (
-				<Box key={category} flexDirection="column" marginTop={1}>
-					<Text color="blue" bold>
-						{category.charAt(0).toUpperCase() + category.slice(1)} Shortcuts
-					</Text>
-					{categorizedShortcuts[category]?.map((shortcut, index) => (
-						<Text key={index}>
-							<Text color="yellow">{shortcut.pattern}</Text>
-							{shortcut.alt && `,`}
-							<Text color="yellow">
-								{shortcut.alt && ` ${shortcut.alt}`}
-							</Text>{' '}
-							{shortcut.description}
-						</Text>
-					))}
-				</Box>
-			))}
-		</Box>
+		<PartialList
+			list={lines}
+			selectionEnabled={false}
+			selectedIndex={store.helpScrollIndex}
+			height={height}>
+		</PartialList>
 	);
 }
