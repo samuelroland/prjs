@@ -1,14 +1,15 @@
 // Unit tests on PartialList.tsx
 import React from 'react';
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { Text } from 'ink'
 import { render } from 'ink-testing-library';
 import chalk from 'chalk';
-import { mustShow, mustContain, mustNotContain, expectNFrames, type } from "./utils/helpers.ts"
+import { mustShow, mustContain, mustNotContain, expectNFrames, type, typeAndWait } from "./utils/helpers.ts"
 import PartialList, { getSliceStartIndex } from "../src/PartialList"
 import { BG_VARIANTES } from '../src/util'
+import { waitForInputsToBeReady } from './utils/shopify-cli-testing-helpers.ts';
 
-test('PartialList can show a short list of numbers', async () => {
+test('can show a short list of numbers', async () => {
 	const numbers = [2, 5, 1, 53]
 	const inst = render(<PartialList
 		height={50}
@@ -23,7 +24,7 @@ test('PartialList can show a short list of numbers', async () => {
 const NUMBERS = [2, 5, 1, 53, 2, 4, 6, 1, 4, 2, 1, 3, 5, 6, 2, 1, 5, 6, 2, 10, 6, 2, 5, 22]
 const HEIGHT = 10
 
-test('PartialList does not print the end of the list when very long', async () => {
+test('do not print the end of the list when very long', async () => {
 	const inst = render(<PartialList
 		height={HEIGHT}
 		list={NUMBERS.map(n => <Text>{n}</Text>)}
@@ -34,7 +35,7 @@ test('PartialList does not print the end of the list when very long', async () =
 	inst.unmount()
 });
 
-test('PartialList show selected item when selection is enabled', async () => {
+test('show selected item when selection is enabled', async () => {
 	// Selection enabled
 	const inst = render(<PartialList
 		height={HEIGHT}
@@ -50,7 +51,7 @@ test('PartialList show selected item when selection is enabled', async () => {
 	inst.unmount()
 });
 
-test('PartialList getSliceStartIndex() is correct', () => {
+test('getSliceStartIndex() is correct', () => {
 	// When selection mode is disabled, start index should be equal to selectedIndex
 	// and should not exceed max
 	expect(getSliceStartIndex(false, 0, 10, 100)).to.eq(0)
@@ -75,7 +76,7 @@ test('PartialList getSliceStartIndex() is correct', () => {
 	expect(getSliceStartIndex(true, 4, 10, 5)).to.eq(0)
 })
 
-// test('PartialList shift the view via selectionIndex when selection is enabled', async () => {
+// test('shift the view via selectionIndex when selection is enabled', async () => {
 // 	const inst = render(<PartialList
 // 		height={HEIGHT}
 // 		list={NUMBERS.map(n => <Text>{n}</Text>)}
@@ -87,8 +88,7 @@ test('PartialList getSliceStartIndex() is correct', () => {
 // 	inst.unmount()
 // });
 
-//todo: support custom msg or has a default one
-test('PartialList show a message when the list is empty', async () => {
+test('show a message when the list is empty', async () => {
 	const inst = render(<PartialList
 		height={HEIGHT}
 		list={[]}
@@ -98,7 +98,7 @@ test('PartialList show a message when the list is empty', async () => {
 	inst.unmount()
 })
 
-test('PartialList support a custom empty list message', async () => {
+test('support a custom empty list message', async () => {
 	const inst = render(<PartialList
 		height={HEIGHT}
 		list={[]}
@@ -106,5 +106,26 @@ test('PartialList support a custom empty list message', async () => {
 		emptyListMessage='error: custom message'
 	/>);
 	mustShow(inst, "\u001b[31mcustom message\u001b[39m") //in red
+	inst.unmount()
+});
+
+test('manage scroll progress without selectionIndex when selectionEnabled=false', async () => {
+	const inst = render(<PartialList
+		height={HEIGHT}
+		list={NUMBERS.map(n => <Text>{n}</Text>)}
+		selectionEnabled={false}
+		emptyListMessage='error: custom message'
+	/>);
+	await waitForInputsToBeReady()
+	mustShow(inst, NUMBERS.slice(0, HEIGHT).join("\n"))
+
+	await type(inst, "j")
+	mustShow(inst, NUMBERS.slice(1, HEIGHT + 1).join("\n"))
+
+	await type(inst, "k")
+	mustShow(inst, NUMBERS.slice(0, HEIGHT).join("\n"))
+
+	await type(inst, "jjjjjkk")
+	mustShow(inst, NUMBERS.slice(3, HEIGHT + 3).join("\n"))
 	inst.unmount()
 });

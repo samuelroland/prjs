@@ -2,9 +2,11 @@
 // It allows to manage a selection of item or not if selection is unnecessary
 // It allows to show further in the list if it goes over the current height
 // It can also show a custom message in case the list is empty
-import React, { ReactNode } from 'react';
-import { Text, Spacer, Box, Newline } from 'ink';
+import React, { ReactNode, useState } from 'react';
+import { Key } from 'ink';
+import { Text, Spacer, Box, Newline, useInput } from 'ink';
 import { BG_VARIANTES } from '../src/util.js'
+import { interpretShortcut } from './shortcuts.js';
 
 type Props = {
 	list: ReactNode[];
@@ -12,8 +14,8 @@ type Props = {
 	selectionEnabled: boolean;
 	selectedIndex?: number;
 	emptyListMessage?: string;
+	full?: boolean;
 }
-
 
 // Convert "info: super message" to a Text node in gray with content "super message"
 //TODO: should we test this function ?
@@ -50,13 +52,37 @@ export function getSliceStartIndex(selectionEnabled: boolean, selectionIndex: nu
 	return idx
 }
 
-export default function PartialList({ list, height, selectionEnabled, selectedIndex: selectionIndex, emptyListMessage }: Props) {
-	const partialHeight = height < list.length ? height : list.length
+export default function PartialList({ list, height, selectionEnabled, selectedIndex: selectionIndex, emptyListMessage, full }: Props) {
+	let finalList = list
+	let startIndex = 0
 
-	// The start index is by default 0 but it could be bigger
-	// if the list is too big (and selection is not 0)
-	let startIndex = getSliceStartIndex(selectionEnabled, selectionIndex ?? 0, partialHeight, list.length)
-	const finalList = list.slice(startIndex, partialHeight - startIndex)
+	// In we are not in the exception where we still want to show the full list,
+	// calculate the new finalList
+	if (!full) {
+		const partialHeight = height < list.length ? height : list.length
+		const [localScrollIndex, setLocalScrollIndex] = useState(0)
+
+		// If selection is disabled, we have to manage the scroll index locally
+		if (!selectionEnabled) {
+			useInput((input, key: Key) => {
+				const pattern = interpretShortcut(input, key)
+				if (pattern === null) return
+				switch (pattern) {
+					case 'j':
+						setLocalScrollIndex(localScrollIndex < list.length ? localScrollIndex + 1 : localScrollIndex)
+						break;
+					case 'k':
+						setLocalScrollIndex(localScrollIndex > 0 ? localScrollIndex - 1 : 0)
+						break;
+				}
+			})
+		}
+
+		// The start index is by default 0 but it could be bigger
+		// if the list is too big (and selection is not 0)
+		startIndex = getSliceStartIndex(selectionEnabled, selectionIndex ?? localScrollIndex, partialHeight, list.length)
+		finalList = list.slice(startIndex, startIndex + partialHeight)
+	}
 
 	// Return true if the i element is selected !
 	function selected(i: number) {
