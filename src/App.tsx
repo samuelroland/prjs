@@ -8,6 +8,8 @@ import Help from './Help.js';
 import useStore, { Store } from './store.js';
 import { listenForShortcuts, shortcuts } from './shortcuts.js';
 import { useEffect } from 'react';
+import { useScreenSize } from './hooks/useScreenSize.js';
+
 var globalDebugMode: boolean = false
 // Some util functions
 import fs from 'fs';
@@ -33,6 +35,8 @@ export default function App({ debugMode }: { debugMode?: boolean }) {
 
 	listenForShortcuts();
 
+	const terminalHeight = useScreenSize().height;
+
 	const pages = new Map<string, (store: Store) => ReactNode>();
 	pages.set('home', () => <Home />);
 	pages.set('list', store => (
@@ -41,17 +45,20 @@ export default function App({ debugMode }: { debugMode?: boolean }) {
 	pages.set('train', store => (
 		<ExoDetails exo={store.getCurrentExo()}></ExoDetails>
 	));
-	pages.set('help', () => <Help shortcuts={shortcuts}></Help>);
+	pages.set('help', () => <Help height={terminalHeight - 2} shortcuts={shortcuts}></Help>);
 
 	const currentPage = pages.get(store.page);
+
 	return (
-		<Box flexDirection="column" width="100%">
+		<Box flexDirection="column" width="100%" height='100%'>
 			<Header debugMode={globalDebugMode}></Header>
-			{currentPage != undefined ? (
-				currentPage(store)
-			) : (
-				<Text>Unknown page to render: ??{store.page}</Text>
-			)}
+			<Box height='100%' width='100%'>
+				{currentPage != undefined ? (
+					currentPage(store)
+				) : (
+					<Text>Unknown page to render: ??{store.page}</Text>
+				)}
+			</Box>
 		</Box>
 	);
 }

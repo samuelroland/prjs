@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Spacer, Text } from 'ink';
 import ProgressBar from './ProgressBar.js';
 import { get } from 'node-emoji';
@@ -7,6 +7,7 @@ import useStore from './store.js';
 import { LOGO_COLORS } from './util.js';
 import { debug } from './App.js';
 import PartialList from './PartialList.js';
+import { useScreenSize } from './hooks/useScreenSize.js';
 
 interface ExosListProps {
 	showSearchBar: boolean;
@@ -15,6 +16,7 @@ interface ExosListProps {
 export default function ExosList({ showSearchBar }: ExosListProps) {
 	const store = useStore();
 
+	const LIST_HEIGHT = useScreenSize().height - 4 // 3 lines at the top, 1 at the bottom
 	const progress = store.getProgress();
 	const files = useStore(store => store.getAllFiles());
 	const filteredExos = useStore(store => store.getFilteredExos());
@@ -41,7 +43,7 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 						{' ' + f.filename}
 					</Text>
 				))}
-					height={50}
+					height={LIST_HEIGHT}
 					selectionEnabled={true}
 					selectedIndex={store.currentFileIndex}
 					emptyListMessage={store.runner.starting ? 'info:Vitest is starting...'
@@ -59,7 +61,7 @@ export default function ExosList({ showSearchBar }: ExosListProps) {
 						{' ' + e.title}
 					</Text>
 				))}
-					height={50}
+					height={LIST_HEIGHT}
 					selectionEnabled={store.listNumber == 1}
 					selectedIndex={store.currentExoIndex}
 					emptyListMessage={filteredExos.length == 0 && !store.runner.starting && store.search?.trim() != ''
