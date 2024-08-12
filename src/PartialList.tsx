@@ -56,25 +56,26 @@ export default function PartialList({ list, height, selectionEnabled, selectedIn
 	let finalList = list
 	let startIndex = 0
 	const [localScrollIndex, setLocalScrollIndex] = useState(0) // do not run hooks in condition so we do it here
-	useInput((input, key: Key) => {
-		// If selection is enabled do not manage shortcuts
-		if (selectionEnabled) return
-
-		const pattern = interpretShortcut(input, key)
-		if (pattern === null) return
-		switch (pattern) {
-			case 'j':
-				setLocalScrollIndex(localScrollIndex < list.length ? localScrollIndex + 1 : localScrollIndex)
-				break;
-			case 'k':
-				setLocalScrollIndex(localScrollIndex > 0 ? localScrollIndex - 1 : 0)
-				break;
-		}
-	})
 
 	// In we are not in the exception where we still want to show the full list,
 	// calculate the new finalList
 	if (!full) {
+		useInput((input, key: Key) => { //note: this block the exit of help when running prjs --help if we put it outside of the condition
+			// If selection is enabled do not manage shortcuts
+			if (selectionEnabled) return
+
+			const pattern = interpretShortcut(input, key)
+			if (pattern === null) return
+			switch (pattern) {
+				case 'j':
+					setLocalScrollIndex(localScrollIndex < list.length ? localScrollIndex + 1 : localScrollIndex)
+					break;
+				case 'k':
+					setLocalScrollIndex(localScrollIndex > 0 ? localScrollIndex - 1 : 0)
+					break;
+			}
+		})
+
 		const partialHeight = height < list.length ? height : list.length
 
 		// The start index is by default 0 but it could be bigger
