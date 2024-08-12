@@ -33,7 +33,7 @@ export const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	return categories;
 };
 
-export default function Help({ shortcuts, height }: { shortcuts: Shortcut[], height: number }) {
+export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[], height: number, full?: boolean }) {
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 
 	// Include "common" in the list of categories, define a special order to existing pages
@@ -67,9 +67,9 @@ export default function Help({ shortcuts, height }: { shortcuts: Shortcut[], hei
 
 	return (
 		<PartialList
+			full={full}
 			list={lines}
 			selectionEnabled={false}
-			selectedIndex={store.helpScrollIndex}
 			height={height}>
 		</PartialList>
 	);
