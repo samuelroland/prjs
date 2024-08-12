@@ -7,6 +7,7 @@ import useStore, { Store } from './store.js';
 import type { Shortcut } from './types.js';
 import { useApp } from 'ink';
 import { debug } from './App.js';
+import { decrement, increment } from './util.js';
 
 export const shortcuts: Shortcut[] = [
 	{
@@ -79,24 +80,28 @@ export const shortcuts: Shortcut[] = [
 	},
 	{
 		pattern: 'j',
+		alt: 'downArrow',
 		pages: ['list'],
 		action: s => s.changeSelectionInCurrentList(1),
 		description: 'Next item',
 	},
 	{
 		pattern: 'k',
+		alt: 'upArrow',
 		pages: ['list'],
 		action: s => s.changeSelectionInCurrentList(-1),
 		description: 'Previous item',
 	},
 	{
 		pattern: 'h',
+		alt: 'leftArrow',
 		pages: ['list'],
 		action: s => s.switchToList(0),
 		description: 'Switch to files list',
 	},
 	{
 		pattern: 'l',
+		alt: 'rightArrow',
 		pages: ['list'],
 		action: s => s.switchToList(1),
 		description: 'Switch to exos list',

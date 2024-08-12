@@ -33,6 +33,10 @@ export const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	return categories;
 };
 
+function beautifyPattern(pattern: string) {
+	return pattern.replace("Arrow", "").replace("ctrl", "Ctrl")
+}
+
 export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[], height: number, full?: boolean }) {
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 
@@ -51,10 +55,10 @@ export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[
 		)
 		categorizedShortcuts[page]?.forEach(shortcut => {
 			lines.push(<Text>
-				<Text color="yellow">{shortcut.pattern}</Text>
+				<Text color="yellow">{beautifyPattern(shortcut.pattern)}</Text>
 				{shortcut.alt && `,`}
 				<Text color="yellow">
-					{shortcut.alt && ` ${shortcut.alt}`}
+					{shortcut.alt && ` ${beautifyPattern(shortcut.alt)}`}
 				</Text>{' '}
 				{shortcut.description}
 			</Text>
@@ -66,6 +70,7 @@ export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[
 	const store: Store = useStore();
 
 	return (
+		// todo: a box with a ref to measure size ??
 		<PartialList
 			full={full}
 			list={lines}
