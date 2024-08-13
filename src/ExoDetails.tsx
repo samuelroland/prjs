@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Newline, Text } from 'ink';
-import { AdvancedTest, Exo, ReturnTest } from './types.js';
+import { AdvancedTest, Exo, ReturnTest } from './types';
 import { get } from 'node-emoji';
-import { LOGO_COLORS } from './util.js';
+import { LOGO_COLORS } from './util';
 
 export default function ExoDetails({ exo }: { exo: Exo | null }) {
 	function formatValue(v: any) {

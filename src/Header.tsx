@@ -3,7 +3,7 @@ import { Text, Spacer, Box, Newline } from 'ink';
 import path from 'path';
 import { get } from 'node-emoji';
 import Gradient from 'ink-gradient';
-import { LOGO_COLORS } from './util.js';
+import { LOGO_COLORS } from './util';
 
 export default function Header({ debugMode }: { debugMode: boolean }) {
 	return (

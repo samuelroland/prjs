@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Spacer, Text } from 'ink';
-import ProgressBar from './ProgressBar.js';
+import ProgressBar from './ProgressBar';
 import { get } from 'node-emoji';
-import { SearchBar } from './SearchBar.js';
-import useStore from './store.js';
-import { LOGO_COLORS } from './util.js';
-import { debug } from './App.js';
-import PartialList from './PartialList.js';
-import { useScreenSize } from './hooks/useScreenSize.js';
+import { SearchBar } from './SearchBar';
+import useStore from './store';
+import { LOGO_COLORS } from './util';
+import { debug } from './App';
+import PartialList from './PartialList';
+import { useScreenSize } from './hooks/useScreenSize';
 
 interface ExosListProps {
 	showSearchBar: boolean;

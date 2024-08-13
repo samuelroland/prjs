@@ -5,8 +5,8 @@
 import React, { ReactNode, useState } from 'react';
 import { Key } from 'ink';
 import { Text, Spacer, Box, Newline, useInput } from 'ink';
-import { BG_VARIANTES, LOGO_COLORS } from '../src/util.js'
-import { interpretShortcut } from './shortcuts.js';
+import { BG_VARIANTES, LOGO_COLORS } from '../src/util'
+import { interpretShortcut } from './shortcuts';
 
 type Props = {
 	list: ReactNode[];

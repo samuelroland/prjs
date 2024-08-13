@@ -1,8 +1,8 @@
-import { Box, Text, Newline } from 'ink';
+import {Box, Text, Newline} from 'ink';
 import Gradient from 'ink-gradient';
 import React from 'react';
-import { debug } from './App.js';
-import { LOGO_COLORS, ASCII_ART, DEFINITION, SUBDEF } from './util.js';
+import {debug} from './App';
+import {LOGO_COLORS, ASCII_ART, DEFINITION, SUBDEF} from './util';
 import fs from 'fs';
 
 export default function Home() {

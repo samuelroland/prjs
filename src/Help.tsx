@@ -2,9 +2,9 @@
 // allowing to have a help page always up-to-date
 import React from 'react';
 import { Text, Box, Newline } from 'ink';
-import { Shortcut, Page } from './types.js';
-import PartialList from './PartialList.js';
-import useStore, { Store } from './store.js';
+import { Shortcut, Page } from './types';
+import PartialList from './PartialList';
+import useStore, { Store } from './store';
 
 type CategorizedShortcuts = Record<Page, Shortcut[]> & {
 	[key: string]: Shortcut[];

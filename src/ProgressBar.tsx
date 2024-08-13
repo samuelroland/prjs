@@ -1,7 +1,7 @@
 // ProgressBar from scratch because the ink plugin doesn't work...
 import React from 'react';
 import { Box, Text } from 'ink';
-import { useScreenSize } from './hooks/useScreenSize.js';
+import { useScreenSize } from './hooks/useScreenSize';
 type ProgressBarProps = {
 	percent: number;
 };

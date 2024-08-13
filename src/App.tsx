@@ -1,21 +1,21 @@
-import React, { ReactNode } from 'react';
-import { Box, Text } from 'ink';
-import ExosList from './ExosList.js';
-import Home from './Home.js';
-import Header from './Header.js';
-import ExoDetails from './ExoDetails.js';
-import Help from './Help.js';
-import useStore, { Store } from './store.js';
-import { listenForShortcuts, shortcuts } from './shortcuts.js';
-import { useEffect } from 'react';
-import { useScreenSize } from './hooks/useScreenSize.js';
+import React, {ReactNode} from 'react';
+import {Box, measureElement, Text} from 'ink';
+import ExosList from './ExosList';
+import Home from './Home';
+import Header from './Header';
+import ExoDetails from './ExoDetails';
+import Help from './Help';
+import useStore, {Store} from './store';
+import {listenForShortcuts, shortcuts} from './shortcuts';
+import {useEffect} from 'react';
+import {useScreenSize} from './hooks/useScreenSize';
 
-var globalDebugMode: boolean = false
+var globalDebugMode: boolean = false;
 // Some util functions
 import fs from 'fs';
 import util from 'util';
 export function debug(...d: any) {
-	if (!globalDebugMode) return
+	if (!globalDebugMode) return;
 	let append = '';
 	for (const v of d) {
 		append += util.format(v) + '\n';
@@ -23,14 +23,14 @@ export function debug(...d: any) {
 	fs.appendFileSync('debug.log', append + '\n');
 }
 
-export default function App({ debugMode }: { debugMode?: boolean }) {
-	globalDebugMode = debugMode ?? false
+export default function App({debugMode}: {debugMode?: boolean}) {
+	globalDebugMode = debugMode ?? false;
 	const store: Store = useStore();
 	useEffect(() => {
 		store.start(debugMode ?? false);
 		return () => {
-			store.stop()
-		}
+			store.stop();
+		};
 	}, []);
 
 	listenForShortcuts();
@@ -45,14 +45,16 @@ export default function App({ debugMode }: { debugMode?: boolean }) {
 	pages.set('train', store => (
 		<ExoDetails exo={store.getCurrentExo()}></ExoDetails>
 	));
-	pages.set('help', () => <Help height={terminalHeight - 2} shortcuts={shortcuts}></Help>);
+	pages.set('help', () => (
+		<Help height={terminalHeight - 2} shortcuts={shortcuts}></Help>
+	));
 
 	const currentPage = pages.get(store.page);
 
 	return (
-		<Box flexDirection="column" width="100%" height='100%'>
+		<Box flexDirection="column" width="100%" height="100%">
 			<Header debugMode={globalDebugMode}></Header>
-			<Box height='100%' width='100%'>
+			<Box height="100%" width="100%">
 				{currentPage != undefined ? (
 					currentPage(store)
 				) : (

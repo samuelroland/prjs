@@ -15,8 +15,8 @@ export type Exo = {
 	title: string;
 	instruction?: string;
 	async?: boolean;
-	fn: (...any) => any;
 	tests: (ReturnTest | AdvancedTest)[];
+	fn: (..._: any[]) => any;
 };
 
 async function runTest(t: AdvancedTest | ReturnTest, fn: Function, exo: Exo) {

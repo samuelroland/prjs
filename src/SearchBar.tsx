@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 import TextInput from 'ink-text-input';
-import useStore from './store.js';
-import { LOGO_COLORS } from './util.js';
+import useStore from './store';
+import { LOGO_COLORS } from './util';
 
 export function SearchBar({ }) {
 	const store = useStore();
