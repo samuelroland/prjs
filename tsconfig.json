@@ -3,11 +3,11 @@
 		"outDir": "dist",
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
-		"resolveJsonModule": true,
-		"module": "NodeNext"
+		"module": "NodeNext",
+		"declaration": true,
+		"allowImportingTsExtensions": true,
 	},
 	"include": [
-		"src",
-		"package.json"
+		"src/extra/index.ts"
 	]
 }
