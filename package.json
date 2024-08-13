@@ -2,6 +2,7 @@
 	"name": "prjs",
 	"version": "0.0.1",
 	"description": "Run small JS exos in your terminal with instant feedback loop",
+	"author": "Samuel Roland and PRJS contributors",
 	"keywords": [
 		"deliberate-practice",
 		"practice",
@@ -13,14 +14,15 @@
 		"deliberate",
 		"kata"
 	],
-	"bin": "dist/src/CLI.js",
+	"main": "dist/index.js",
+	"bin": "dist/CLI.js",
 	"type": "module",
 	"engines": {
 		"node": ">=20"
 	},
 	"scripts": {
-		"build": "tsc",
-		"dev": "tsc --watch",
+		"build": "NODE_ENV=production rollup -c",
+		"dev": "rollup -c -w",
 		"test": "vitest"
 	},
 	"files": [
