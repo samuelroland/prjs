@@ -1,6 +1,6 @@
 // Some constants
 export const LOGO_COLORS: [string, string] = ['#1ABADB', '#18E258'];
-export const BG_VARIANTES: string[] = ["#0befae"]
+export const BG_VARIANTES: string[] = ['#0befae'];
 export const ASCII_ART =
 	'████████  ████████        ██  ██████  \n██     ██ ██     ██       ██ ██    ██ \n██     ██ ██     ██       ██ ██       \n████████  ████████        ██  ██████  \n██        ██   ██   ██    ██       ██ \n██        ██    ██  ██    ██ ██    ██ \n██        ██     ██  ██████   ██████  ';
 export const NAME = 'PRJS';

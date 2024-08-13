@@ -2,12 +2,12 @@
 // It enables the definitions of shortcuts all or specific pages and document them
 // to easily show a dynamically generated help page
 
-import { AppProps, Key, useInput } from 'ink';
-import useStore, { Store } from './store.js';
-import type { Shortcut } from './types.js';
-import { useApp } from 'ink';
-import { debug } from './App.js';
-import { decrement, increment } from './util.js';
+import {AppProps, Key, useInput} from 'ink';
+import useStore, {Store} from './store.js';
+import type {Shortcut} from './types.js';
+import {useApp} from 'ink';
+import {debug} from './App.js';
+import {decrement, increment} from './util.js';
 
 export const shortcuts: Shortcut[] = [
 	{
@@ -146,7 +146,7 @@ export function interpretShortcut(input: string, key: Key): string | null {
 		}
 	}
 
-	return pattern
+	return pattern;
 }
 // Setup shortcuts detection among the above list, support complex shortcuts with modifiers
 // Note: this is working very strangely for some modifiers
@@ -158,12 +158,11 @@ export function listenForShortcuts() {
 	const app = useApp();
 
 	useInput((input, key: Key) => {
-		const pattern = interpretShortcut(input, key)
-		if (pattern === null) return
+		const pattern = interpretShortcut(input, key);
+		if (pattern === null) return;
 
 		// Disable all shortcuts (except escape) when search bar is enabled
-		if (store.showSearchBar && !['escape', 'return'].includes(pattern))
-			return;
+		if (store.showSearchBar && !['escape', 'return'].includes(pattern)) return;
 
 		debug('final shortcut pattern: ' + pattern);
 		const foundShortcuts = shortcuts.filter(
@@ -179,8 +178,7 @@ export function listenForShortcuts() {
 		for (const sc of foundShortcuts) {
 			if (!sc.pages || (sc.pages && sc.pages.includes(store.page))) {
 				// debug('found action for shortcut: ' + pattern);
-				if (sc.action)
-					sc.action(store, app);
+				if (sc.action) sc.action(store, app);
 				return;
 			}
 		}

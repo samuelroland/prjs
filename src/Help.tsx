@@ -1,10 +1,9 @@
 // Help page showing provided shortcuts dynamically organized by pages
 // allowing to have a help page always up-to-date
-import React from 'react';
-import { Text, Box, Newline } from 'ink';
-import { Shortcut, Page } from './types';
+import React, {ReactNode} from 'react';
+import {Text} from 'ink';
+import {Shortcut, Page} from './types';
 import PartialList from './PartialList';
-import useStore, { Store } from './store';
 
 type CategorizedShortcuts = Record<Page, Shortcut[]> & {
 	[key: string]: Shortcut[];
@@ -34,10 +33,18 @@ export const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 };
 
 function beautifyPattern(pattern: string) {
-	return pattern.replace("Arrow", "").replace("ctrl", "Ctrl")
+	return pattern.replace('Arrow', '').replace('ctrl', 'Ctrl');
 }
 
-export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[], height: number, full?: boolean }) {
+export default function Help({
+	shortcuts,
+	height,
+	full,
+}: {
+	shortcuts: Shortcut[];
+	height: number;
+	full?: boolean;
+}) {
 	const categorizedShortcuts = categorizeShortcuts(shortcuts);
 
 	// Include "common" in the list of categories, define a special order to existing pages
@@ -45,37 +52,35 @@ export default function Help({ shortcuts, height, full }: { shortcuts: Shortcut[
 
 	// We build a list of lines instead of a hierarchical Box+Text structure
 	// because we want to have all lines be of height 1 for PartialList usage
-	const lines = []
+	const lines: ReactNode[] = [];
 
 	pagesListWithCommon.forEach(page => {
 		lines.push(
 			<Text color="blue" bold>
 				{page.charAt(0).toUpperCase() + page.slice(1)} shortcuts
-			</Text>
-		)
+			</Text>,
+		);
 		categorizedShortcuts[page]?.forEach(shortcut => {
-			lines.push(<Text>
-				<Text color="yellow">{beautifyPattern(shortcut.pattern)}</Text>
-				{shortcut.alt && `,`}
-				<Text color="yellow">
-					{shortcut.alt && ` ${beautifyPattern(shortcut.alt)}`}
-				</Text>{' '}
-				{shortcut.description}
-			</Text>
-			)
-		})
-		lines.push(<Text> </Text>) //NewLine seems to be 2 empty lines so we use an invisible space
-	})
-
-	const store: Store = useStore();
+			lines.push(
+				<Text>
+					<Text color="yellow">{beautifyPattern(shortcut.pattern)}</Text>
+					{shortcut.alt && `,`}
+					<Text color="yellow">
+						{shortcut.alt && ` ${beautifyPattern(shortcut.alt)}`}
+					</Text>{' '}
+					{shortcut.description}
+				</Text>,
+			);
+		});
+		lines.push(<Text> </Text>); //NewLine seems to be 2 empty lines so we use an invisible space
+	});
 
 	return (
-		// todo: a box with a ref to measure size ??
 		<PartialList
 			full={full}
 			list={lines}
 			selectionEnabled={false}
-			height={height}>
-		</PartialList>
+			height={height}
+		></PartialList>
 	);
 }

@@ -1,9 +1,9 @@
-import { File } from 'vitest';
-import { Vitest, startVitest } from 'vitest/node';
-import { Exo, ExoFile } from './types.js';
-import { debug } from './App.js';
-import { readableNoopStream, writableNoopStream } from 'noop-stream';
-import fs from "fs"
+import {File} from 'vitest';
+import {Vitest, startVitest} from 'vitest/node';
+import {Exo, ExoFile} from './types.js';
+import {debug} from './App.js';
+import {readableNoopStream, writableNoopStream} from 'noop-stream';
+import fs from 'fs';
 
 export class Runner {
 	vt: Vitest | undefined = undefined;
@@ -30,10 +30,15 @@ export class Runner {
 					// @ts-ignore
 					stdin: readableNoopStream(),
 					// @ts-ignore
-					stdout: debugMode ? fs.createWriteStream('out.log') : writableNoopStream(),
+					stdout: debugMode
+						? fs.createWriteStream('out.log')
+						: writableNoopStream(),
 					// @ts-ignore
-					stderr: debugMode ? fs.createWriteStream('err.log') : writableNoopStream(),
-				});
+					stderr: debugMode
+						? fs.createWriteStream('err.log')
+						: writableNoopStream(),
+				},
+			);
 			// Note: for some reason, startVitest doesn't take into account all test files, this is why we run it again
 			await this.runAll();
 			this.started = true;
