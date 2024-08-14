@@ -40,12 +40,14 @@ export class Runner {
 				},
 			);
 			// Note: for some reason, startVitest doesn't take into account all test files, this is why we run it again
+			debug("Vitest has started, let's run all tests again");
 			await this.runAll();
+			debug('Vitest has started...');
 			this.started = true;
 			this.starting = false;
 		} catch (error) {
 			this.starting = false;
-			debug('error ! ' + error);
+			debug('error starting vitest ! ' + error);
 		}
 	}
 
