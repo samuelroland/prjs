@@ -32,7 +32,7 @@ export const categorizeShortcuts = (shortcuts: Shortcut[]) => {
 	return categories;
 };
 
-function beautifyPattern(pattern: string) {
+export function beautifyPattern(pattern: string) {
 	return pattern.replace('Arrow', '').replace('ctrl', 'Ctrl');
 }
 
