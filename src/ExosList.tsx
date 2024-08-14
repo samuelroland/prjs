@@ -21,7 +21,6 @@ export default function ExosList({showSearchBar}: ExosListProps) {
 	const files = useStore(store => store.getAllFiles());
 	const filteredExos = useStore(store => store.getFilteredExos());
 
-	debug('rendered exoslist !');
 	return (
 		<Box flexDirection="column">
 			<Box flexDirection={WIDTH > 70 ? 'row' : 'column'}>

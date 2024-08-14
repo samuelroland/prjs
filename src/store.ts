@@ -100,7 +100,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	// Get filtered exos of the current file
 	getFilteredExos() {
-		debug('running getFilteredExos');
 		const given = this.search.trim().toLowerCase();
 		const exos: Exo[] = this.runner.getExosInFile(
 			this.getCurrentFile()?.path ?? null,
@@ -114,7 +113,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 		this.runner = new Runner();
 		await this.runner.startVitest(debugMode);
 		debug('starting vitest');
-		debug('setting files');
 		set({started: true});
 		this.startWatcher();
 	},
@@ -125,7 +123,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 
 	startWatcher() {
 		const update = async (event: any, path: string) => {
-			debug('watcher: ' + path);
+			debug('watcher detected changes on ' + path);
 			await this.runner.runAll();
 			debug('runned tests !');
 			// Note: this is a useless counter for now, but this is the only way currently to have the watch mode fully working (it doesn't render any change otherwise)
@@ -134,9 +132,9 @@ const useStore = create<Store>((set: any, get: any) => ({
 					reloadTimes: s.reloadTimes + 1,
 				};
 			});
-			debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
+			// debug('uids: ' + JSON.stringify(this.getFilteredExos().map(e => e.uid)));
 		};
-		debug('starting watcher !');
+		// debug('starting watcher !');
 
 		this.watcher = chokidar
 			// Only watch on current folder and 1 level subfolders
@@ -188,7 +186,7 @@ const useStore = create<Store>((set: any, get: any) => ({
 	},
 
 	updateSearchFilter(filter: string) {
-		debug('updatedsarchfilter: ' + filter);
+		// debug('searching for: ' + filter);
 		set((s: Store) => {
 			return {
 				search: filter.trim(), //persist new filter
@@ -196,8 +194,6 @@ const useStore = create<Store>((set: any, get: any) => ({
 				currentExoIndex: 0,
 			};
 		});
-
-		debug('updatedsarchfilter result: ' + this.search);
 	},
 }));
 

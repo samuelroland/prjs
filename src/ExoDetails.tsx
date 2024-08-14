@@ -11,18 +11,18 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 			case 'string':
 				return '"' + v + '"';
 			case 'number':
-				return v;
+				return v.toString();
 			case 'object':
 				if (Array.isArray(v)) return JSON.stringify(v);
 				return JSON.stringify(v, null, 2);
 			case 'boolean':
-				return v;
+				return v.toString();
 		}
 		return '?';
 	}
 	function formatArgs(args: any[] | undefined) {
 		if (!args) return '';
-		const list = [];
+		const list: string[] = [];
 		for (const arg of args) {
 			list.push(formatValue(arg));
 		}
@@ -36,6 +36,7 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 		return null;
 	}
 
+	debug('Rendered exo: ' + JSON.stringify(exo));
 	return (
 		<Box flexDirection="column">
 			{exo ? (

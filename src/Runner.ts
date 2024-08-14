@@ -54,7 +54,6 @@ export class Runner {
 	}
 
 	async runAll() {
-		debug('running all !');
 		// Note: globTestFiles() seems to always take all files (contrary to vt.state.getFiles() because we started with changed: true), so this make sure we are running all of them
 		return this.vt?.runFiles(await this.vt?.globTestFiles(), true);
 	}

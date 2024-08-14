@@ -139,7 +139,7 @@ export function interpretShortcut(input: string, key: Key): string | null {
 		// @ts-ignore
 		if (key[modifier] === true) {
 			if (modifier == 'shift') continue; //we have a mysterious shift modifier enabled for all non alphabetic key...
-			debug('modifier: ' + modifier + ' is true');
+			// debug('modifier: ' + modifier + ' is true');
 			pattern = modifier + (pattern.length == 0 ? '' : '+') + pattern;
 			debug('pattern ' + pattern);
 			break;
@@ -164,7 +164,7 @@ export function listenForShortcuts() {
 		// Disable all shortcuts (except escape) when search bar is enabled
 		if (store.showSearchBar && !['escape', 'return'].includes(pattern)) return;
 
-		debug('final shortcut pattern: ' + pattern);
+		debug('detected shortcut: ' + pattern);
 		const foundShortcuts = shortcuts.filter(
 			sc => sc.pattern === pattern || sc.alt === pattern,
 		);
