@@ -1,5 +1,22 @@
 # Development documentation
 
+# Installation from source
+
+```sh
+git clone git@github.com:samuelroland/prjs.git
+cd prjs
+pnpm i
+pnpm build
+pnpm install -g prjs # todo: check that ...
+```
+
+You should now be able to call
+```sh
+prjs
+```
+
+If the command is still not found, try reloading your terminal or make sure the global bin folder is in your PATH...
+
 ## Testing
 
 The project started without any automated testing because we didn't looked at ink-testing-library and we tested manually. The current state of the project is that is mostly untested automatically and somewhat tested manually. Later, I setup some abstractions and configurations to use ink-testing-library fully, this wasn't easy and not totally done (the store is not reset between e2e tests causing fails).
