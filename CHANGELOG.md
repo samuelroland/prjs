@@ -19,7 +19,7 @@ Take this line and fix version with current ($CV)
 ## [Unreleased]
 
 ### Added
-1. **Create a TUI** in Typescript called `prjs` with Ink and start creating a few component and e2e automated tests. We use PNPM to manage node dependencies. Support of standard `-h, --help, -v, --version`.
+1. **Create a TUI** in Typescript called `prjs` with Ink. We use PNPM to manage node dependencies. Support of standard `-h, --help, -v, --version`.
 1. This **CHANGELOG.md** file to document changes
 1. The README.md with most useful infos, some start of `exos.md`, `dev.md` and move out todos in `todos.md`.
 1. Support of **declarative exo creation** via `exo()` function that can be imported via `import {exo} from 'prjs` running Vitest tests under the hood and storing the additional provided metadata with the test. The exos are defined by a title, instruction, some tests on arguments and expected outputs and/or some tests with custom callback to write a standard Vitest test.
@@ -34,3 +34,4 @@ Take this line and fix version with current ($CV)
 1. **Build system with Rollup** to package the CLI and `exo()` code with associated Typescript declaration file.
 1. **Proper quit** of the TUI by stopping Vitest and quitting the full screen mode
 1. **Debug mode** via `-d, --debug` to output logs to `debug.log`, `out.log` and `err.log` to understand why it is not working.
+1. **A few testing abstractions** to use `ink-testing-library` easily and start creating a few component and e2e automated tests.
