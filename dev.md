@@ -1,6 +1,6 @@
 # Development documentation
 
-# Installation from source
+## Installation from source
 
 ```sh
 git clone git@github.com:samuelroland/prjs.git
@@ -16,6 +16,9 @@ prjs
 ```
 
 If the command is still not found, try reloading your terminal or make sure the global bin folder is in your PATH...
+
+## Testing data
+Some examples exos are provided inside the `fake` folder.
 
 ## Testing
 

@@ -6,7 +6,7 @@
 
 TODO: include a nice GIF !
 
-[todos](todos.md) - [dev docs](dev.md)
+[exos](exos.md) -[todos](todos.md) - [dev docs](dev.md)
 
 ## WHY
 During the WEB course at HEIG-VD, we trained with various online games or tutorials. The very visual [Flexbox froggy](https://flexboxfroggy.com/), [Elevator Saga](https://play.elevatorsaga.com/) and [TypeScript exercises](https://typescript-exercises.github.io/#exercise=1&file=%2Findex.ts) are just 3 examples of great online websites that let you train a specific part of web development. For HTML and CSS, this is probably a pretty good experience level, but for JavaScript and TypeScript, the online editors clearly lacks the power of local IDEs such as VSCode. When there is no "fast running" test suites backing the exercises, it becomes harder to develop it. Some of those websites focus on learning almost all possible attributes but only half of them are used very most of times.
@@ -110,46 +110,8 @@ In addition to the global installation documented above, you need to enable a co
 pnpm dev
 ```
 
-## How to create exos
-Let's say we want to create exos on Array manipulation. We are going to define a list of functions to create and some tests associated with each function. We are going to give a title and possibly an instruction to explain what is should do in addition to shown tests.
-
-1. Create a folder `arrays`
-1. Create a file `arrays/arrays.js` with one exported function per exo. Students will modify this file to implement the exos.
-    ```js
-    // Learn array manipulations, run these exos with PRJS
-    export function getEmptyArray() {
-      //TODO
-    }
-    export function pushAndRemove(array, pushTimes, pushValue, popFrontTimes) {
-      //TODO
-    }
-    ```
-1. Create a file `arrays/arrays.test.ts` (or .js as you want) with at least these 2 imports. The first is to get the `exo()` abstraction from PRJS and the second is to import all exported functions inside `arrays.js` to refer them when redacting exos.
-    ```js
-    import { exo } from 'prjs';
-    import * as fns from './arrays.js';
-    ```
-1. You can now declare some exos declaratively like this:
-    ```js
-    exo({
-      title: 'Create an empty array',
-      fn: fns.getEmptyArray,
-      tests: [{ expected: [] }],
-    });
-
-    exo({
-      title: 'Push back values and remove at front',
-      instruction: "Here, we want to push 4 times '10' and pop front 2 times",
-      fn: fns.pushAndRemove,
-      tests: [
-        { args: [[1, 2, 3], 4, 10, 2], expected: [3, 10, 10, 10, 10], },
-        { args: [[1, 2, 3], 1, 2, 5], expected: [], },
-      ],
-    });
-    ```
-1. As you can see above, we are just giving a title, a reference to a function and a list of tests. This enables to define some metadata that are not possible to indicate when writing Vitest tests (just name + function) and it is faster (and maybe more readable) to give some arguments and assert equality on some expected returned value instead of writing a lot of `expect(pushAndRemove([1, 2, 3], 4, 10, 2).to.deep.equal([3, 10, 10, 10, 10])`
-
-TODO: continue with expect and async !
+## How to create and maintain exos ?
+See dedicated file [exos.md](exos.md) on how to write exos technically and strategies for easy maintenance and efficient training.
 
 ## About
 ### Extensions
@@ -162,14 +124,16 @@ We use the following Ink extensions
 The goal is to finish all these todos during the holidays of summer 2024 to make PRJS really stable and ready for the next semester.
 
 ### Project history
-- `22.05.2024` -> `12.06.2024`: a group of 3 students: [@samuelroland](https://github.com/samuelroland), [@CamilleKoestli](https://github.com/CamilleKoestli) and [@GuilhermePintodac](https://github.com/GuilhermePintodac) developed the original version for a WEB course lab. They released and presented the project on the last day. See `presentation` folder for more details. [See project at commit 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
-- `18.06.2024`: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 21.06.2024. The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
+- `2024-05-22` -> `2024-06-12`: a group of 3 students: [@samuelroland](https://github.com/samuelroland), [@CamilleKoestli](https://github.com/CamilleKoestli) and [@GuilhermePintodac](https://github.com/GuilhermePintodac) developed the original version for a WEB course lab. They released and presented the project on the last day. See `presentation` folder for more details. [See the project at the time of the lab's release 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
+- `2024-06-18`: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 2024-06-21.
+The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
+- `2024-08-16`: [@samuelroland](https://codeberg.org/samuelroland) released the first version on npmjs.com. Before this, he continued to fix a few bugs, implement a partial list system, add a build system, try to write some automated tests, and write a CHANGELOG.md.
 
 ## Presentation
 You can see our slides for the lab release in [`presentation`](presentation/README.md)
 
 ## Contribution
-This project is not opened to contributions until we can get apply a free software license. But you can contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !
+This project is not opened to contributions until we can apply a free software license. But you can contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !
 
 ## License
 All rights reserved for now. All contributors are okay to release it as a free software but we need to wait until we can get the approval of the school as it was developed at school... Coming in September-October 2024 I hope!
