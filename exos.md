@@ -51,8 +51,51 @@ Let's imagine as an example that we want to create exos for a new skill: Array m
 1. As you can see above, we are just giving a title, a reference to a function and a list of tests. This enables to define some metadata that are not possible to indicate when writing Vitest tests (just name + function). It is also faster to redact (and more readable) instead of writing a lot of `expect(pushAndRemove([1, 2, 3], 4, 10, 2).to.deep.equal([3, 10, 10, 10, 10])`
 1. It actually include some useful assertions that would fail before any test to avoid having hard to understand errors.
 	1. *No returned value in functionName*: displayed when the result of the function is `undefined`.
+	todo
 
-TODO: continue with expect and async !
+**Creating advanced tests**
+
+In case the function is returning something more complex you can always get back to the full power of Vitest tests without missing exo metadata! Let's take the example of a huge array of x times the value y, it would make more sense to not compare it directly but to check the length and the value of a random index.
+
+Here is the example code, we extracted a function `checkHugeArray()` for readability but you could write this all of this in the `expect` attribute.
+```js
+import { expect } from 'vitest';
+
+function checkHugeArray(result: any[], x: number, y: number) {
+  expect(result?.length, 'Length is not correct').to.eq(x);
+  const randomIndex = Math.ceil(Math.random() * x - 1);
+  expect(result[randomIndex],
+    'Value at randomIndex='
+    + randomIndex
+    + ' is '
+    + result[randomIndex]
+    + ' but should be '
+    + y).to.eq(y);
+}
+
+exo({
+  title: 'Create a huge array x elements filled with y',
+  instruction: 'This should be a one liner!!',
+  fn: fns.hugeFilledArray,
+  tests: [
+    { args: [100, 6],
+      expect: (result) => {
+        checkHugeArray(result, 100, 6);
+      },
+    },
+    {
+      args: [12, 59],
+      expect: (result) => {
+        checkHugeArray(result, 12, 59);
+      },
+    },
+  ],
+});
+```
+
+You can also notice we are importing `expect` from Vitest and the test attribute is not named `expected` like before but `expect`. The given callback receive the returned value of the function, removing the need to calling it. In case you made a mistake the TypeScript definition of the `exo()` function will help you :)
+
+TODO: continue with async !
 
 ## Exos files structure
 

@@ -104,6 +104,15 @@ If you are a teacher, you might want to define `prjs` as a dependency in your re
 
 ## Install from source
 In case you prefer to install it from source, here are the steps.
+```sh
+git clone https://github.com/samuelroland/prjs.git
+cd prjs
+pnpm i
+pnpm build
+sudo npm install -g .
+prjs
+```
+
 ### Update
 If you need to update PRJS because it was changed just run
 ```bash
