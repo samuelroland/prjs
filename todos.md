@@ -1,4 +1,10 @@
 ## Todos
+## Some problems and features ideas
+1. Problem: AdvancedTest does not have a title so it's impossible to describe the issue
+1. Solidify errors generation system + document how to generate special errors
+
+
+## Some todos
 Still to attribute/think about:
 - [x] Fix strange alignement in exos list
 - [ ] Sort all default deps of Ink to avoid installing anything useless
