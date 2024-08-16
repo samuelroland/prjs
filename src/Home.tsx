@@ -46,7 +46,9 @@ export default function Home() {
 				<Gradient colors={LOGO_COLORS}>
 					<Text>{SUBDEF}</Text>
 				</Gradient>
-				<Text dimColor={true}>Project: Coming soon</Text>
+				<Text dimColor={true}>
+					Repository: https://github.com/samuelroland/prjs
+				</Text>
 				{/* <Text>License: TODO</Text> */}
 				{/* <Text>Website: TODO</Text> */}
 				<Newline></Newline>

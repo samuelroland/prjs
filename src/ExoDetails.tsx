@@ -68,7 +68,7 @@ export default function ExoDetails({exo}: {exo: Exo | null}) {
 						{exo.errors.map((error, index) => (
 							<Box key={index} flexDirection="column" marginBottom={1}>
 								{error.diff ? (
-									<Text>Diff: {error.diff}</Text>
+									<Text>{error.diff}</Text>
 								) : (
 									<>
 										<Text color="red">Error: {error.message}</Text>
