@@ -78,7 +78,8 @@ exo({
   instruction: 'This should be a one liner!!',
   fn: fns.hugeFilledArray,
   tests: [
-    { args: [100, 6],
+    {
+			args: [100, 6],
       expect: (result) => {
         checkHugeArray(result, 100, 6);
       },

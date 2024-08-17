@@ -3,11 +3,12 @@
 ## Installation from source
 
 ```sh
-git clone git@github.com:samuelroland/prjs.git
+git clone https://github.com/samuelroland/prjs.git
 cd prjs
 pnpm i
 pnpm build
-pnpm install -g prjs # todo: check that ...
+sudo npm install -g .
+# OR pnpm install -g prjs # todo: check that ...
 ```
 
 You should now be able to call
@@ -16,6 +17,31 @@ prjs
 ```
 
 If the command is still not found, try reloading your terminal or make sure the global bin folder is in your PATH...
+
+### Update
+If you need to update PRJS because it was changed just run
+```bash
+git pull
+pnpm build
+```
+
+### Development
+In addition to the global installation documented above, you need to enable a continuous build to make sure Typescript files and React components are built and updated in the `dist` folder at each code change. Just run this command:
+```bash
+pnpm dev
+```
+
+### Extensions
+We use the following Ink extensions
+1. [fullscreen-ink](https://github.com/DaniGuardiola/fullscreen-ink): let us show the TUI in full screen and restore the context after
+1. [ink-gradient](https://github.com/sindresorhus/ink-gradient): to easily show gradients on texts
+1. ...
+<!-- 1. TODO: finish this list -->
+
+### Project status
+The goal is to finish all these todos during the holidays of summer 2024 to make PRJS really stable and ready for the next semester.
+
+<!--TODO: update this -->
 
 ## Testing data
 Some examples exos are provided inside the `fake` folder.
