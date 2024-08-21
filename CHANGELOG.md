@@ -13,7 +13,7 @@ Take this line and fix version with current ($CV)
 ### Added
 ### Changed
 
-## [$CV](https://github.com/samuelroland/prjs/compare/$CV...HEAD) - $DATE
+## [$CV without v!](https://github.com/samuelroland/prjs/compare/$CV...HEAD) - $DATE
 -->
 
 ## [Unreleased](https://github.com/samuelroland/prjs/compare/v0.1.0...HEAD)
@@ -21,7 +21,7 @@ Take this line and fix version with current ($CV)
 ### Added
 ### Changed
 
-## [v0.1.0](https://github.com/samuelroland/prjs/compare/v0.1.0...HEAD) - 2024-08-17
+## [0.1.0](https://github.com/samuelroland/prjs/compare/v0.1.0...HEAD) - 2024-08-17
 ### Added
 1. **Create a TUI** in Typescript called `prjs` with Ink. We use PNPM to manage node dependencies. Support of standard `-h, --help, -v, --version`.
 1. **Release PRJS** on [npmjs.com](https://www.npmjs.com/package/prjs) to support easy local installation in exos repository, with license=UNLICENSED as we don't have a free licence for now...
