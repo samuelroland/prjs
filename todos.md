@@ -4,6 +4,16 @@
 1. Solidify errors generation system + document how to generate special errors
 
 
+## Research
+- [ ] !!! Inspect typescriptlings (found after PRJS release)
+- [ ] Maybe exo to take on https://github.com/monooso/typescript-katas
+- [ ] Inspect https://jskatas.org/ to see whether we could take back some exos
+- [ ] NodeJS lings ?
+- [ ] https://github.com/henriqueinonhe/promises-training
+- [ ] https://github.com/zero-to-mastery/JS_Fun_Practice
+- [ ] Include GIF or SVG screenshots of the terminal to better see PRJS, how to make sure they keep up-to-date ?
+
+
 ## Some todos
 Still to attribute/think about:
 - [x] Fix strange alignement in exos list

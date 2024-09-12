@@ -15,7 +15,9 @@ position: relative;
 		background: linear-gradient(to right, #1abadb 0%, #18e258 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
-		width: max-content;
+    /*To make the gradient adapt to length of heading but wrap on mobile*/
+		width: fit-content;
+    max-width: 100%;
 	}
 
 	.slidev-layout.default {
