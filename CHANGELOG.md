@@ -13,7 +13,7 @@ Take this line and fix version with current ($CV)
 ### Added
 ### Changed
 
-## [$CV without v!](https://github.com/samuelroland/prjs/compare/$CV...HEAD) - $DATE
+## [$CV without v!](https://github.com/samuelroland/prjs/compare/$CV before...$CV now) - $DATE
 -->
 
 ## [Unreleased](https://github.com/samuelroland/prjs/compare/v0.1.0...HEAD)
@@ -21,10 +21,10 @@ Take this line and fix version with current ($CV)
 ### Added
 ### Changed
 
-## [0.1.0](https://github.com/samuelroland/prjs/compare/v0.1.0...HEAD) - 2024-08-17
+## [0.1.0](https://github.com/samuelroland/prjs/compare/c7ece5c..v0.1.0) - 2024-09-12
 ### Added
 1. **Create a TUI** in Typescript called `prjs` with Ink. We use PNPM to manage node dependencies. Support of standard `-h, --help, -v, --version`.
-1. **Release PRJS** on [npmjs.com](https://www.npmjs.com/package/prjs) to support easy local installation in exos repository, with license=UNLICENSED as we don't have a free licence for now...
+1. **Release PRJS** on [npmjs.com](https://www.npmjs.com/package/@delibay/prjs) to support easy local installation in exos repository, with license=UNLICENSED as we don't have a free licence for now...
 1. This **CHANGELOG.md** file to document changes
 1. The README.md with most useful infos, some start of `exos.md`, `dev.md` and move out todos in `todos.md`.
 1. Support of **declarative exo creation** via `exo()` function that can be imported via `import {exo} from 'prjs` running Vitest tests under the hood and storing the additional provided metadata with the test. The exos are defined by a title, instruction, some tests on arguments and expected outputs and/or some tests with custom callback to write a standard Vitest test.

@@ -6,7 +6,7 @@
 
 <!--TODO: include a nice GIF !-->
 
-Other useful documents: [CHANGELOG.md](CHANGELOG.md) - [exos.md](exos.md) - [todos.md](todos.md) - [dev.md](dev.md)
+Useful documents: [CHANGELOG.md](CHANGELOG.md) - [How to create and maintain exos - exos.md](exos.md) - [Brainstorming - todos.md](todos.md) - [Development documentation - dev.md](dev.md)
 
 ## WHY
 During the WEB course at HEIG-VD, we trained with various online games or tutorials. The very visual [Flexbox froggy](https://flexboxfroggy.com/), [Elevator Saga](https://play.elevatorsaga.com/) and [TypeScript exercises](https://typescript-exercises.github.io/#exercise=1&file=%2Findex.ts) are just 3 examples of great online websites that let you train a specific part of web development. For HTML and CSS, this is probably a pretty good experience level, but for JavaScript and TypeScript, the online editors clearly lacks the power of local IDEs such as VSCode. When there is no "fast running" test suites backing the exercises, it becomes harder to develop it. Some of those websites focus on learning almost all possible attributes but only half of them are used very most of times.
@@ -101,7 +101,7 @@ If PRJS is not working as expected, you can run in debug mode with `-d` or `--de
 ### Recommended installation
 If you are a student, things should already be setup in the exos repository and you should just be able to type `npx prjs` to run it ! (after `npm install` obviously)
 
-If you are a teacher, you might want to define `prjs` as a dependency in your repository by running `npm install prjs` and run `npm update` from time to time.
+If you are a teacher, you might want to define `prjs` as a dependency in your repository by running `npm install @delibay/prjs` and run `npm update` from time to time.
 
 ### Install from source
 See [dev.md](dev.md)
@@ -114,10 +114,10 @@ See dedicated file [exos.md](exos.md) on how to write exos technically and strat
 - `2024-05-22` -> `2024-06-12`: a group of 3 students: [@samuelroland](https://github.com/samuelroland), [@CamilleKoestli](https://github.com/CamilleKoestli) and [@GuilhermePintodac](https://github.com/GuilhermePintodac) developed the original version for a WEB course lab. They released and presented the project on the last day. See `presentation` folder for more details. [See the project at the time of the lab's release 364366f905b61449da6a1bc5f8744a02037337e4](https://github.com/samuelroland/prjs/tree/364366f905b61449da6a1bc5f8744a02037337e4)
 - `2024-06-18`: reupload of the private repository publicly on GitHub under `samuelroland/prjs`, to develop further changes in preparation of the WEB exam on the 2024-06-21.
 The project is in waiting of school approval to release it under a Free license. We might move the repository on Codeberg at the same time if it makes sense. The project might be used the next semester (S2 2024) by our teacher.
-- `2024-08-17`: [@samuelroland](https://codeberg.org/samuelroland) released the first version on [npmjs.com](https://www.npmjs.com/package/prjs). Before this, he continued to fix a few bugs, implement a partial list system, add a build system, try to write some automated tests, and write a CHANGELOG.md.
+- `2024-09-12`: [@samuelroland](https://codeberg.org/samuelroland) released the first version on [npmjs.com](https://www.npmjs.com/package/prjs) under `@delibay/prjs` (because `prjs` name conflicts with a squatting package `prjs`). PRJS is going to be migrate to Delibay's Git organisation on codeberg.org later, so releasing it under this name makes sense. Before the release, he continued to fix a few bugs, implemented a partial list system, added a build system, tried to write some automated tests, and wrote a CHANGELOG.md.
 
 ### Presentation
-You can see our slides for the lab release in [`presentation`](presentation/README.md)
+You can see our slides for the lab release in [`presentation`](presentation/README.md) made with [Slidev](https://sli.dev)
 
 ### Contribution
 This project is not opened to contributions until we can apply a free software license. But you can contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !

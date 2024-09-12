@@ -8,7 +8,7 @@ cd prjs
 pnpm i
 pnpm build
 sudo npm install -g .
-# OR pnpm install -g prjs # todo: check that ...
+# OR pnpm install -g @delibay/prjs # todo: check that ...
 ```
 
 You should now be able to call
