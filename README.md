@@ -120,7 +120,7 @@ The project is in waiting of school approval to release it under a Free license.
 You can see our slides for the lab release in [`presentation`](presentation/README.md) made with [Slidev](https://sli.dev)
 
 ### Contribution
-This project is not opened to contributions until we can apply a free software license. But you can contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !
+If you are interested to contribute, please start a discussion in an issue, so we can discuss that before you start coding. You can also contribute to the exos repository [samuelroland/WEB-training](https://github.com/samuelroland/WEB-training) !
 
 ### License
-All rights reserved for now. All contributors are okay to release it as a free software but we need to wait until we can get the approval of the school as it was developed at school... Coming in September-October 2024 I hope!
+The PRJS project is released under the [MIT license](LICENSE).

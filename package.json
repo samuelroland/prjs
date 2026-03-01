@@ -1,9 +1,9 @@
 {
 	"name": "@delibay/prjs",
 	"version": "0.1.0",
-	"license": "UNLICENSED",
+	"license": "MIT",
 	"description": "Run small JS exos in your terminal with instant feedback",
-	"author": "Samuel Roland and PRJS contributors",
+	"author": "The PRJS contributors",
 	"keywords": [
 		"deliberate-practice",
 		"deliberate",
